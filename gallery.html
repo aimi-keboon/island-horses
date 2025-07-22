@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Island Horses Langkawi</title>
+    <meta name="description" content="Explore stunning photos and videos of horseback riding adventures in Langkawi. See our beautiful horses, scenic trails, and magical swimming experiences.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #D4AF37;
+            --dark-gold: #B8941F;
+            --olive-green: #8B8B4B;
+            --deep-black: #000000;
+            --rich-black: #1a1a1a;
+            --soft-white: #f8f8f8;
+            --warm-white: #ffffff;
+            --shadow-light: rgba(212, 175, 55, 0.1);
+            --shadow-medium: rgba(212, 175, 55, 0.2);
+            --shadow-heavy: rgba(212, 175, 55, 0.4);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--warm-white);
+            background: var(--deep-black);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Page Hero */
+        .page-hero {
+            padding: 8rem 0 4rem;
+            background: linear-gradient(135deg, var(--deep-black) 0%, var(--rich-black) 100%);
+            text-align: center;
+            position: relative;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .page-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-hero p {
+            font-size: 1.2rem;
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: 3rem 0;
+            background: var(--rich-black);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(26, 26, 26, 0.8);
+            color: var(--primary-gold);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-gold);
+            color: var(--deep-black);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+        }
+
+        /* Gallery Grid */
+        .gallery-section {
+            padding: 4rem 0;
+            background: var(--deep-black);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: var(--rich-black);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border-color: var(--primary-gold);
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--olive-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-placeholder::before {
+            content: attr(data-content);
+            position: absolute;
+            color: var(--deep-black);
+            font-weight: 600;
+            text-align: center;
+            padding: 2rem;
+            font-size: 1rem;
+            z-index: 2;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(212, 175, 55, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .overlay-icon {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .overlay-text {
+            color: var(--warm-white);
+            text-align: center;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .gallery-info {
+            padding: 1.5rem;
+        }
+
+        .gallery-title {
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .gallery-description {
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .gallery-category {
+            display: inline-block;
+            background: rgba(139, 139, 75, 0.2);
+            color: var(--olive-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 4rem 0;
+            background: var(--rich-black);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-item {
+            background: var(--rich-black);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-gold);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--olive-green), var(--primary-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .video-placeholder::before {
+            content: '▶️ ' attr(data-content);
+            position: absolute;
+            color: var(--deep-black);
+            font-weight: 600;
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-title {
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .video-description {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 4rem 0;
+            background: var(--deep-black);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: rgba(26, 26, 26, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+        }
+
+        .testimonial-text {
+            color: #cccccc;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .testimonial-rating {
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            background: var(--rich-black);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .modal-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            display: block;
+        }
+
+        .modal-placeholder {
+            width: 800px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--olive-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-black);
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--primary-gold);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .modal-close:hover {
+            background: var(--primary-gold);
+            color: var(--deep-black);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .gallery-grid,
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .filter-container {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .modal-placeholder {
+                width: 100%;
+                height: 300px;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .page-hero {
+                padding: 6rem 0 3rem;
+            }
+
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+
+            .gallery-placeholder {
+                height: 200px;
+            }
+
+            .testimonial-card,
+            .gallery-info,
+            .video-info {
+                padding: 1rem;
+            }
+        }
+
+        /* Animation classes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header and Footer will be injected by header-footer.js -->
+    
+    <main>
+        <!-- Page Hero -->
+        <section class="page-hero">
+            <div class="container">
+                <h1>📸 Gallery</h1>
+                <p>Witness the magic through the eyes of our riders - breathtaking moments captured in Langkawi's natural paradise</p>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div class="container">
+                <div class="filter-container">
+                    <button class="filter-btn active" data-filter="all">All Photos</button>
+                    <button class="filter-btn" data-filter="horses">Our Horses</button>
+                    <button class="filter-btn" data-filter="trails">Trail Adventures</button>
+                    <button class="filter-btn" data-filter="beach">Beach Rides</button>
+                    <button class="filter-btn" data-filter="swimming">Horse Swimming</button>
+                    <button class="filter-btn" data-filter="guests">Happy Riders</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Grid -->
+        <section class="gallery-section">
+            <div class="container">
+                <div class="gallery-grid" id="galleryGrid">
+                    
+                    <!-- Horse Photos -->
+                    <div class="gallery-item" data-category="horses" onclick="openModal('horse1')">
+                        <div class="gallery-placeholder" data-content="Beautiful Arabian horses grazing in the morning sun">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">🐎</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Our Majestic Horses</div>
+                            <div class="gallery-description">Meet our gentle giants - well-trained Arabian and local breeds</div>
+                            <div class="gallery-category">Our Horses</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="horses" onclick="openModal('horse2')">
+                        <div class="gallery-placeholder" data-content="Close-up portrait of a gentle brown horse with soulful eyes">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">❤️</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Soulful Eyes</div>
+                            <div class="gallery-description">The gentle nature of our horses shines through their expressive eyes</div>
+                            <div class="gallery-category">Our Horses</div>
+                        </div>
+                    </div>
+
+                    <!-- Trail Adventures -->
+                    <div class="gallery-item" data-category="trails" onclick="openModal('trail1')">
+                        <div class="gallery-placeholder" data-content="Riders navigating through lush rainforest canopy on a misty morning">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">🌿</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Jungle Canopy Adventure</div>
+                            <div class="gallery-description">Discover hidden paths through Langkawi's pristine rainforest</div>
+                            <div class="gallery-category">Trail Adventures</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="trails" onclick="openModal('trail2')">
+                        <div class="gallery-placeholder" data-content="Mountain trail with panoramic views of Langkawi island from horseback">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">⛰️</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Mountain Vista</div>
+                            <div class="gallery-description">Breathtaking panoramic views from our mountain trail routes</div>
+                            <div class="gallery-category">Trail Adventures</div>
+                        </div>
+                    </div>
+
+                    <!-- Beach Rides -->
+                    <div class="gallery-item" data-category="beach" onclick="openModal('beach1')">
+                        <div class="gallery-placeholder" data-content="Silhouette of horse and rider against golden sunset on Pantai Kok beach">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">🌅</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Golden Hour Magic</div>
+                            <div class="gallery-description">Magical sunset moments on the pristine shores of Pantai Kok</div>
+                            <div class="gallery-category">Beach Rides</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="beach" onclick="openModal('beach2')">
+                        <div class="gallery-placeholder" data-content="Group of riders galloping along white sandy beach with turquoise water">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">🏖️</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Beach Gallop</div>
+                            <div class="gallery-description">Feel the freedom of galloping along pristine coastline</div>
+                            <div class="gallery-category">Beach Rides</div>
+                        </div>
+                    </div>
+
+                    <!-- Swimming Experiences -->
+                    <div class="gallery-item" data-category="swimming" onclick="openModal('swim1')">
+                        <div class="gallery-placeholder" data-content="Horse and rider entering crystal clear turquoise waters together">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">🌊</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Into the Blue</div>
+                            <div class="gallery-description">The magical moment of entering the Andaman Sea on horseback</div>
+                            <div class="gallery-category">Horse Swimming</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="swimming" onclick="openModal('swim2')">
+                        <div class="gallery-placeholder" data-content="Underwater shot of horse swimming with graceful movements">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">💧</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Underwater Grace</div>
+                            <div class="gallery-description">Witness the natural swimming ability of our magnificent horses</div>
+                            <div class="gallery-category">Horse Swimming</div>
+                        </div>
+                    </div>
+
+                    <!-- Happy Guests -->
+                    <div class="gallery-item" data-category="guests" onclick="openModal('guest1')">
+                        <div class="gallery-placeholder" data-content="Smiling family with their horses after a successful beach ride">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">😊</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Family Joy</div>
+                            <div class="gallery-description">Creating unforgettable memories for families from around the world</div>
+                            <div class="gallery-category">Happy Riders</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="guests" onclick="openModal('guest2')">
+                        <div class="gallery-placeholder" data-content="Couple sharing a romantic moment on horseback during sunset">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">💕</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Romantic Adventure</div>
+                            <div class="gallery-description">Perfect setting for couples seeking a unique romantic experience</div>
+                            <div class="gallery-category">Happy Riders</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="guests trails" onclick="openModal('guest3')">
+                        <div class="gallery-placeholder" data-content="Solo traveler posing confidently with horse in jungle setting">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">🌟</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Solo Adventure</div>
+                            <div class="gallery-description">Empowering solo travelers to discover their courage and confidence</div>
+                            <div class="gallery-category">Happy Riders</div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Trail Photos -->
+                    <div class="gallery-item" data-category="trails horses" onclick="openModal('trail3')">
+                        <div class="gallery-placeholder" data-content="Horse crossing a pristine jungle stream with crystal clear water">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">💎</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Stream Crossing</div>
+                            <div class="gallery-description">Navigate through natural water features in the heart of the jungle</div>
+                            <div class="gallery-category">Trail Adventures</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="beach swimming" onclick="openModal('beach3')">
+                        <div class="gallery-placeholder" data-content="Aerial drone shot of horses and riders on secluded beach">
+                            <div class="gallery-overlay">
+                                <div class="overlay-icon">🚁</div>
+                                <div class="overlay-text">View Photo</div>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">Birds Eye View</div>
+                            <div class="gallery-description">Spectacular aerial perspective of our beach adventures</div>
+                            <div class="gallery-category">Beach Rides</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Section -->
+        <section class="video-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Experience Videos</h2>
+                    <p>Watch our adventures come to life through these captivating video experiences</p>
+                </div>
+
+                <div class="video-grid">
+                    <div class="video-item">
+                        <div class="video-placeholder" data-content="Horse Swimming Adventure - 2 minutes of pure magic">
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Swimming with Horses</div>
+                            <div class="video-description">
+                                Experience the incredible moment when horse and rider enter the crystal-clear waters of the Andaman Sea together. This unique adventure showcases the natural swimming ability of our horses.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-item">
+                        <div class="video-placeholder" data-content="Jungle Trail Adventure - Explore Langkawi's hidden paths">
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Rainforest Discovery</div>
+                            <div class="video-description">
+                                Journey through Langkawi's pristine rainforest on horseback. Discover hidden waterfalls, exotic wildlife, and the serene beauty of untouched nature.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-item">
+                        <div class="video-placeholder" data-content="Sunset Beach Ride - Golden hour magic on Pantai Kok">
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Golden Hour Beach Ride</div>
+                            <div class="video-description">
+                                Watch the breathtaking beauty of sunset rides along Pantai Kok beach. The perfect blend of adventure and romance in paradise.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-item">
+                        <div class="video-placeholder" data-content="Behind the Scenes - Meet our horses and guides">
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Meet Our Team</div>
+                            <div class="video-description">
+                                Get to know our gentle horses and experienced guides who make every adventure safe, memorable, and magical.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Rider Experiences</h2>
+                    <p>Hear from our guests about their unforgettable adventures</p>
+                </div>
+
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="testimonial-text">
+                            "Swimming with the horse was absolutely magical! I never imagined such an experience was possible. The guides were professional and made us feel completely safe throughout the adventure."
+                        </div>
+                        <div class="testimonial-author">- Sarah M., Australia</div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="testimonial-text">
+                            "The jungle trail ride exceeded all expectations. The horses are so well-trained and gentle. Our guide showed us hidden spots in the rainforest that we never would have found on our own."
+                        </div>
+                        <div class="testimonial-author">- James & Lisa K., UK</div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="testimonial-text">
+                            "Perfect family activity! Our kids (ages 8 and 12) had the time of their lives. The horses were so patient with them, and the beach ride at sunset was incredibly beautiful."
+                        </div>
+                        <div class="testimonial-author">- The Chen Family, Singapore</div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="testimonial-text">
+                            "As an experienced rider, I was impressed by the quality of the horses and the variety of terrain. The 'Back to Nature' package was everything I hoped for and more."
+                        </div>
+                        <div class="testimonial-author">- Michael R., Germany</div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="testimonial-text">
+                            "This was my first time on a horse, and I couldn't have asked for a better introduction. The staff made me feel confident and safe, and the scenery was breathtaking."
+                        </div>
+                        <div class="testimonial-author">- Emma L., Canada</div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="testimonial-text">
+                            "The most romantic experience of our honeymoon! Riding along the beach at sunset and then swimming with the horses was like something out of a dream."
+                        </div>
+                        <div class="testimonial-author">- David & Anna P., USA</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <div class="modal-content">
+            <div id="modalImage" class="modal-placeholder">
+                Selected image will appear here
+            </div>
+        </div>
+    </div>
+
+    <script src="js/header-footer.js"></script>
+    <script>
+        // Gallery Page JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const modal = document.getElementById('imageModal');
+
+            // Filter functionality
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    const filter = button.getAttribute('data-filter');
+                    filterGallery(filter);
+                });
+            });
+
+            function filterGallery(category) {
+                galleryItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        if (category === 'all' || item.getAttribute('data-category').includes(category)) {
+                            item.style.display = 'block';
+                            setTimeout(() => {
+                                item.classList.add('visible');
+                            }, 50);
+                        } else {
+                            item.classList.remove('visible');
+                            setTimeout(() => {
+                                item.style.display = 'none';
+                            }, 300);
+                        }
+                    }, index * 50);
+                });
+            }
+
+            // Initialize gallery items as visible
+            setTimeout(() => {
+                galleryItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('visible');
+                    }, index * 100);
+                });
+            }, 500);
+
+            // Scroll animations for testimonials
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.testimonial-card, .video-item').forEach(card => {
+                observer.observe(card);
+            });
+        });
+
+        // Modal functionality
+        const imageData = {
+            horse1: {
+                content: "Beautiful Arabian horses in the morning pasture - Our majestic horses are carefully selected for their gentle temperament and riding ability",
+                alt: "Arabian horses in morning light"
+            },
+            horse2: {
+                content: "Close-up portrait of gentle brown horse - The soulful eyes of our horses reflect their calm and trusting nature",
+                alt: "Horse portrait with expressive eyes"
+            },
+            trail1: {
+                content: "Riders navigating through misty rainforest canopy - Experience the magic of Langkawi's pristine jungle trails",
+                alt: "Jungle trail riding adventure"
+            },
+            trail2: {
+                content: "Panoramic mountain vista from horseback - Breathtaking views await on our elevated trail routes",
+                alt: "Mountain trail with panoramic views"
+            },
+            beach1: {
+                content: "Golden sunset silhouette on Pantai Kok beach - Magical moments captured during our evening beach rides",
+                alt: "Sunset beach ride silhouette"
+            },
+            beach2: {
+                content: "Group galloping along pristine white sand - Feel the freedom of beach riding in paradise",
+                alt: "Beach gallop with turquoise waters"
+            },
+            swim1: {
+                content: "Horse and rider entering crystal clear waters - The beginning of our signature swimming experience",
+                alt: "Horse entering the sea"
+            },
+            swim2: {
+                content: "Underwater view of swimming horse - Witness the natural grace of horses in their aquatic element",
+                alt: "Horse swimming underwater"
+            },
+            guest1: {
+                content: "Happy family with their horses after beach adventure - Creating memories that last a lifetime",
+                alt: "Smiling family with horses"
+            },
+            guest2: {
+                content: "Romantic couple sharing sunset moment on horseback - Perfect setting for unforgettable experiences",
+                alt: "Couple on romantic horse ride"
+            },
+            guest3: {
+                content: "Confident solo traveler in jungle setting - Empowering adventures for independent explorers",
+                alt: "Solo rider in jungle"
+            },
+            trail3: {
+                content: "Horse gracefully crossing pristine jungle stream - Navigate natural water features with confidence",
+                alt: "Horse crossing jungle stream"
+            },
+            beach3: {
+                content: "Aerial drone perspective of secluded beach ride - Spectacular bird's eye view of our coastal adventures",
+                alt: "Aerial view of beach riding"
+            }
+        };
+
+        function openModal(imageId) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const data = imageData[imageId];
+            
+            if (data) {
+                modalImage.textContent = data.content;
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Video placeholder click handlers
+        document.querySelectorAll('.video-placeholder').forEach(placeholder => {
+            placeholder.addEventListener('click', function() {
+                const content = this.getAttribute('data-content');
+                alert(`Video: ${content}\n\nIn a real implementation, this would open the video player or redirect to the video.`);
+            });
+        });
+    </script>
+</body>
+</html>
