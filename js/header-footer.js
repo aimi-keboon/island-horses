@@ -20,13 +20,13 @@ class HeaderFooter {
                         <a href="packages.html" class="nav-link">Packages</a>
                         <a href="gallery.html" class="nav-link">Gallery</a>
                         <a href="contact.html" class="nav-link">Contact</a>
-                        <a href="#book" class="nav-link cta-btn">Book Now</a>
+                        <a href="packages.html" class="nav-link nav-book-btn">Book Now</a>
                     </div>
                     
                     <div class="mobile-menu-btn" id="mobileMenuBtn">
                         <span></span>
                         <span></span>
-                        <span></span>
+                        <span></>
                     </div>
                 </nav>
             </header>
@@ -97,11 +97,21 @@ class HeaderFooter {
         const navMenu = document.getElementById('navMenu');
         
         if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 navMenu.classList.toggle('active');
                 mobileMenuBtn.classList.toggle('active');
             });
         }
+
+        // Close mobile menu when clicking on nav links
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu?.classList.remove('active');
+                mobileMenuBtn?.classList.remove('active');
+            });
+        });
 
         // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
@@ -127,7 +137,6 @@ class HeaderFooter {
 
         // Add active class to current page nav link
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             if (link.getAttribute('href') === currentPage) {
                 link.classList.add('active');
@@ -171,6 +180,8 @@ class HeaderFooter {
                     color: #8B8B4B;
                     font-size: 0.9rem;
                     font-weight: 300;
+                    display: block;
+                    margin-top: -0.2rem;
                 }
 
                 .nav-menu {
@@ -209,7 +220,8 @@ class HeaderFooter {
                     width: 100%;
                 }
 
-                .cta-btn {
+                /* Special styling for Book Now button on desktop */
+                .nav-book-btn {
                     background: linear-gradient(135deg, #D4AF37, #8B8B4B);
                     padding: 0.7rem 1.5rem !important;
                     border-radius: 25px;
@@ -217,13 +229,14 @@ class HeaderFooter {
                     text-transform: uppercase;
                     letter-spacing: 0.5px;
                     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+                    color: #000;
                 }
 
-                .cta-btn::after {
+                .nav-book-btn::after {
                     display: none;
                 }
 
-                .cta-btn:hover {
+                .nav-book-btn:hover {
                     transform: translateY(-2px);
                     box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
                     color: #000;
@@ -234,6 +247,8 @@ class HeaderFooter {
                     flex-direction: column;
                     cursor: pointer;
                     padding: 0.5rem;
+                    position: relative;
+                    z-index: 1001;
                 }
 
                 .mobile-menu-btn span {
@@ -348,27 +363,56 @@ class HeaderFooter {
 
                     .nav-menu {
                         position: fixed;
-                        top: 100%;
+                        top: 70px;
                         left: 0;
                         width: 100%;
                         background: rgba(0, 0, 0, 0.98);
+                        backdrop-filter: blur(10px);
                         flex-direction: column;
                         gap: 0;
-                        padding: 2rem 0;
-                        transform: translateY(-100%);
+                        padding: 1rem 0;
+                        transform: translateX(-100%);
                         transition: transform 0.3s ease;
                         border-top: 1px solid rgba(212, 175, 55, 0.2);
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
                     }
 
                     .nav-menu.active {
-                        transform: translateY(0);
+                        transform: translateX(0);
                     }
 
                     .nav-link {
                         padding: 1rem 2rem;
                         width: 100%;
-                        text-align: center;
+                        text-align: left;
                         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                        background: transparent;
+                        border-radius: 0;
+                        box-shadow: none;
+                        color: #fff;
+                        font-weight: 400;
+                        text-transform: none;
+                        letter-spacing: normal;
+                    }
+
+                    /* Remove special styling for Book Now in mobile */
+                    .nav-book-btn {
+                        background: transparent;
+                        color: #D4AF37;
+                        font-weight: 500;
+                        text-transform: uppercase;
+                    }
+
+                    .nav-book-btn:hover {
+                        transform: none;
+                        box-shadow: none;
+                        color: #D4AF37;
+                        background: rgba(212, 175, 55, 0.1);
+                    }
+
+                    .nav-link:hover {
+                        background: rgba(212, 175, 55, 0.1);
+                        color: #D4AF37;
                     }
 
                     .footer-content {
