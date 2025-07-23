@@ -1,1941 +1,2282 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Island Horses Langkawi - Experience Nature on Horseback</title>
-<meta name="description" content="Discover the magic of Langkawi through horseback riding. Jungle trails, beach rides, and swimming with horses. Book your unforgettable adventure today.">
-
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<style>
-/* Island Horses Langkawi - Complete Home Page Styles */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    --primary-gold: #D4AF37;
-    --dark-gold: #B8941F;
-    --olive-green: #8B8B4B;
-    --deep-black: #000000;
-    --rich-black: #1a1a1a;
-    --soft-white: #f8f8f8;
-    --warm-white: #ffffff;
-    --shadow-light: rgba(212, 175, 55, 0.1);
-    --shadow-medium: rgba(212, 175, 55, 0.2);
-    --shadow-heavy: rgba(212, 175, 55, 0.4);
-    --error-red: #ff6b6b;
-}
-
-/* Base body styles - header-footer.js will add padding-top */
-body {
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    color: var(--warm-white);
-    background: var(--deep-black);
-    overflow-x: hidden;
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Main content should grow to fill space */
-main {
-    flex: 1;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
-
-/* Background Photo Animation */
-.background-photos {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.bg-photo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out, transform 0.5s ease;
-    transform: scale(1.05);
-}
-
-.bg-photo.active {
-    opacity: 0.8;
-    transform: scale(1);
-}
-
-.bg-photo.photo-loaded {
-    background-blend-mode: multiply;
-}
-
-.bg-photo::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(26, 26, 26, 0.3) 50%, rgba(0, 0, 0, 0.5) 100%);
-    transition: opacity 0.3s ease;
-}
-
-.bg-photo.active::after {
-    opacity: 0.6;
-}
-
-/* Horse riding experience photos - fallback gradients */
-.bg-photo:nth-child(1) {
-    background: linear-gradient(45deg, #2c5530, #4a7c59);
-}
-.bg-photo:nth-child(2) {
-    background: linear-gradient(45deg, #8b4513, #daa520);
-}
-.bg-photo:nth-child(3) {
-    background: linear-gradient(45deg, #1e90ff, #87ceeb);
-}
-.bg-photo:nth-child(4) {
-    background: linear-gradient(45deg, #556b2f, #9acd32);
-}
-.bg-photo:nth-child(5) {
-    background: linear-gradient(45deg, #008080, #20b2aa);
-}
-
-/* SVG Icons */
-.svg-icon {
-    width: 1em;
-    height: 1em;
-    display: inline-block;
-    fill: currentColor;
-}
-
-/* Hero Section */
-.hero {
-    min-height: 100vh;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-    pointer-events: none;
-}
-
-.hero-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    z-index: 2;
-    position: relative;
-}
-
-.hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-}
-
-.title-line {
-    display: block;
-    opacity: 0;
-    animation: titleReveal 1.2s ease-out forwards;
-}
-
-.title-line:nth-child(2) {
-    animation-delay: 0.3s;
-}
-
-.title-line:nth-child(3) {
-    animation-delay: 0.6s;
-}
-
-.highlight {
-    background: linear-gradient(135deg, var(--primary-gold), var(--olive-green));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px var(--shadow-medium);
-}
-
-.hero-subtitle {
-    font-size: 1.2rem;
-    color: #cccccc;
-    margin-bottom: 2rem;
-    opacity: 0;
-    animation: fadeInUp 1s ease-out 0.9s forwards;
-    max-width: 500px;
-}
-
-.hero-cta {
-    display: flex;
-    gap: 1rem;
-    opacity: 0;
-    animation: fadeInUp 1s ease-out 1.2s forwards;
-    flex-wrap: wrap;
-}
-
-.btn-primary, .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.4s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.9rem;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
-    color: var(--deep-black);
-    box-shadow: 0 8px 25px var(--shadow-medium);
-}
-
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px var(--shadow-heavy);
-    background: linear-gradient(135deg, var(--dark-gold), var(--primary-gold));
-}
-
-.btn-secondary {
-    background: transparent;
-    color: var(--primary-gold);
-    border: 2px solid var(--primary-gold);
-}
-
-.btn-secondary:hover {
-    background: var(--primary-gold);
-    color: var(--deep-black);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px var(--shadow-medium);
-}
-
-.hero-visual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.hero-image-placeholder {
-    width: 400px;
-    height: 400px;
-    background: linear-gradient(135deg, var(--primary-gold), var(--olive-green));
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
-    overflow: hidden;
-}
-
-.hero-image-placeholder::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 1;
-}
-
-.hero-image-placeholder::after {
-    content: 'Experience Langkawi on Horseback';
-    position: absolute;
-    color: var(--warm-white);
-    font-weight: 600;
-    text-align: center;
-    padding: 2rem;
-    font-size: 1.1rem;
-    z-index: 2;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-.floating-element {
-    position: absolute;
-    font-size: 3rem;
-    animation: float 6s ease-in-out infinite;
-    color: var(--primary-gold);
-}
-
-.floating-element:nth-child(1) {
-    top: 10%;
-    left: 10%;
-}
-
-.floating-element:nth-child(2) {
-    bottom: 20%;
-    right: 15%;
-    animation-delay: 2s;
-}
-
-.floating-element:nth-child(3) {
-    top: 60%;
-    left: -10%;
-    animation-delay: 4s;
-}
-
-.scroll-indicator {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    color: var(--primary-gold);
-    opacity: 0;
-    animation: fadeInUp 1s ease-out 1.5s forwards;
-}
-
-.scroll-arrow {
-    font-size: 1.5rem;
-    animation: bounce 2s infinite;
-    margin-top: 0.5rem;
-}
-
-/* Photo indicators */
-.photo-indicators {
-    position: fixed;
-    right: 2rem;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.photo-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(212, 175, 55, 0.3);
-    border: 2px solid rgba(212, 175, 55, 0.5);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.photo-indicator.active {
-    background: var(--primary-gold);
-    border-color: var(--primary-gold);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-    transform: scale(1.2);
-}
-
-.photo-indicator:hover {
-    background: rgba(212, 175, 55, 0.6);
-    transform: scale(1.1);
-}
-
-/* Tooltip for photo indicators */
-.photo-indicator::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    right: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: var(--warm-white);
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    margin-right: 1rem;
-}
-
-.photo-indicator:hover::before {
-    opacity: 1;
-}
-
-/* Experience Form Section */
-.experience-section {
-    padding: 6rem 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(26, 26, 26, 0.9) 100%);
-    position: relative;
-    z-index: 1;
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-
-.section-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: var(--primary-gold);
-    margin-bottom: 1rem;
-}
-
-.section-header p {
-    font-size: 1.1rem;
-    color: #cccccc;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.rider-form {
-    background: rgba(26, 26, 26, 0.95);
-    padding: 3rem;
-    border-radius: 20px;
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group.full-width {
-    grid-column: 1 / -1;
-}
-
-.form-label, label {
-    color: var(--primary-gold);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-input[type="number"], select {
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(212, 175, 55, 0.3);
-    border-radius: 10px;
-    padding: 1rem;
-    color: var(--warm-white);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-input[type="number"]:focus, select:focus {
-    outline: none;
-    border-color: var(--primary-gold);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-}
-
-/* Weight validation styles */
-input[type="number"].invalid {
-    border-color: var(--error-red);
-    box-shadow: 0 0 20px rgba(255, 107, 107, 0.2);
-}
-
-.weight-info {
-    font-size: 0.8rem;
-    color: #cccccc;
-    margin-top: 0.3rem;
-}
-
-.weight-error {
-    color: var(--error-red);
-    font-size: 0.8rem;
-    margin-top: 0.3rem;
-    display: none;
-}
-
-.weight-error.show {
-    display: block;
-}
-
-.experience-options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.experience-card {
-    position: relative;
-}
-
-.experience-card input[type="radio"] {
-    display: none;
-}
-
-.experience-label {
-    display: block;
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(212, 175, 55, 0.3);
-    border-radius: 15px;
-    padding: 1.5rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    height: 100%;
-}
-
-.experience-card input[type="radio"]:checked + .experience-label {
-    border-color: var(--primary-gold);
-    background: rgba(212, 175, 55, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-}
-
-.experience-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: var(--primary-gold);
-}
-
-.experience-label h4 {
-    color: var(--primary-gold);
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-}
-
-.experience-label p {
-    color: #cccccc;
-    font-size: 0.9rem;
-}
-
-.checkbox-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #cccccc;
-    cursor: pointer;
-}
-
-.checkbox-label input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--primary-gold);
-}
-
-.btn-submit {
-    background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
-    color: var(--deep-black);
-    border: none;
-    padding: 1.2rem 3rem;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin: 0 auto;
-    box-shadow: 0 8px 25px var(--shadow-medium);
-}
-
-.btn-submit:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px var(--shadow-heavy);
-}
-
-.btn-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: 0 8px 25px var(--shadow-medium);
-}
-
-.btn-arrow {
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
-}
-
-.btn-submit:hover .btn-arrow {
-    transform: translateX(5px);
-}
-
-.results-section {
-    margin-top: 3rem;
-    padding: 2rem;
-    background: rgba(139, 139, 75, 0.1);
-    border-radius: 15px;
-    border: 1px solid var(--olive-green);
-}
-
-.results-section h3 {
-    color: var(--primary-gold);
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.recommended-packages {
-    display: grid;
-    gap: 1.5rem;
-}
-
-.package-recommendation {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 1.5rem;
-    border-radius: 12px;
-    border-left: 4px solid var(--primary-gold);
-}
-
-.package-recommendation h4 {
-    color: var(--primary-gold);
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-}
-
-.package-recommendation p {
-    color: #cccccc;
-    margin-bottom: 1rem;
-}
-
-.package-price {
-    color: var(--primary-gold);
-    font-weight: 600;
-    font-size: 1.1rem;
-}
-
-.weight-warning {
-    background: rgba(255, 107, 107, 0.1);
-    border: 1px solid var(--error-red);
-    border-radius: 10px;
-    padding: 1rem;
-    margin-top: 1rem;
-    display: none;
-}
-
-.weight-warning.show {
-    display: block;
-}
-
-.weight-warning h4 {
-    color: var(--error-red);
-    margin-bottom: 0.5rem;
-}
-
-.weight-warning p {
-    color: #cccccc;
-    font-size: 0.9rem;
-}
-
-/* Photo Carousel Section - 80% Screen Coverage */
-.photo-experience {
-    padding: 4rem 0;
-    background: rgba(0, 0, 0, 0.98);
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-}
-
-.experience-container {
-    position: relative;
-    height: 100%;
-}
-
-/* Carousel Container - Takes up 80% of screen */
-.photo-stage {
-    position: relative;
-    width: 80vw;
-    height: 80vh;
-    margin: 0 auto;
-    overflow: hidden;
-    border-radius: 20px;
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
-    border: 3px solid rgba(212, 175, 55, 0.4);
-}
-
-/* Carousel Track */
-.carousel-track {
-    display: flex;
-    width: 500%; /* 5 photos × 100% each */
-    height: 100%;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    animation: autoSlide 15s infinite; /* Auto-advance every 3 seconds */
-}
-
-/* Individual Photo Slides */
-.scroll-photo {
-    flex: 0 0 20%; /* Each photo takes 20% of track (100% / 5 photos) */
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-    /* Fast-loading placeholder images */
-    background: linear-gradient(45deg, #4a7c59, #6ba86f);
-}
-
-/* Photo backgrounds with high-quality images */
-.scroll-photo:nth-child(1) {
-    background: linear-gradient(rgba(44, 85, 48, 0.1), rgba(44, 85, 48, 0.1)), 
-                url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=800&fit=crop&crop=center&q=85');
-}
-
-.scroll-photo:nth-child(2) {
-    background: linear-gradient(rgba(139, 69, 19, 0.1), rgba(139, 69, 19, 0.1)), 
-                url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200&h=800&fit=crop&crop=center&q=85');
-}
-
-.scroll-photo:nth-child(3) {
-    background: linear-gradient(rgba(30, 144, 255, 0.1), rgba(30, 144, 255, 0.1)), 
-                url('https://images.unsplash.com/photo-1484950763426-56b5bf172dbb?w=1200&h=800&fit=crop&crop=center&q=85');
-}
-
-.scroll-photo:nth-child(4) {
-    background: linear-gradient(rgba(85, 107, 47, 0.1), rgba(85, 107, 47, 0.1)), 
-                url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=800&fit=crop&crop=center&q=85');
-}
-
-.scroll-photo:nth-child(5) {
-    background: linear-gradient(rgba(0, 128, 128, 0.1), rgba(0, 128, 128, 0.1)), 
-                url('https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=1200&h=800&fit=crop&crop=center&q=85');
-}
-
-/* Auto-sliding animation */
-@keyframes autoSlide {
-    0% { transform: translateX(0); }
-    18% { transform: translateX(0); }
-    20% { transform: translateX(-20%); }
-    38% { transform: translateX(-20%); }
-    40% { transform: translateX(-40%); }
-    58% { transform: translateX(-40%); }
-    60% { transform: translateX(-60%); }
-    78% { transform: translateX(-60%); }
-    80% { transform: translateX(-80%); }
-    98% { transform: translateX(-80%); }
-    100% { transform: translateX(0); }
-}
-
-/* Pause animation on hover */
-.photo-stage:hover .carousel-track {
-    animation-play-state: paused;
-}
-
-/* Photo content overlay */
-.photo-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent 0%, rgba(0, 0, 0, 0.7) 40%, rgba(0, 0, 0, 0.95) 100%);
-    color: var(--warm-white);
-    padding: 3rem 2rem 2rem 2rem;
-    transform: translateY(0);
-    transition: transform 0.3s ease;
-}
-
-.photo-caption h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: var(--primary-gold);
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-.photo-caption p {
-    font-size: 1.3rem;
-    opacity: 0.95;
-    line-height: 1.5;
-    max-width: 85%;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-}
-
-/* Carousel Navigation Dots */
-.carousel-dots {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 1rem;
-    z-index: 10;
-}
-
-.carousel-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(212, 175, 55, 0.4);
-    border: 2px solid rgba(212, 175, 55, 0.6);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    animation: dotAnimation 15s infinite;
-}
-
-.carousel-dot:nth-child(1) { animation-delay: 0s; }
-.carousel-dot:nth-child(2) { animation-delay: 3s; }
-.carousel-dot:nth-child(3) { animation-delay: 6s; }
-.carousel-dot:nth-child(4) { animation-delay: 9s; }
-.carousel-dot:nth-child(5) { animation-delay: 12s; }
-
-@keyframes dotAnimation {
-    0%, 16%, 100% { 
-        background: rgba(212, 175, 55, 0.4);
-        transform: scale(1);
-    }
-    18%, 38% { 
-        background: var(--primary-gold);
-        transform: scale(1.3);
-        box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-    }
-}
-
-/* Carousel Progress Bar */
-.carousel-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 4px;
-    background: var(--primary-gold);
-    border-radius: 2px;
-    animation: progressAnimation 15s infinite;
-}
-
-@keyframes progressAnimation {
-    0% { width: 0%; }
-    18% { width: 20%; }
-    20% { width: 20%; }
-    38% { width: 40%; }
-    40% { width: 40%; }
-    58% { width: 60%; }
-    60% { width: 60%; }
-    78% { width: 80%; }
-    80% { width: 80%; }
-    98% { width: 100%; }
-    100% { width: 0%; }
-}
-
-/* Features Section */
-.features {
-    padding: 6rem 0;
-    background: rgba(26, 26, 26, 0.95);
-    position: relative;
-    z-index: 1;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 3rem;
-}
-
-.feature-card {
-    text-align: center;
-    padding: 2rem;
-    background: rgba(26, 26, 26, 0.8);
-    border-radius: 20px;
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    transition: all 0.4s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
-}
-
-.feature-icon {
-    font-size: 4rem;
-    margin-bottom: 1.5rem;
-    color: var(--primary-gold);
-}
-
-.feature-card h3 {
-    color: var(--primary-gold);
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.feature-card p {
-    color: #cccccc;
-    line-height: 1.6;
-}
-
-/* CTA Section */
-.cta-section {
-    padding: 6rem 0;
-    background: rgba(0, 0, 0, 0.95);
-    text-align: center;
-    position: relative;
-    z-index: 1;
-}
-
-.cta-content h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: var(--primary-gold);
-    margin-bottom: 1rem;
-}
-
-.cta-content p {
-    font-size: 1.1rem;
-    color: #cccccc;
-    margin-bottom: 2rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Animations */
-@keyframes titleReveal {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-10px);
-    }
-    60% {
-        transform: translateY(-5px);
-    }
-}
-
-/* Enhanced mobile responsiveness */
-/* Enhanced mobile responsiveness */
-@media (max-width: 768px) {
-    .photo-experience {
-        min-height: 80vh;
-        padding: 1rem 0;
-    }
-
-    .photo-stage {
-        width: 90% !important;
-        max-width: 90% !important;
-        height: 50vh;
-        border-radius: 15px;
-        margin: 1rem auto;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Island Horses Langkawi - Experience Nature on Horseback</title>
+    <meta
+      name="description"
+      content="Discover the magic of Langkawi through horseback riding. Jungle trails, beach rides, and swimming with horses. Book your unforgettable adventure today."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Island Horses Langkawi - Complete Home Page Styles */
+
+      * {
+        margin: 0;
+        padding: 0;
         box-sizing: border-box;
-    }
+      }
 
-    .carousel-track {
+      :root {
+        --primary-gold: #d4af37;
+        --dark-gold: #b8941f;
+        --olive-green: #8b8b4b;
+        --deep-black: #000000;
+        --rich-black: #1a1a1a;
+        --soft-white: #f8f8f8;
+        --warm-white: #ffffff;
+        --shadow-light: rgba(212, 175, 55, 0.1);
+        --shadow-medium: rgba(212, 175, 55, 0.2);
+        --shadow-heavy: rgba(212, 175, 55, 0.4);
+        --error-red: #ff6b6b;
+      }
+
+      /* Base body styles - header-footer.js will add padding-top */
+      body {
+        font-family: "Inter", sans-serif;
+        line-height: 1.6;
+        color: var(--warm-white);
+        background: var(--deep-black);
+        overflow-x: hidden;
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Main content should grow to fill space */
+      main {
+        flex: 1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* Background Photo Animation */
+      .background-photos {
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: 100%;
-    }
+        height: 100vh;
+        z-index: -1;
+        overflow: hidden;
+      }
 
-    .scroll-photo {
-        flex: 0 0 20%;
+      .bg-photo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: 100%;
         background-size: cover;
         background-position: center;
-    }
+        background-repeat: no-repeat;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out, transform 0.5s ease;
+        transform: scale(1.05);
+      }
 
-    .photo-caption {
-        padding: 1.5rem 1rem 1rem 1rem;
-        background: linear-gradient(transparent 0%, rgba(0, 0, 0, 0.8) 30%, rgba(0, 0, 0, 0.95) 100%);
-    }
+      .bg-photo.active {
+        opacity: 0.8;
+        transform: scale(1);
+      }
 
-    .photo-caption h3 {
-        font-size: 1.4rem;
-        margin-bottom: 0.5rem;
-    }
+      .bg-photo.photo-loaded {
+        background-blend-mode: multiply;
+      }
 
-    .photo-caption p {
-        font-size: 0.9rem;
-        max-width: 95%;
-        line-height: 1.4;
-    }
+      .bg-photo::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.4) 0%,
+          rgba(26, 26, 26, 0.3) 50%,
+          rgba(0, 0, 0, 0.5) 100%
+        );
+        transition: opacity 0.3s ease;
+      }
 
-    .carousel-dots {
-        bottom: 0.8rem;
-        gap: 0.8rem;
-    }
+      .bg-photo.active::after {
+        opacity: 0.6;
+      }
 
-    .carousel-dot {
-        width: 10px;
-        height: 10px;
-        border-width: 1px;
-    }
+      /* Horse riding experience photos - fallback gradients */
+      .bg-photo:nth-child(1) {
+        background: linear-gradient(45deg, #2c5530, #4a7c59);
+      }
+      .bg-photo:nth-child(2) {
+        background: linear-gradient(45deg, #8b4513, #daa520);
+      }
+      .bg-photo:nth-child(3) {
+        background: linear-gradient(45deg, #1e90ff, #87ceeb);
+      }
+      .bg-photo:nth-child(4) {
+        background: linear-gradient(45deg, #556b2f, #9acd32);
+      }
+      .bg-photo:nth-child(5) {
+        background: linear-gradient(45deg, #008080, #20b2aa);
+      }
 
-    .carousel-progress {
-        height: 3px;
-    }
+      /* SVG Icons */
+      .svg-icon {
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+        fill: currentColor;
+      }
 
-    .hero-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        text-align: center;
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .hero-image-placeholder {
-        width: 300px;
-        height: 300px;
-    }
-
-    .hero-cta {
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        background: transparent;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
-    }
+        position: relative;
+        overflow: hidden;
+      }
 
-    .btn-primary, .btn-secondary {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.8rem;
-    }
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(212, 175, 55, 0.1) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
 
-    .rider-form {
-        padding: 2rem;
-    }
+      .hero-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        z-index: 2;
+        position: relative;
+      }
 
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
+      .hero-title {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+      }
 
-    .experience-options {
-        grid-template-columns: 1fr;
-    }
+      .title-line {
+        display: block;
+        opacity: 0;
+        animation: titleReveal 1.2s ease-out forwards;
+      }
 
-    .features-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
+      .title-line:nth-child(2) {
+        animation-delay: 0.3s;
+      }
 
-    .section-header h2 {
-        font-size: 2rem;
-    }
+      .title-line:nth-child(3) {
+        animation-delay: 0.6s;
+      }
 
-    .cta-content h2 {
-        font-size: 2rem;
-    }
-}
+      .highlight {
+        background: linear-gradient(
+          135deg,
+          var(--primary-gold),
+          var(--olive-green)
+        );
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 30px var(--shadow-medium);
+      }
 
-@media (max-width: 480px) {
-    .photo-experience {
-        min-height: 85vh;
-        padding: 0.5rem 0;
-    }
-
-    .photo-stage {
-        width: 98vw;
-        height: 55vh;
-        border-radius: 12px;
-        margin: 0.5rem auto;
-    }
-
-    .carousel-track {
-        width: 500%;
-        height: 100%;
-    }
-
-    .scroll-photo {
-        flex: 0 0 20%;
-        height: 100%;
-    }
-
-    .photo-caption {
-        padding: 1rem 0.8rem 0.8rem 0.8rem;
-        background: linear-gradient(transparent 0%, rgba(0, 0, 0, 0.85) 25%, rgba(0, 0, 0, 0.98) 100%);
-    }
-
-    .photo-caption h3 {
+      .hero-subtitle {
         font-size: 1.2rem;
-        margin-bottom: 0.3rem;
-    }
+        color: #cccccc;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 0.9s forwards;
+        max-width: 500px;
+      }
 
-    .photo-caption p {
-        font-size: 0.8rem;
-        max-width: 98%;
-        line-height: 1.3;
-    }
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 1.2s forwards;
+        flex-wrap: wrap;
+      }
 
-    .carousel-dots {
-        bottom: 0.5rem;
-        gap: 0.6rem;
-    }
-
-    .carousel-dot {
-        width: 8px;
-        height: 8px;
-        border-width: 1px;
-    }
-
-    .carousel-progress {
-        height: 2px;
-    }
-
-    .container {
-        padding: 0 1rem;
-    }
-
-    .hero-title {
-        font-size: 2rem;
-    }
-
-    .hero-image-placeholder {
-        width: 250px;
-        height: 250px;
-    }
-
-    .rider-form {
-        padding: 1.5rem;
-    }
-
-    .btn-submit {
+      .btn-primary,
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
         padding: 1rem 2rem;
-        font-size: 1rem;
-    }
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.9rem;
+      }
 
-    .photo-indicators {
-        display: none;
-    }
-}
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-gold),
+          var(--dark-gold)
+        );
+        color: var(--deep-black);
+        box-shadow: 0 8px 25px var(--shadow-medium);
+      }
 
-/* Fix for very small screens */
-@media (max-width: 320px) {
-    .photo-stage {
-        width: 99vw;
-        height: 50vh;
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px var(--shadow-heavy);
+        background: linear-gradient(
+          135deg,
+          var(--dark-gold),
+          var(--primary-gold)
+        );
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--primary-gold);
+        border: 2px solid var(--primary-gold);
+      }
+
+      .btn-secondary:hover {
+        background: var(--primary-gold);
+        color: var(--deep-black);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px var(--shadow-medium);
+      }
+
+      .hero-visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .hero-image-placeholder {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-gold),
+          var(--olive-green)
+        );
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+        overflow: hidden;
+      }
+
+      .hero-image-placeholder::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+      }
+
+      .hero-image-placeholder::after {
+        content: "Experience Langkawi on Horseback";
+        position: absolute;
+        color: var(--warm-white);
+        font-weight: 600;
+        text-align: center;
+        padding: 2rem;
+        font-size: 1.1rem;
+        z-index: 2;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+
+      .floating-element {
+        position: absolute;
+        font-size: 3rem;
+        animation: float 6s ease-in-out infinite;
+        color: var(--primary-gold);
+      }
+
+      .floating-element:nth-child(1) {
+        top: 10%;
+        left: 10%;
+      }
+
+      .floating-element:nth-child(2) {
+        bottom: 20%;
+        right: 15%;
+        animation-delay: 2s;
+      }
+
+      .floating-element:nth-child(3) {
+        top: 60%;
+        left: -10%;
+        animation-delay: 4s;
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        color: var(--primary-gold);
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 1.5s forwards;
+      }
+
+      .scroll-arrow {
+        font-size: 1.5rem;
+        animation: bounce 2s infinite;
+        margin-top: 0.5rem;
+      }
+
+      /* Photo indicators */
+      .photo-indicators {
+        position: fixed;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .photo-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(212, 175, 55, 0.3);
+        border: 2px solid rgba(212, 175, 55, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .photo-indicator.active {
+        background: var(--primary-gold);
+        border-color: var(--primary-gold);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        transform: scale(1.2);
+      }
+
+      .photo-indicator:hover {
+        background: rgba(212, 175, 55, 0.6);
+        transform: scale(1.1);
+      }
+
+      /* Tooltip for photo indicators */
+      .photo-indicator::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        right: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: var(--warm-white);
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        margin-right: 1rem;
+      }
+
+      .photo-indicator:hover::before {
+        opacity: 1;
+      }
+
+      /* Experience Form Section */
+      .experience-section {
+        padding: 6rem 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.9) 0%,
+          rgba(26, 26, 26, 0.9) 100%
+        );
+        position: relative;
+        z-index: 1;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-header h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        color: var(--primary-gold);
+        margin-bottom: 1rem;
+      }
+
+      .section-header p {
+        font-size: 1.1rem;
+        color: #cccccc;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .rider-form {
+        background: rgba(26, 26, 26, 0.95);
+        padding: 3rem;
+        border-radius: 20px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .form-label,
+      label {
+        color: var(--primary-gold);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      input[type="number"],
+      select {
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(212, 175, 55, 0.3);
         border-radius: 10px;
-    }
-
-    .photo-caption {
-        padding: 0.8rem 0.6rem 0.6rem 0.6rem;
-    }
-
-    .photo-caption h3 {
+        padding: 1rem;
+        color: var(--warm-white);
         font-size: 1rem;
-    }
+        transition: all 0.3s ease;
+      }
 
-    .photo-caption p {
-        font-size: 0.75rem;
-    }
+      input[type="number"]:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--primary-gold);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+      }
 
-    .carousel-dots {
-        bottom: 0.3rem;
+      /* Weight validation styles */
+      input[type="number"].invalid {
+        border-color: var(--error-red);
+        box-shadow: 0 0 20px rgba(255, 107, 107, 0.2);
+      }
+
+      .weight-info {
+        font-size: 0.8rem;
+        color: #cccccc;
+        margin-top: 0.3rem;
+      }
+
+      .weight-error {
+        color: var(--error-red);
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
+        display: none;
+      }
+
+      .weight-error.show {
+        display: block;
+      }
+
+      .experience-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .experience-card {
+        position: relative;
+      }
+
+      .experience-card input[type="radio"] {
+        display: none;
+      }
+
+      .experience-label {
+        display: block;
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: 100%;
+      }
+
+      .experience-card input[type="radio"]:checked + .experience-label {
+        border-color: var(--primary-gold);
+        background: rgba(212, 175, 55, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+      }
+
+      .experience-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: var(--primary-gold);
+      }
+
+      .experience-label h4 {
+        color: var(--primary-gold);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .experience-label p {
+        color: #cccccc;
+        font-size: 0.9rem;
+      }
+
+      .checkbox-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+
+      .checkbox-label {
+        display: flex;
+        align-items: center;
         gap: 0.5rem;
-    }
+        color: #cccccc;
+        cursor: pointer;
+      }
 
-    .carousel-dot {
-        width: 6px;
-        height: 6px;
-    }
-}
-</style>
-</head>
-<body>
-<!-- Header will be injected by header-footer.js -->
+      .checkbox-label input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--primary-gold);
+      }
 
-<!-- Background Photos Animation -->
-<div class="background-photos">
-<div class="bg-photo" data-section="hero" data-photo="horse-4"></div>
-<div class="bg-photo" data-section="experience" data-photo="horse-1"></div>
-<div class="bg-photo" data-section="features" data-photo="horse-2"></div>
-<div class="bg-photo" data-section="cta" data-photo="horse-3"></div>
-<div class="bg-photo" data-section="extra" data-photo="horse-5"></div>
-</div>
+      .btn-submit {
+        background: linear-gradient(
+          135deg,
+          var(--primary-gold),
+          var(--dark-gold)
+        );
+        color: var(--deep-black);
+        border: none;
+        padding: 1.2rem 3rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 0 auto;
+        box-shadow: 0 8px 25px var(--shadow-medium);
+      }
 
-<!-- Photo Indicators -->
-<div class="photo-indicators">
-<div class="photo-indicator active" data-photo="0" data-tooltip="Jungle Trail Adventure"></div>
-<div class="photo-indicator" data-photo="1" data-tooltip="Beach Riding Experience"></div>
-<div class="photo-indicator" data-photo="2" data-tooltip="Swimming with Horses"></div>
-<div class="photo-indicator" data-photo="3" data-tooltip="Mountain & Lighthouse Views"></div>
-<div class="photo-indicator" data-photo="4" data-tooltip="Sunset Beach Ride"></div>
-</div>
+      .btn-submit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px var(--shadow-heavy);
+      }
 
-<main>
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <div class="hero-text">
+      .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 0 8px 25px var(--shadow-medium);
+      }
+
+      .btn-arrow {
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+      }
+
+      .btn-submit:hover .btn-arrow {
+        transform: translateX(5px);
+      }
+
+      .results-section {
+        margin-top: 3rem;
+        padding: 2rem;
+        background: rgba(139, 139, 75, 0.1);
+        border-radius: 15px;
+        border: 1px solid var(--olive-green);
+      }
+
+      .results-section h3 {
+        color: var(--primary-gold);
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .recommended-packages {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .package-recommendation {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--primary-gold);
+      }
+
+      .package-recommendation h4 {
+        color: var(--primary-gold);
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .package-recommendation p {
+        color: #cccccc;
+        margin-bottom: 1rem;
+      }
+
+      .package-price {
+        color: var(--primary-gold);
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .weight-warning {
+        background: rgba(255, 107, 107, 0.1);
+        border: 1px solid var(--error-red);
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 1rem;
+        display: none;
+      }
+
+      .weight-warning.show {
+        display: block;
+      }
+
+      .weight-warning h4 {
+        color: var(--error-red);
+        margin-bottom: 0.5rem;
+      }
+
+      .weight-warning p {
+        color: #cccccc;
+        font-size: 0.9rem;
+      }
+
+      /* Photo Carousel Section - 80% Screen Coverage */
+      .photo-experience {
+        padding: 4rem 0;
+        background: rgba(0, 0, 0, 0.98);
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+      }
+
+      .experience-container {
+        position: relative;
+        height: 100%;
+      }
+
+      /* Carousel Container - Takes up 80% of screen */
+      .photo-stage {
+        position: relative;
+        width: 80vw;
+        height: 80vh;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 20px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        border: 3px solid rgba(212, 175, 55, 0.4);
+      }
+
+      /* Carousel Track */
+      .carousel-track {
+        display: flex;
+        width: 500%; /* 5 photos × 100% each */
+        height: 100%;
+        transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation: autoSlide 15s infinite; /* Auto-advance every 3 seconds */
+      }
+
+      /* Individual Photo Slides */
+      .scroll-photo {
+        flex: 0 0 20%; /* Each photo takes 20% of track (100% / 5 photos) */
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+        /* Fast-loading placeholder images */
+        background: linear-gradient(45deg, #4a7c59, #6ba86f);
+      }
+
+      /* Photo backgrounds with high-quality images */
+      .scroll-photo:nth-child(1) {
+        background: linear-gradient(
+            rgba(44, 85, 48, 0.1),
+            rgba(44, 85, 48, 0.1)
+          ),
+          url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=800&fit=crop&crop=center&q=85");
+      }
+
+      .scroll-photo:nth-child(2) {
+        background: linear-gradient(
+            rgba(139, 69, 19, 0.1),
+            rgba(139, 69, 19, 0.1)
+          ),
+          url("https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200&h=800&fit=crop&crop=center&q=85");
+      }
+
+      .scroll-photo:nth-child(3) {
+        background: linear-gradient(
+            rgba(30, 144, 255, 0.1),
+            rgba(30, 144, 255, 0.1)
+          ),
+          url("https://images.unsplash.com/photo-1484950763426-56b5bf172dbb?w=1200&h=800&fit=crop&crop=center&q=85");
+      }
+
+      .scroll-photo:nth-child(4) {
+        background: linear-gradient(
+            rgba(85, 107, 47, 0.1),
+            rgba(85, 107, 47, 0.1)
+          ),
+          url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=800&fit=crop&crop=center&q=85");
+      }
+
+      .scroll-photo:nth-child(5) {
+        background: linear-gradient(
+            rgba(0, 128, 128, 0.1),
+            rgba(0, 128, 128, 0.1)
+          ),
+          url("https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=1200&h=800&fit=crop&crop=center&q=85");
+      }
+
+      /* Auto-sliding animation */
+      @keyframes autoSlide {
+        0% {
+          transform: translateX(0);
+        }
+        18% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-20%);
+        }
+        38% {
+          transform: translateX(-20%);
+        }
+        40% {
+          transform: translateX(-40%);
+        }
+        58% {
+          transform: translateX(-40%);
+        }
+        60% {
+          transform: translateX(-60%);
+        }
+        78% {
+          transform: translateX(-60%);
+        }
+        80% {
+          transform: translateX(-80%);
+        }
+        98% {
+          transform: translateX(-80%);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      /* Pause animation on hover */
+      .photo-stage:hover .carousel-track {
+        animation-play-state: paused;
+      }
+
+      /* Photo content overlay */
+      .photo-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          transparent 0%,
+          rgba(0, 0, 0, 0.7) 40%,
+          rgba(0, 0, 0, 0.95) 100%
+        );
+        color: var(--warm-white);
+        padding: 3rem 2rem 2rem 2rem;
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+      }
+
+      .photo-caption h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        color: var(--primary-gold);
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+
+      .photo-caption p {
+        font-size: 1.3rem;
+        opacity: 0.95;
+        line-height: 1.5;
+        max-width: 85%;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+      }
+
+      /* Carousel Navigation Dots */
+      .carousel-dots {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 1rem;
+        z-index: 10;
+      }
+
+      .carousel-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(212, 175, 55, 0.4);
+        border: 2px solid rgba(212, 175, 55, 0.6);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        animation: dotAnimation 15s infinite;
+      }
+
+      .carousel-dot:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .carousel-dot:nth-child(2) {
+        animation-delay: 3s;
+      }
+      .carousel-dot:nth-child(3) {
+        animation-delay: 6s;
+      }
+      .carousel-dot:nth-child(4) {
+        animation-delay: 9s;
+      }
+      .carousel-dot:nth-child(5) {
+        animation-delay: 12s;
+      }
+
+      @keyframes dotAnimation {
+        0%,
+        16%,
+        100% {
+          background: rgba(212, 175, 55, 0.4);
+          transform: scale(1);
+        }
+        18%,
+        38% {
+          background: var(--primary-gold);
+          transform: scale(1.3);
+          box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+      }
+
+      /* Carousel Progress Bar */
+      .carousel-progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 4px;
+        background: var(--primary-gold);
+        border-radius: 2px;
+        animation: progressAnimation 15s infinite;
+      }
+
+      @keyframes progressAnimation {
+        0% {
+          width: 0%;
+        }
+        18% {
+          width: 20%;
+        }
+        20% {
+          width: 20%;
+        }
+        38% {
+          width: 40%;
+        }
+        40% {
+          width: 40%;
+        }
+        58% {
+          width: 60%;
+        }
+        60% {
+          width: 60%;
+        }
+        78% {
+          width: 80%;
+        }
+        80% {
+          width: 80%;
+        }
+        98% {
+          width: 100%;
+        }
+        100% {
+          width: 0%;
+        }
+      }
+
+      /* Features Section */
+      .features {
+        padding: 6rem 0;
+        background: rgba(26, 26, 26, 0.95);
+        position: relative;
+        z-index: 1;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+      }
+
+      .feature-card {
+        text-align: center;
+        padding: 2rem;
+        background: rgba(26, 26, 26, 0.8);
+        border-radius: 20px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        transition: all 0.4s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+      }
+
+      .feature-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-gold);
+      }
+
+      .feature-card h3 {
+        color: var(--primary-gold);
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature-card p {
+        color: #cccccc;
+        line-height: 1.6;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        padding: 6rem 0;
+        background: rgba(0, 0, 0, 0.95);
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-content h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        color: var(--primary-gold);
+        margin-bottom: 1rem;
+      }
+
+      .cta-content p {
+        font-size: 1.1rem;
+        color: #cccccc;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Animations */
+      @keyframes titleReveal {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      /* Enhanced mobile responsiveness */
+      /* Enhanced mobile responsiveness */
+      @media (max-width: 768px) {
+        .photo-experience {
+          min-height: 80vh;
+          padding: 1rem 0;
+        }
+
+        .photo-stage {
+          width: 90% !important;
+          max-width: 90% !important;
+          height: 50vh;
+          border-radius: 15px;
+          margin: 1rem auto;
+          box-sizing: border-box;
+        }
+
+        .carousel-track {
+          width: 100%;
+          height: 100%;
+        }
+
+        .scroll-photo {
+          flex: 0 0 20%;
+          height: 100%;
+          background-size: cover;
+          background-position: center;
+        }
+
+        .photo-caption {
+          padding: 1.5rem 1rem 1rem 1rem;
+          background: linear-gradient(
+            transparent 0%,
+            rgba(0, 0, 0, 0.8) 30%,
+            rgba(0, 0, 0, 0.95) 100%
+          );
+        }
+
+        .photo-caption h3 {
+          font-size: 1.4rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .photo-caption p {
+          font-size: 0.9rem;
+          max-width: 95%;
+          line-height: 1.4;
+        }
+
+        .carousel-dots {
+          bottom: 0.8rem;
+          gap: 0.8rem;
+        }
+
+        .carousel-dot {
+          width: 10px;
+          height: 10px;
+          border-width: 1px;
+        }
+
+        .carousel-progress {
+          height: 3px;
+        }
+
+        .hero-content {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          text-align: center;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .hero-image-placeholder {
+          width: 300px;
+          height: 300px;
+        }
+
+        .hero-cta {
+          justify-content: center;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+          padding: 0.8rem 1.5rem;
+          font-size: 0.8rem;
+        }
+
+        .rider-form {
+          padding: 2rem;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .experience-options {
+          grid-template-columns: 1fr;
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .section-header h2 {
+          font-size: 2rem;
+        }
+
+        .cta-content h2 {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .photo-experience {
+          min-height: 85vh;
+          padding: 0.5rem 0;
+        }
+
+        .photo-stage {
+          width: 98vw;
+          height: 55vh;
+          border-radius: 12px;
+          margin: 0.5rem auto;
+        }
+
+        .carousel-track {
+          width: 500%;
+          height: 100%;
+        }
+
+        .scroll-photo {
+          flex: 0 0 20%;
+          height: 100%;
+        }
+
+        .photo-caption {
+          padding: 1rem 0.8rem 0.8rem 0.8rem;
+          background: linear-gradient(
+            transparent 0%,
+            rgba(0, 0, 0, 0.85) 25%,
+            rgba(0, 0, 0, 0.98) 100%
+          );
+        }
+
+        .photo-caption h3 {
+          font-size: 1.2rem;
+          margin-bottom: 0.3rem;
+        }
+
+        .photo-caption p {
+          font-size: 0.8rem;
+          max-width: 98%;
+          line-height: 1.3;
+        }
+
+        .carousel-dots {
+          bottom: 0.5rem;
+          gap: 0.6rem;
+        }
+
+        .carousel-dot {
+          width: 8px;
+          height: 8px;
+          border-width: 1px;
+        }
+
+        .carousel-progress {
+          height: 2px;
+        }
+
+        .container {
+          padding: 0 1rem;
+        }
+
+        .hero-title {
+          font-size: 2rem;
+        }
+
+        .hero-image-placeholder {
+          width: 250px;
+          height: 250px;
+        }
+
+        .rider-form {
+          padding: 1.5rem;
+        }
+
+        .btn-submit {
+          padding: 1rem 2rem;
+          font-size: 1rem;
+        }
+
+        .photo-indicators {
+          display: none;
+        }
+      }
+
+      /* Fix for very small screens */
+      @media (max-width: 320px) {
+        .photo-stage {
+          width: 99vw;
+          height: 50vh;
+          border-radius: 10px;
+        }
+
+        .photo-caption {
+          padding: 0.8rem 0.6rem 0.6rem 0.6rem;
+        }
+
+        .photo-caption h3 {
+          font-size: 1rem;
+        }
+
+        .photo-caption p {
+          font-size: 0.75rem;
+        }
+
+        .carousel-dots {
+          bottom: 0.3rem;
+          gap: 0.5rem;
+        }
+
+        .carousel-dot {
+          width: 6px;
+          height: 6px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header will be injected by header-footer.js -->
+
+    <!-- Background Photos Animation -->
+    <div class="background-photos">
+      <div class="bg-photo" data-section="hero" data-photo="horse-4"></div>
+      <div
+        class="bg-photo"
+        data-section="experience"
+        data-photo="horse-1"
+      ></div>
+      <div class="bg-photo" data-section="features" data-photo="horse-2"></div>
+      <div class="bg-photo" data-section="cta" data-photo="horse-3"></div>
+      <div class="bg-photo" data-section="extra" data-photo="horse-5"></div>
+    </div>
+
+    <!-- Photo Indicators -->
+    <div class="photo-indicators">
+      <div
+        class="photo-indicator active"
+        data-photo="0"
+        data-tooltip="Jungle Trail Adventure"
+      ></div>
+      <div
+        class="photo-indicator"
+        data-photo="1"
+        data-tooltip="Beach Riding Experience"
+      ></div>
+      <div
+        class="photo-indicator"
+        data-photo="2"
+        data-tooltip="Swimming with Horses"
+      ></div>
+      <div
+        class="photo-indicator"
+        data-photo="3"
+        data-tooltip="Mountain & Lighthouse Views"
+      ></div>
+      <div
+        class="photo-indicator"
+        data-photo="4"
+        data-tooltip="Sunset Beach Ride"
+      ></div>
+    </div>
+
+    <main>
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-text">
             <h1 class="hero-title">
-                <span class="title-line">Experience</span>
-                <span class="title-line highlight">Langkawi's Magic</span>
-                <span class="title-line">On Horseback</span>
+              <span class="title-line">Experience</span>
+              <span class="title-line highlight">Langkawi's Magic</span>
+              <span class="title-line">On Horseback</span>
             </h1>
             <p class="hero-subtitle">
-                Journey through pristine rainforests, along golden beaches, and into the crystal-clear waters of the Andaman Sea. 
-                Create memories that last a lifetime.
+              Journey through pristine rainforests, along golden beaches, and
+              into the crystal-clear waters of the Andaman Sea. Create memories
+              that last a lifetime.
             </p>
             <div class="hero-cta">
-                <a href="#experience-form" class="btn-primary">Begin Your Adventure</a>
-                <a href="packages.html" class="btn-secondary">View Packages</a>
+              <a href="#experience-form" class="btn-primary"
+                >Begin Your Adventure</a
+              >
+              <a href="packages.html" class="btn-secondary">View Packages</a>
             </div>
-        </div>
-        <div class="hero-visual">
+          </div>
+          <div class="hero-visual">
             <div class="hero-image-placeholder"></div>
+          </div>
         </div>
-    </div>
-    <div class="scroll-indicator">
-        <span>Scroll to explore</span>
-        <div class="scroll-arrow">↓</div>
-    </div>
-</section>
+        <div class="scroll-indicator">
+          <span>Scroll to explore</span>
+          <div class="scroll-arrow">↓</div>
+        </div>
+      </section>
 
-<!-- Experience Form Section -->
-<section id="experience-form" class="experience-section">
-    <div class="container">
-        <div class="section-header">
+      <!-- Experience Form Section -->
+      <section id="experience-form" class="experience-section">
+        <div class="container">
+          <div class="section-header">
             <h2>Find Your Perfect Adventure</h2>
-            <p>Tell us about yourself so we can match you with the ideal horse and experience</p>
-        </div>
+            <p>
+              Tell us about yourself so we can match you with the ideal horse
+              and experience
+            </p>
+          </div>
 
-        <form id="riderAssessmentForm" class="rider-form">
+          <form id="riderAssessmentForm" class="rider-form">
             <div class="form-grid">
-                <!-- Personal Details -->
-                <div class="form-group">
-                    <label for="weight">Weight (kg)</label>
-                    <input type="number" id="weight" name="weight" min="1" max="80" required>
-                    <div class="weight-info">Maximum weight limit: 80kg for safety reasons</div>
-                    <div class="weight-error" id="weightError">Weight must be between 1kg and 80kg</div>
+              <!-- Personal Details -->
+              <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <input
+                  type="number"
+                  id="weight"
+                  name="weight"
+                  min="1"
+                  max="80"
+                  required
+                />
+                <div class="weight-info">
+                  Maximum weight limit: 80kg for safety reasons
                 </div>
-
-                <!-- Experience Level -->
-                <div class="form-group full-width">
-                    <label class="form-label">Experience Level</label>
-                    <div class="experience-options">
-                        <div class="experience-card">
-                            <input type="radio" id="inexperienced" name="experience" value="inexperienced">
-                            <label for="inexperienced" class="experience-label">
-                                <div class="experience-icon">
-                                    <svg class="svg-icon" viewBox="0 0 24 24" width="48" height="48">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                                    </svg>
-                                </div>
-                                <h4>Inexperienced</h4>
-                                <p>I have never ridden a horse before</p>
-                            </label>
-                        </div>
-
-                        <div class="experience-card">
-                            <input type="radio" id="beginner" name="experience" value="beginner">
-                            <label for="beginner" class="experience-label">
-                                <div class="experience-icon">
-                                    <svg class="svg-icon" viewBox="0 0 24 24" width="48" height="48">
-                                        <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                                    </svg>
-                                </div>
-                                <h4>Beginner</h4>
-                                <p>I can walk and follow basic instructions</p>
-                            </label>
-                        </div>
-
-                        <div class="experience-card">
-                            <input type="radio" id="novice" name="experience" value="novice">
-                            <label for="novice" class="experience-label">
-                                <div class="experience-icon">
-                                    <svg class="svg-icon" viewBox="0 0 24 24" width="48" height="48">
-                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                                    </svg>
-                                </div>
-                                <h4>Novice</h4>
-                                <p>Confident at walk and trot, some canter</p>
-                            </label>
-                        </div>
-
-                        <div class="experience-card">
-                            <input type="radio" id="experienced" name="experience" value="experienced">
-                            <label for="experienced" class="experience-label">
-                                <div class="experience-icon">
-                                    <svg class="svg-icon" viewBox="0 0 24 24" width="48" height="48">
-                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                        <path d="M7 13l3 3 7-7" stroke="currentColor" stroke-width="2" fill="none"/>
-                                    </svg>
-                                </div>
-                                <h4>Experienced</h4>
-                                <p>Confident in all gaits, ride independently</p>
-                            </label>
-                        </div>
-                    </div>
+                <div class="weight-error" id="weightError">
+                  Weight must be between 1kg and 80kg
                 </div>
+              </div>
 
-                <!-- Additional Details -->
-                <div class="form-group">
-                    <label for="ridingFrequency">How often do you ride?</label>
-                    <select id="ridingFrequency" name="ridingFrequency">
-                        <option value="">Select frequency</option>
-                        <option value="never">Never</option>
-                        <option value="holidays">Holidays only</option>
-                        <option value="weekly">Weekly</option>
-                        <option value="daily">Daily</option>
-                    </select>
-                </div>
+              <!-- Experience Level -->
+              <div class="form-group full-width">
+                <label class="form-label">Experience Level</label>
+                <div class="experience-options">
+                  <div class="experience-card">
+                    <input
+                      type="radio"
+                      id="inexperienced"
+                      name="experience"
+                      value="inexperienced"
+                    />
+                    <label for="inexperienced" class="experience-label">
+                      <div class="experience-icon">
+                        <svg
+                          class="svg-icon"
+                          viewBox="0 0 24 24"
+                          width="48"
+                          height="48"
+                        >
+                          <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                          />
+                        </svg>
+                      </div>
+                      <h4>Inexperienced</h4>
+                      <p>I have never ridden a horse before</p>
+                    </label>
+                  </div>
 
-                <div class="form-group">
-                    <label class="form-label">Comfortable gaits (check all that apply)</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="gaits" value="walk">
-                            <span>Walk</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="gaits" value="trot">
-                            <span>Trot</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="gaits" value="canter">
-                            <span>Canter</span>
-                        </label>
-                    </div>
+                  <div class="experience-card">
+                    <input
+                      type="radio"
+                      id="beginner"
+                      name="experience"
+                      value="beginner"
+                    />
+                    <label for="beginner" class="experience-label">
+                      <div class="experience-icon">
+                        <svg
+                          class="svg-icon"
+                          viewBox="0 0 24 24"
+                          width="48"
+                          height="48"
+                        >
+                          <path
+                            d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+                          />
+                        </svg>
+                      </div>
+                      <h4>Beginner</h4>
+                      <p>I can walk and follow basic instructions</p>
+                    </label>
+                  </div>
+
+                  <div class="experience-card">
+                    <input
+                      type="radio"
+                      id="novice"
+                      name="experience"
+                      value="novice"
+                    />
+                    <label for="novice" class="experience-label">
+                      <div class="experience-icon">
+                        <svg
+                          class="svg-icon"
+                          viewBox="0 0 24 24"
+                          width="48"
+                          height="48"
+                        >
+                          <path
+                            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                          />
+                        </svg>
+                      </div>
+                      <h4>Novice</h4>
+                      <p>Confident at walk and trot, some canter</p>
+                    </label>
+                  </div>
+
+                  <div class="experience-card">
+                    <input
+                      type="radio"
+                      id="experienced"
+                      name="experience"
+                      value="experienced"
+                    />
+                    <label for="experienced" class="experience-label">
+                      <div class="experience-icon">
+                        <svg
+                          class="svg-icon"
+                          viewBox="0 0 24 24"
+                          width="48"
+                          height="48"
+                        >
+                          <path
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                          <path
+                            d="M7 13l3 3 7-7"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                          />
+                        </svg>
+                      </div>
+                      <h4>Experienced</h4>
+                      <p>Confident in all gaits, ride independently</p>
+                    </label>
+                  </div>
                 </div>
+              </div>
+
+              <!-- Additional Details -->
+              <div class="form-group">
+                <label for="ridingFrequency">How often do you ride?</label>
+                <select id="ridingFrequency" name="ridingFrequency">
+                  <option value="">Select frequency</option>
+                  <option value="never">Never</option>
+                  <option value="holidays">Holidays only</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="daily">Daily</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label"
+                  >Comfortable gaits (check all that apply)</label
+                >
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="gaits" value="walk" />
+                    <span>Walk</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="gaits" value="trot" />
+                    <span>Trot</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="gaits" value="canter" />
+                    <span>Canter</span>
+                  </label>
+                </div>
+              </div>
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">
-                <span>Find My Perfect Experience</span>
-                <span class="btn-arrow">→</span>
+              <span>Find My Perfect Experience</span>
+              <span class="btn-arrow">→</span>
             </button>
 
             <!-- Weight Warning Message -->
             <div class="weight-warning" id="weightWarning">
-                <h4>Weight Limit Exceeded</h4>
-                <p>Unfortunately, for the safety of both our horses and riders, we have a maximum weight limit of 80kg. Please contact us directly to discuss alternative options that might be available.</p>
+              <h4>Weight Limit Exceeded</h4>
+              <p>
+                Unfortunately, for the safety of both our horses and riders, we
+                have a maximum weight limit of 80kg. Please contact us directly
+                to discuss alternative options that might be available.
+              </p>
             </div>
-        </form>
+          </form>
 
-        <!-- Results Section -->
-        <div id="recommendationResults" class="results-section" style="display: none;">
+          <!-- Results Section -->
+          <div
+            id="recommendationResults"
+            class="results-section"
+            style="display: none"
+          >
             <h3>Perfect Matches for You</h3>
             <div id="recommendedPackages" class="recommended-packages"></div>
+          </div>
         </div>
-    </div>
-</section>
+      </section>
 
-<!-- Scroll-Triggered Photo Experience Section -->
-<section class="photo-experience">
-    <div class="container">
-        <div class="section-header">
+      <!-- Scroll-Triggered Photo Experience Section -->
+      <section class="photo-experience">
+        <div class="container">
+          <div class="section-header">
             <h2>Live the Adventure</h2>
-            <p>Experience the magic of Langkawi through our carousel showcase</p>
-        </div>
+            <p>
+              Experience the magic of Langkawi through our carousel showcase
+            </p>
+          </div>
 
-        <div class="experience-container">
+          <div class="experience-container">
             <!-- Sticky photo stage -->
             <div class="photo-stage">
-                <div class="carousel-track">
-                    <div class="scroll-photo" data-photo="1">
-                        <div class="photo-caption">
-                            <h3>Into the Wild</h3>
-                            <p>Feel the rhythm of your horse's hooves as you venture deep into Langkawi's pristine rainforest</p>
-                        </div>
-                    </div>
-
-                    <div class="scroll-photo" data-photo="2">
-                        <div class="photo-caption">
-                            <h3>Ocean Breeze</h3>
-                            <p>Emerge onto golden sands where the Andaman Sea meets the shore</p>
-                        </div>
-                    </div>
-
-                    <div class="scroll-photo" data-photo="3">
-                        <div class="photo-caption">
-                            <h3>Swimming Paradise</h3>
-                            <p>Experience pure magic as you and your horse enter crystal-clear waters together</p>
-                        </div>
-                    </div>
-
-                    <div class="scroll-photo" data-photo="4">
-                        <div class="photo-caption">
-                            <h3>Mountain Heights</h3>
-                            <p>Climb to breathtaking viewpoints where panoramic vistas unfold before you</p>
-                        </div>
-                    </div>
-
-                    <div class="scroll-photo" data-photo="5">
-                        <div class="photo-caption">
-                            <h3>Sunset Serenity</h3>
-                            <p>As day transforms to dusk, ride along the beach bathed in golden light</p>
-                        </div>
-                    </div>
+              <div class="carousel-track">
+                <div class="scroll-photo" data-photo="1">
+                  <div class="photo-caption">
+                    <h3>Into the Wild</h3>
+                    <p>
+                      Feel the rhythm of your horse's hooves as you venture deep
+                      into Langkawi's pristine rainforest
+                    </p>
+                  </div>
                 </div>
 
-                <!-- Carousel Navigation -->
-                <div class="carousel-dots">
-                    <div class="carousel-dot"></div>
-                    <div class="carousel-dot"></div>
-                    <div class="carousel-dot"></div>
-                    <div class="carousel-dot"></div>
-                    <div class="carousel-dot"></div>
+                <div class="scroll-photo" data-photo="2">
+                  <div class="photo-caption">
+                    <h3>Ocean Breeze</h3>
+                    <p>
+                      Emerge onto golden sands where the Andaman Sea meets the
+                      shore
+                    </p>
+                  </div>
                 </div>
 
-                <!-- Progress Bar -->
-                <div class="carousel-progress"></div>
+                <div class="scroll-photo" data-photo="3">
+                  <div class="photo-caption">
+                    <h3>Swimming Paradise</h3>
+                    <p>
+                      Experience pure magic as you and your horse enter
+                      crystal-clear waters together
+                    </p>
+                  </div>
+                </div>
+
+                <div class="scroll-photo" data-photo="4">
+                  <div class="photo-caption">
+                    <h3>Mountain Heights</h3>
+                    <p>
+                      Climb to breathtaking viewpoints where panoramic vistas
+                      unfold before you
+                    </p>
+                  </div>
+                </div>
+
+                <div class="scroll-photo" data-photo="5">
+                  <div class="photo-caption">
+                    <h3>Sunset Serenity</h3>
+                    <p>
+                      As day transforms to dusk, ride along the beach bathed in
+                      golden light
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Carousel Navigation -->
+              <div class="carousel-dots">
+                <div class="carousel-dot"></div>
+                <div class="carousel-dot"></div>
+                <div class="carousel-dot"></div>
+                <div class="carousel-dot"></div>
+                <div class="carousel-dot"></div>
+              </div>
+
+              <!-- Progress Bar -->
+              <div class="carousel-progress"></div>
             </div>
+          </div>
         </div>
-    </div>
-</section>
+      </section>
 
-<!-- Features Section -->
-<section class="features">
-    <div class="container">
-        <div class="features-grid">
+      <!-- Features Section -->
+      <section class="features">
+        <div class="container">
+          <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">
-                    <svg class="svg-icon" viewBox="0 0 24 24" width="64" height="64">
-                        <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.74c.03-.08.06-.17.09-.25.05-.14.11-.28.19-.41L12 14l6.05 4.6c.08.13.14.27.19.41.03.08.06.17.09.25l.95 2.74 1.89-.66C18.1 16.17 16 10 7 8l5-6 5 6z"/>
-                        <path d="M12 2L7 8c9 2 11.1 8.17 13.18 13.34l-1.89.66-.95-2.74c-.03-.08-.06-.17-.09-.25-.05-.14-.11-.28-.19-.41L12 14l-6.05 4.6c-.08.13-.14.27-.19.41-.03.08-.06.17-.09.25l-.95 2.74-1.89-.66C5 16.17 7 10 16 8L12 2z" opacity="0.3"/>
-                    </svg>
-                </div>
-                <h3>Pristine Nature</h3>
-                <p>Explore untouched rainforests and secluded beaches away from the crowds</p>
+              <div class="feature-icon">
+                <svg
+                  class="svg-icon"
+                  viewBox="0 0 24 24"
+                  width="64"
+                  height="64"
+                >
+                  <path
+                    d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.74c.03-.08.06-.17.09-.25.05-.14.11-.28.19-.41L12 14l6.05 4.6c.08.13.14.27.19.41.03.08.06.17.09.25l.95 2.74 1.89-.66C18.1 16.17 16 10 7 8l5-6 5 6z"
+                  />
+                  <path
+                    d="M12 2L7 8c9 2 11.1 8.17 13.18 13.34l-1.89.66-.95-2.74c-.03-.08-.06-.17-.09-.25-.05-.14-.11-.28-.19-.41L12 14l-6.05 4.6c-.08.13-.14.27-.19.41-.03.08-.06.17-.09.25l-.95 2.74-1.89-.66C5 16.17 7 10 16 8L12 2z"
+                    opacity="0.3"
+                  />
+                </svg>
+              </div>
+              <h3>Pristine Nature</h3>
+              <p>
+                Explore untouched rainforests and secluded beaches away from the
+                crowds
+              </p>
             </div>
-            
+
             <div class="feature-card">
-                <div class="feature-icon">
-                    <svg class="svg-icon" viewBox="0 0 24 24" width="64" height="64">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        <path d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m-2 11l-3-3 1.41-1.41L10 12.17l5.59-5.59L17 8l-7 7z" opacity="0.3"/>
-                    </svg>
-                </div>
-                <h3>Expert Guidance</h3>
-                <p>Professional trail leaders ensure your safety while maximizing the adventure</p>
+              <div class="feature-icon">
+                <svg
+                  class="svg-icon"
+                  viewBox="0 0 24 24"
+                  width="64"
+                  height="64"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  />
+                  <path
+                    d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m-2 11l-3-3 1.41-1.41L10 12.17l5.59-5.59L17 8l-7 7z"
+                    opacity="0.3"
+                  />
+                </svg>
+              </div>
+              <h3>Expert Guidance</h3>
+              <p>
+                Professional trail leaders ensure your safety while maximizing
+                the adventure
+              </p>
             </div>
-            
+
             <div class="feature-card">
-                <div class="feature-icon">
-                    <svg class="svg-icon" viewBox="0 0 24 24" width="64" height="64">
-                        <path d="M12 2c1.1 0 2 .9 2 2 0 .74-.4 1.38-1 1.72v2.5c0 .55-.45 1-1 1s-1-.45-1-1v-2.5c-.6-.35-1-.98-1-1.72 0-1.1.9-2 2-2zM21 11H3l2 8c.18.68.79 1.15 1.49 1.15h11.02c.7 0 1.31-.47 1.49-1.15l2-8z"/>
-                        <path d="M12 6c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1z" opacity="0.3"/>
-                    </svg>
-                </div>
-                <h3>Unique Experiences</h3>
-                <p>Swim with horses in crystal-clear waters - a truly magical encounter</p>
+              <div class="feature-icon">
+                <svg
+                  class="svg-icon"
+                  viewBox="0 0 24 24"
+                  width="64"
+                  height="64"
+                >
+                  <path
+                    d="M12 2c1.1 0 2 .9 2 2 0 .74-.4 1.38-1 1.72v2.5c0 .55-.45 1-1 1s-1-.45-1-1v-2.5c-.6-.35-1-.98-1-1.72 0-1.1.9-2 2-2zM21 11H3l2 8c.18.68.79 1.15 1.49 1.15h11.02c.7 0 1.31-.47 1.49-1.15l2-8z"
+                  />
+                  <path
+                    d="M12 6c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1z"
+                    opacity="0.3"
+                  />
+                </svg>
+              </div>
+              <h3>Unique Experiences</h3>
+              <p>
+                Swim with horses in crystal-clear waters - a truly magical
+                encounter
+              </p>
             </div>
+          </div>
         </div>
-    </div>
-</section>
+      </section>
 
-<!-- Call to Action -->
-<section class="cta-section">
-    <div class="container">
-        <div class="cta-content">
+      <!-- Call to Action -->
+      <section class="cta-section">
+        <div class="container">
+          <div class="cta-content">
             <h2>Ready for Your Adventure?</h2>
-            <p>Join hundreds of satisfied riders who have discovered the magic of Langkawi on horseback</p>
+            <p>
+              Join hundreds of satisfied riders who have discovered the magic of
+              Langkawi on horseback
+            </p>
             <a href="packages.html" class="btn-primary">Explore All Packages</a>
+          </div>
         </div>
-    </div>
-</section>
-</main>
+      </section>
+    </main>
 
-<!-- Include the header-footer component -->
-<script src="js/header-footer.js"></script>
+    <!-- Include the header-footer component -->
+    <script src="js/header-footer.js"></script>
 
-<script>
-// Complete Home Page JavaScript
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('riderAssessmentForm');
-    const resultsSection = document.getElementById('recommendationResults');
-    const packagesContainer = document.getElementById('recommendedPackages');
-    const weightInput = document.getElementById('weight');
-    const weightError = document.getElementById('weightError');
-    const weightWarning = document.getElementById('weightWarning');
-    const submitBtn = document.getElementById('submitBtn');
+    <script>
+      // Complete Home Page JavaScript
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("riderAssessmentForm");
+        const resultsSection = document.getElementById("recommendationResults");
+        const packagesContainer = document.getElementById(
+          "recommendedPackages"
+        );
+        const weightInput = document.getElementById("weight");
+        const weightError = document.getElementById("weightError");
+        const weightWarning = document.getElementById("weightWarning");
+        const submitBtn = document.getElementById("submitBtn");
 
-    // Weight validation function
-    function validateWeight() {
-        const weight = parseFloat(weightInput.value);
-        const isValid = weight >= 1 && weight <= 80 && !isNaN(weight);
-        
-        if (weightInput.value && !isValid) {
-            weightInput.classList.add('invalid');
-            weightError.classList.add('show');
+        // Weight validation function
+        function validateWeight() {
+          const weight = parseFloat(weightInput.value);
+          const isValid = weight >= 1 && weight <= 80 && !isNaN(weight);
+
+          if (weightInput.value && !isValid) {
+            weightInput.classList.add("invalid");
+            weightError.classList.add("show");
             submitBtn.disabled = true;
-            
+
             if (weight > 80) {
-                weightWarning.classList.add('show');
+              weightWarning.classList.add("show");
             } else {
-                weightWarning.classList.remove('show');
+              weightWarning.classList.remove("show");
             }
-        } else {
-            weightInput.classList.remove('invalid');
-            weightError.classList.remove('show');
-            weightWarning.classList.remove('show');
+          } else {
+            weightInput.classList.remove("invalid");
+            weightError.classList.remove("show");
+            weightWarning.classList.remove("show");
             submitBtn.disabled = false;
+          }
+
+          return isValid;
         }
-        
-        return isValid;
-    }
 
-    // Real-time weight validation
-    weightInput.addEventListener('input', validateWeight);
-    weightInput.addEventListener('blur', validateWeight);
+        // Real-time weight validation
+        weightInput.addEventListener("input", validateWeight);
+        weightInput.addEventListener("blur", validateWeight);
 
-    // Background photo animation
-    const bgPhotos = document.querySelectorAll('.bg-photo');
-    const photoIndicators = document.querySelectorAll('.photo-indicator');
-    let currentPhotoIndex = 0;
+        // Background photo animation
+        const bgPhotos = document.querySelectorAll(".bg-photo");
+        const photoIndicators = document.querySelectorAll(".photo-indicator");
+        let currentPhotoIndex = 0;
 
-    // Photo configuration
-    const photoConfig = [
-        { name: 'horse-4', section: 'hero', title: 'Jungle Trail Adventure' },
-        { name: 'horse-1', section: 'experience', title: 'Beach Riding Experience' },
-        { name: 'horse-2', section: 'features', title: 'Swimming with Horses' },
-        { name: 'horse-3', section: 'cta', title: 'Mountain & Lighthouse Views' },
-        { name: 'horse-5', section: 'extra', title: 'Sunset Beach Ride' }
-    ];
+        // Photo configuration
+        const photoConfig = [
+          { name: "horse-4", section: "hero", title: "Jungle Trail Adventure" },
+          {
+            name: "horse-1",
+            section: "experience",
+            title: "Beach Riding Experience",
+          },
+          {
+            name: "horse-2",
+            section: "features",
+            title: "Swimming with Horses",
+          },
+          {
+            name: "horse-3",
+            section: "cta",
+            title: "Mountain & Lighthouse Views",
+          },
+          { name: "horse-5", section: "extra", title: "Sunset Beach Ride" },
+        ];
 
-    // Initialize photos
-    function initializePhotos() {
-        if (bgPhotos.length > 0) {
-            bgPhotos[0].classList.add('active');
+        // Initialize photos
+        function initializePhotos() {
+          if (bgPhotos.length > 0) {
+            bgPhotos[0].classList.add("active");
+          }
+          if (photoIndicators.length > 0) {
+            photoIndicators[0].classList.add("active");
+          }
         }
-        if (photoIndicators.length > 0) {
-            photoIndicators[0].classList.add('active');
-        }
-    }
 
-    // Update photo indicators
-    function updatePhotoIndicators(newIndex) {
-        photoIndicators.forEach((indicator, index) => {
+        // Update photo indicators
+        function updatePhotoIndicators(newIndex) {
+          photoIndicators.forEach((indicator, index) => {
             if (index === newIndex) {
-                indicator.classList.add('active');
+              indicator.classList.add("active");
             } else {
-                indicator.classList.remove('active');
+              indicator.classList.remove("active");
             }
-        });
-    }
+          });
+        }
 
-    // Background photo switching based on scroll
-    function updateBackgroundPhoto() {
-        const scrollY = window.scrollY;
-        const documentHeight = document.documentElement.scrollHeight;
-        const windowHeight = window.innerHeight;
-        
-        const scrollProgress = Math.max(0, Math.min(1, scrollY / (documentHeight - windowHeight)));
-        let newIndex = Math.floor(scrollProgress * bgPhotos.length);
-        
-        newIndex = Math.min(newIndex, bgPhotos.length - 1);
-        
-        if (newIndex !== currentPhotoIndex) {
+        // Background photo switching based on scroll
+        function updateBackgroundPhoto() {
+          const scrollY = window.scrollY;
+          const documentHeight = document.documentElement.scrollHeight;
+          const windowHeight = window.innerHeight;
+
+          const scrollProgress = Math.max(
+            0,
+            Math.min(1, scrollY / (documentHeight - windowHeight))
+          );
+          let newIndex = Math.floor(scrollProgress * bgPhotos.length);
+
+          newIndex = Math.min(newIndex, bgPhotos.length - 1);
+
+          if (newIndex !== currentPhotoIndex) {
             if (bgPhotos[currentPhotoIndex]) {
-                bgPhotos[currentPhotoIndex].classList.remove('active');
+              bgPhotos[currentPhotoIndex].classList.remove("active");
             }
-            
+
             if (bgPhotos[newIndex]) {
-                bgPhotos[newIndex].classList.add('active');
+              bgPhotos[newIndex].classList.add("active");
             }
-            
+
             updatePhotoIndicators(newIndex);
             currentPhotoIndex = newIndex;
+          }
         }
-    }
 
-    // Manual photo navigation via indicators
-    photoIndicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            const scrollTarget = (index / (bgPhotos.length - 1)) * (document.documentElement.scrollHeight - window.innerHeight);
-            
+        // Manual photo navigation via indicators
+        photoIndicators.forEach((indicator, index) => {
+          indicator.addEventListener("click", () => {
+            const scrollTarget =
+              (index / (bgPhotos.length - 1)) *
+              (document.documentElement.scrollHeight - window.innerHeight);
+
             window.scrollTo({
-                top: scrollTarget,
-                behavior: 'smooth'
+              top: scrollTarget,
+              behavior: "smooth",
             });
+          });
         });
-    });
 
-    // Initialize photos
-    initializePhotos();
+        // Initialize photos
+        initializePhotos();
 
-    // Enhanced carousel functionality with mobile fixes
-    const carousel = document.querySelector('.carousel-track');
-    const dots = document.querySelectorAll('.carousel-dot');
-    const photoStage = document.querySelector('.photo-stage');
-    let currentSlide = 0;
-    let isAnimating = false;
-    let autoAdvanceTimer;
+        // Enhanced carousel functionality with mobile fixes
+        const carousel = document.querySelector(".carousel-track");
+        const dots = document.querySelectorAll(".carousel-dot");
+        const photoStage = document.querySelector(".photo-stage");
+        let currentSlide = 0;
+        let isAnimating = false;
+        let autoAdvanceTimer;
 
-    // Check if we're on mobile
-    function isMobile() {
-        return window.innerWidth <= 768;
-    }
+        // Check if we're on mobile
+        function isMobile() {
+          return window.innerWidth <= 768;
+        }
 
-    // Manual carousel navigation via dots
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
+        // Manual carousel navigation via dots
+        dots.forEach((dot, index) => {
+          dot.addEventListener("click", () => {
             if (isAnimating) return;
             goToSlide(index);
             pauseAutoAdvance();
+          });
         });
-    });
 
-    function goToSlide(slideIndex) {
-        if (isAnimating || !carousel) return;
-        isAnimating = true;
-        
-        currentSlide = slideIndex;
-        const translateX = -slideIndex * 20; // Each slide is 20% wide
-        
-        // Pause CSS animation and manually control
-        carousel.style.animation = 'none';
-        carousel.style.transform = `translateX(${translateX}%)`;
-        
-        // Update dots
-        updateDots(slideIndex);
-        
-        setTimeout(() => {
+        function goToSlide(slideIndex) {
+          if (isAnimating || !carousel) return;
+          isAnimating = true;
+
+          currentSlide = slideIndex;
+          const translateX = -slideIndex * 20; // Each slide is 20% wide
+
+          // Pause CSS animation and manually control
+          carousel.style.animation = "none";
+          carousel.style.transform = `translateX(${translateX}%)`;
+
+          // Update dots
+          updateDots(slideIndex);
+
+          setTimeout(() => {
             isAnimating = false;
-        }, 800);
-    }
-
-    function updateDots(activeIndex) {
-        dots.forEach((dot, index) => {
-            if (index === activeIndex) {
-                dot.style.background = 'var(--primary-gold)';
-                dot.style.transform = 'scale(1.3)';
-                dot.style.boxShadow = '0 0 15px rgba(212, 175, 55, 0.5)';
-            } else {
-                dot.style.background = 'rgba(212, 175, 55, 0.4)';
-                dot.style.transform = 'scale(1)';
-                dot.style.boxShadow = 'none';
-            }
-        });
-    }
-
-    function pauseAutoAdvance() {
-        if (carousel) {
-            carousel.style.animationPlayState = 'paused';
+          }, 800);
         }
-        clearTimeout(autoAdvanceTimer);
-        
-        // Resume auto-advance after 5 seconds of inactivity
-        autoAdvanceTimer = setTimeout(() => {
-            if (carousel) {
-                carousel.style.animation = 'autoSlide 15s infinite';
-                carousel.style.animationPlayState = 'running';
-                currentSlide = 0;
-                updateDots(0);
-            }
-        }, 5000);
-    }
 
-    // Touch/swipe support for mobile
-    let startX = 0;
-    let endX = 0;
-
-    if (photoStage) {
-        photoStage.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-        }, { passive: true });
-
-        photoStage.addEventListener('touchend', (e) => {
-            endX = e.changedTouches[0].clientX;
-            handleSwipe();
-        }, { passive: true });
-    }
-
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = startX - endX;
-
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                // Swiped left - next slide
-                const nextSlide = (currentSlide + 1) % 5;
-                goToSlide(nextSlide);
+        function updateDots(activeIndex) {
+          dots.forEach((dot, index) => {
+            if (index === activeIndex) {
+              dot.style.background = "var(--primary-gold)";
+              dot.style.transform = "scale(1.3)";
+              dot.style.boxShadow = "0 0 15px rgba(212, 175, 55, 0.5)";
             } else {
-                // Swiped right - previous slide
-                const prevSlide = (currentSlide - 1 + 5) % 5;
-                goToSlide(prevSlide);
+              dot.style.background = "rgba(212, 175, 55, 0.4)";
+              dot.style.transform = "scale(1)";
+              dot.style.boxShadow = "none";
+            }
+          });
+        }
+
+        function pauseAutoAdvance() {
+          if (carousel) {
+            carousel.style.animationPlayState = "paused";
+          }
+          clearTimeout(autoAdvanceTimer);
+
+          // Resume auto-advance after 5 seconds of inactivity
+          autoAdvanceTimer = setTimeout(() => {
+            if (carousel) {
+              carousel.style.animation = "autoSlide 15s infinite";
+              carousel.style.animationPlayState = "running";
+              currentSlide = 0;
+              updateDots(0);
+            }
+          }, 5000);
+        }
+
+        // Touch/swipe support for mobile
+        let startX = 0;
+        let endX = 0;
+
+        if (photoStage) {
+          photoStage.addEventListener(
+            "touchstart",
+            (e) => {
+              startX = e.touches[0].clientX;
+            },
+            { passive: true }
+          );
+
+          photoStage.addEventListener(
+            "touchend",
+            (e) => {
+              endX = e.changedTouches[0].clientX;
+              handleSwipe();
+            },
+            { passive: true }
+          );
+        }
+
+        function handleSwipe() {
+          const swipeThreshold = 50;
+          const diff = startX - endX;
+
+          if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+              // Swiped left - next slide
+              const nextSlide = (currentSlide + 1) % 5;
+              goToSlide(nextSlide);
+            } else {
+              // Swiped right - previous slide
+              const prevSlide = (currentSlide - 1 + 5) % 5;
+              goToSlide(prevSlide);
             }
             pauseAutoAdvance();
+          }
         }
-    }
 
-    // Pause/resume on hover (desktop only)
-    if (photoStage && !isMobile()) {
-        photoStage.addEventListener('mouseenter', () => {
+        // Pause/resume on hover (desktop only)
+        if (photoStage && !isMobile()) {
+          photoStage.addEventListener("mouseenter", () => {
             if (carousel) {
-                carousel.style.animationPlayState = 'paused';
+              carousel.style.animationPlayState = "paused";
             }
-        });
+          });
 
-        photoStage.addEventListener('mouseleave', () => {
+          photoStage.addEventListener("mouseleave", () => {
             if (carousel) {
-                carousel.style.animationPlayState = 'running';
+              carousel.style.animationPlayState = "running";
             }
-        });
-    }
+          });
+        }
 
-    // Restart auto-animation when it completes
-    if (carousel) {
-        carousel.addEventListener('animationiteration', () => {
+        // Restart auto-animation when it completes
+        if (carousel) {
+          carousel.addEventListener("animationiteration", () => {
             // Animation restarted, reset manual controls
             currentSlide = 0;
             updateDots(0);
-        });
-    }
+          });
+        }
 
-    // Initialize carousel
-    function initializeCarousel() {
-        if (carousel && dots.length > 0) {
+        // Initialize carousel
+        function initializeCarousel() {
+          if (carousel && dots.length > 0) {
             // Set initial state
             updateDots(0);
-            
+
             // Start auto-advance
-            carousel.style.animation = 'autoSlide 15s infinite';
-            carousel.style.animationPlayState = 'running';
+            carousel.style.animation = "autoSlide 15s infinite";
+            carousel.style.animationPlayState = "running";
+          }
         }
-    }
 
-    // Mobile-specific optimizations
-    function optimizeForMobile() {
-        if (isMobile() && carousel) {
+        // Mobile-specific optimizations
+        function optimizeForMobile() {
+          if (isMobile() && carousel) {
             // Slower animation for mobile
-            carousel.style.animationDuration = '18s';
-            
+            carousel.style.animationDuration = "18s";
+
             // Ensure proper sizing
-            const photos = document.querySelectorAll('.scroll-photo');
-            photos.forEach(photo => {
-                photo.style.backgroundSize = 'cover';
-                photo.style.backgroundPosition = 'center';
+            const photos = document.querySelectorAll(".scroll-photo");
+            photos.forEach((photo) => {
+              photo.style.backgroundSize = "cover";
+              photo.style.backgroundPosition = "center";
             });
+          }
         }
-    }
 
-    // Remove old scroll photo functionality and replace with carousel
-    const scrollPhotos = document.querySelectorAll('.scroll-photo');
-    const photoExperienceSection = document.querySelector('.photo-experience');
-    
-    // Simple intersection observer to start carousel when in view
-    if (photoExperienceSection) {
-        const carouselObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        // Remove old scroll photo functionality and replace with carousel
+        const scrollPhotos = document.querySelectorAll(".scroll-photo");
+        const photoExperienceSection =
+          document.querySelector(".photo-experience");
+
+        // Simple intersection observer to start carousel when in view
+        if (photoExperienceSection) {
+          const carouselObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    // Initialize carousel when it becomes visible
-                    initializeCarousel();
-                    optimizeForMobile();
+                  // Initialize carousel when it becomes visible
+                  initializeCarousel();
+                  optimizeForMobile();
                 } else {
-                    // Pause when not visible to save resources
-                    if (carousel) {
-                        carousel.style.animationPlayState = 'paused';
-                    }
+                  // Pause when not visible to save resources
+                  if (carousel) {
+                    carousel.style.animationPlayState = "paused";
+                  }
                 }
-            });
-        }, {
-            threshold: 0.3
-        });
+              });
+            },
+            {
+              threshold: 0.3,
+            }
+          );
 
-        carouselObserver.observe(photoExperienceSection);
-    }
+          carouselObserver.observe(photoExperienceSection);
+        }
 
-    // Handle window resize for mobile optimization
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
+        // Handle window resize for mobile optimization
+        let resizeTimer;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
             optimizeForMobile();
             // Reset carousel position on resize
             if (carousel) {
-                carousel.style.transform = 'translateX(0%)';
-                currentSlide = 0;
-                updateDots(0);
+              carousel.style.transform = "translateX(0%)";
+              currentSlide = 0;
+              updateDots(0);
             }
-        }, 250);
-    });
-    
-    // Optimized scroll handlers - Only for background photos now
-    let scrollTicking = false;
-    function handleScroll() {
-        if (!scrollTicking) {
+          }, 250);
+        });
+
+        // Optimized scroll handlers - Only for background photos now
+        let scrollTicking = false;
+        function handleScroll() {
+          if (!scrollTicking) {
             requestAnimationFrame(() => {
-                updateBackgroundPhoto();
-                scrollTicking = false;
+              updateBackgroundPhoto();
+              scrollTicking = false;
             });
             scrollTicking = true;
+          }
         }
-    }
 
-    window.addEventListener('scroll', handleScroll);
+        window.addEventListener("scroll", handleScroll);
 
-    // Package data based on the WhatsApp information
-    const packages = {
-        'jungle-fun': {
-            name: 'Jungle Fun Ride',
-            description: 'Perfect for kids and first-time riders. A gentle, enjoyable ride through scenic secondary rainforest trail.',
-            duration: '15-30 minutes',
-            price: 'RM 60 - RM 120',
-            suitable: ['inexperienced', 'beginner']
-        },
-        'jungle-beach': {
-            name: 'Jungle & Beach',
-            description: 'A scenic, relaxing ride through rainforest and along Pantai Kok beach. Controlled canter available for competent riders.',
-            duration: '1 Hour',
-            price: 'RM 240',
-            suitable: ['beginner', 'novice', 'experienced']
-        },
-        'jungle-beach-lover': {
-            name: 'Jungle & Beach Lover (Most Popular)',
-            description: 'A tranquil ride through jungle trails and stunning beach. Perfect blend of thrill and calm.',
-            duration: '1.5 Hours',
-            price: 'RM 350',
-            suitable: ['novice', 'experienced']
-        },
-        'jungle-beach-mountain': {
-            name: 'Jungle, Beach, Mountain & Lighthouse',
-            description: 'Diverse adventure combining rainforest, beach, mountain climbs, and lighthouse views.',
-            duration: '2 Hours',
-            price: 'RM 440',
-            suitable: ['novice', 'experienced']
-        },
-        'ride-swim': {
-            name: 'Ride & Swim with the Horse',
-            description: 'Ride through rainforest and beach, ending with swimming with your horse in the sea.',
-            duration: '2 Hours',
-            price: 'RM 500',
-            suitable: ['experienced']
-        },
-        'swim-only': {
-            name: 'Swim with the Horse Only',
-            description: 'Experience the joy of entering the sea on horseback and swimming with your horse.',
-            duration: '1 Hour',
-            price: 'RM 300',
-            suitable: ['experienced']
-        },
-        'back-to-nature': {
-            name: 'Back to Nature',
-            description: 'Leave the busy city behind. Ride through rainforest, rice fields, beaches, mangroves, and village paths.',
-            duration: '3 Hours',
-            price: 'RM 750',
-            suitable: ['experienced']
-        }
-    };
+        // Package data based on the WhatsApp information
+        const packages = {
+          "jungle-fun": {
+            name: "Jungle Fun Ride",
+            description:
+              "Perfect for kids and first-time riders. A gentle, enjoyable ride through scenic secondary rainforest trail.",
+            duration: "15-30 minutes",
+            price: "RM 60 - RM 120",
+            suitable: ["inexperienced", "beginner"],
+          },
+          "jungle-beach": {
+            name: "Jungle & Beach",
+            description:
+              "A scenic, relaxing ride through rainforest and along Pantai Kok beach. Controlled canter available for competent riders.",
+            duration: "1 Hour",
+            price: "RM 240",
+            suitable: ["beginner", "novice", "experienced"],
+          },
+          "jungle-beach-lover": {
+            name: "Jungle & Beach Lover (Most Popular)",
+            description:
+              "A tranquil ride through jungle trails and stunning beach. Perfect blend of thrill and calm.",
+            duration: "1.5 Hours",
+            price: "RM 350",
+            suitable: ["novice", "experienced"],
+          },
+          "jungle-beach-mountain": {
+            name: "Jungle, Beach, Mountain & Lighthouse",
+            description:
+              "Diverse adventure combining rainforest, beach, mountain climbs, and lighthouse views.",
+            duration: "2 Hours",
+            price: "RM 440",
+            suitable: ["novice", "experienced"],
+          },
+          "ride-swim": {
+            name: "Ride & Swim with the Horse",
+            description:
+              "Ride through rainforest and beach, ending with swimming with your horse in the sea.",
+            duration: "2 Hours",
+            price: "RM 500",
+            suitable: ["experienced"],
+          },
+          "swim-only": {
+            name: "Swim with the Horse Only",
+            description:
+              "Experience the joy of entering the sea on horseback and swimming with your horse.",
+            duration: "1 Hour",
+            price: "RM 300",
+            suitable: ["experienced"],
+          },
+          "back-to-nature": {
+            name: "Back to Nature",
+            description:
+              "Leave the busy city behind. Ride through rainforest, rice fields, beaches, mangroves, and village paths.",
+            duration: "3 Hours",
+            price: "RM 750",
+            suitable: ["experienced"],
+          },
+        };
 
-    // Form submission handler
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Validate weight before processing
-        if (!validateWeight()) {
+        // Form submission handler
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Validate weight before processing
+          if (!validateWeight()) {
             weightInput.focus();
             return;
-        }
-        
-        const formData = new FormData(form);
-        const experience = formData.get('experience');
-        const weight = formData.get('weight');
-        const frequency = formData.get('ridingFrequency');
-        const gaits = formData.getAll('gaits');
+          }
 
-        // Generate recommendations based on experience level
-        const recommendations = getRecommendations(experience, frequency, gaits);
-        
-        displayRecommendations(recommendations);
-        
-        // Smooth scroll to results
-        resultsSection.scrollIntoView({ behavior: 'smooth' });
-    });
+          const formData = new FormData(form);
+          const experience = formData.get("experience");
+          const weight = formData.get("weight");
+          const frequency = formData.get("ridingFrequency");
+          const gaits = formData.getAll("gaits");
 
-    // Get recommendations based on rider assessment
-    function getRecommendations(experience, frequency, gaits) {
-        const recommended = [];
+          // Generate recommendations based on experience level
+          const recommendations = getRecommendations(
+            experience,
+            frequency,
+            gaits
+          );
 
-        // Logic for recommendations based on experience
-        if (experience === 'inexperienced' || (experience === 'beginner' && frequency === 'never')) {
-            recommended.push(packages['jungle-fun']);
-            recommended.push(packages['jungle-beach']);
-        } else if (experience === 'beginner') {
-            recommended.push(packages['jungle-beach']);
-            recommended.push(packages['jungle-beach-lover']);
-        } else if (experience === 'novice') {
-            recommended.push(packages['jungle-beach-lover']);
-            recommended.push(packages['jungle-beach-mountain']);
-            
+          displayRecommendations(recommendations);
+
+          // Smooth scroll to results
+          resultsSection.scrollIntoView({ behavior: "smooth" });
+        });
+
+        // Get recommendations based on rider assessment
+        function getRecommendations(experience, frequency, gaits) {
+          const recommended = [];
+
+          // Logic for recommendations based on experience
+          if (
+            experience === "inexperienced" ||
+            (experience === "beginner" && frequency === "never")
+          ) {
+            recommended.push(packages["jungle-fun"]);
+            recommended.push(packages["jungle-beach"]);
+          } else if (experience === "beginner") {
+            recommended.push(packages["jungle-beach"]);
+            recommended.push(packages["jungle-beach-lover"]);
+          } else if (experience === "novice") {
+            recommended.push(packages["jungle-beach-lover"]);
+            recommended.push(packages["jungle-beach-mountain"]);
+
             // Add swimming experiences if they're comfortable with canter
-            if (gaits.includes('canter')) {
-                recommended.push(packages['swim-only']);
+            if (gaits.includes("canter")) {
+              recommended.push(packages["swim-only"]);
             }
-        } else if (experience === 'experienced') {
-            recommended.push(packages['jungle-beach-mountain']);
-            recommended.push(packages['ride-swim']);
-            recommended.push(packages['back-to-nature']);
-            recommended.push(packages['swim-only']);
+          } else if (experience === "experienced") {
+            recommended.push(packages["jungle-beach-mountain"]);
+            recommended.push(packages["ride-swim"]);
+            recommended.push(packages["back-to-nature"]);
+            recommended.push(packages["swim-only"]);
+          }
+
+          return recommended.slice(0, 3); // Limit to top 3 recommendations
         }
 
-        return recommended.slice(0, 3); // Limit to top 3 recommendations
-    }
+        // Display package recommendations
+        function displayRecommendations(recommendations) {
+          packagesContainer.innerHTML = "";
 
-    // Display package recommendations
-    function displayRecommendations(recommendations) {
-        packagesContainer.innerHTML = '';
-        
-        recommendations.forEach(package => {
-            const packageElement = document.createElement('div');
-            packageElement.className = 'package-recommendation';
+          recommendations.forEach((package) => {
+            const packageElement = document.createElement("div");
+            packageElement.className = "package-recommendation";
             packageElement.innerHTML = `
                 <h4>${package.name}</h4>
                 <p>${package.description}</p>
@@ -1945,109 +2286,114 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             `;
             packagesContainer.appendChild(packageElement);
-        });
+          });
 
-        resultsSection.style.display = 'block';
-    }
+          resultsSection.style.display = "block";
+        }
 
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const target = document.querySelector(this.getAttribute("href"));
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
             }
+          });
         });
-    });
 
-    // Add scroll animations for feature cards
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+        // Add scroll animations for feature cards
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
             }
+          });
+        }, observerOptions);
+
+        // Observe feature cards for scroll animations
+        document.querySelectorAll(".feature-card").forEach((card) => {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(30px)";
+          card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+          observer.observe(card);
         });
-    }, observerOptions);
 
-    // Observe feature cards for scroll animations
-    document.querySelectorAll('.feature-card').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
-    });
-
-    // Enhanced form validation feedback
-    const inputs = form.querySelectorAll('input, select');
-    inputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            if (this.hasAttribute('required') && !this.value) {
-                this.style.borderColor = 'var(--error-red)';
+        // Enhanced form validation feedback
+        const inputs = form.querySelectorAll("input, select");
+        inputs.forEach((input) => {
+          input.addEventListener("blur", function () {
+            if (this.hasAttribute("required") && !this.value) {
+              this.style.borderColor = "var(--error-red)";
             } else {
-                this.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+              this.style.borderColor = "rgba(212, 175, 55, 0.3)";
             }
-        });
-        
-        input.addEventListener('focus', function() {
-            this.style.borderColor = 'var(--primary-gold)';
-        });
-    });
+          });
 
-    // Add hover effects to experience cards
-    document.querySelectorAll('.experience-card').forEach(card => {
-        const label = card.querySelector('.experience-label');
-        
-        card.addEventListener('mouseenter', function() {
-            if (!card.querySelector('input').checked) {
-                label.style.transform = 'translateY(-2px)';
-                label.style.boxShadow = '0 8px 25px rgba(212, 175, 55, 0.1)';
-            }
+          input.addEventListener("focus", function () {
+            this.style.borderColor = "var(--primary-gold)";
+          });
         });
-        
-        card.addEventListener('mouseleave', function() {
-            if (!card.querySelector('input').checked) {
-                label.style.transform = 'translateY(0)';
-                label.style.boxShadow = 'none';
-            }
-        });
-    });
 
-    // Add keyboard navigation for photo indicators
-    photoIndicators.forEach((indicator, index) => {
-        indicator.setAttribute('tabindex', '0');
-        indicator.setAttribute('role', 'button');
-        indicator.setAttribute('aria-label', `Go to ${photoConfig[index]?.title || `photo ${index + 1}`}`);
-        
-        indicator.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                indicator.click();
-            }
-        });
-    });
+        // Add hover effects to experience cards
+        document.querySelectorAll(".experience-card").forEach((card) => {
+          const label = card.querySelector(".experience-label");
 
-    // Performance optimization: Debounce resize events
-    let resizeTimeout;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
+          card.addEventListener("mouseenter", function () {
+            if (!card.querySelector("input").checked) {
+              label.style.transform = "translateY(-2px)";
+              label.style.boxShadow = "0 8px 25px rgba(212, 175, 55, 0.1)";
+            }
+          });
+
+          card.addEventListener("mouseleave", function () {
+            if (!card.querySelector("input").checked) {
+              label.style.transform = "translateY(0)";
+              label.style.boxShadow = "none";
+            }
+          });
+        });
+
+        // Add keyboard navigation for photo indicators
+        photoIndicators.forEach((indicator, index) => {
+          indicator.setAttribute("tabindex", "0");
+          indicator.setAttribute("role", "button");
+          indicator.setAttribute(
+            "aria-label",
+            `Go to ${photoConfig[index]?.title || `photo ${index + 1}`}`
+          );
+
+          indicator.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              indicator.click();
+            }
+          });
+        });
+
+        // Performance optimization: Debounce resize events
+        let resizeTimeout;
+        window.addEventListener("resize", function () {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
             // Recalculate positions after resize
             updateBackgroundPhoto();
-        }, 250);
-    });
+          }, 250);
+        });
 
-    console.log('Island Horses Langkawi carousel website initialized successfully!');
-});
-</script>
-</body>
+        console.log(
+          "Island Horses Langkawi carousel website initialized successfully!"
+        );
+      });
+    </script>
+  </body>
 </html>

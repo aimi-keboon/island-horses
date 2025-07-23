@@ -168,6 +168,7 @@ class HeaderFooter {
                     justify-content: space-between;
                     align-items: center;
                     padding: 1.5rem 2rem;
+                    min-height: 100px;
                 }
 
                 .logo h1 {
@@ -370,11 +371,16 @@ class HeaderFooter {
                 /* Responsive Design */
                 @media (max-width: 768px) {
                     body {
-                        padding-top: 70px;
+                        padding-top: 100px;
                     }
 
                     .nav-container {
                         padding: 1rem;
+                        min-height: 80px;
+                    }
+
+                    .logo img {
+                        height: 60px;
                     }
 
                     .mobile-menu-btn {
@@ -383,7 +389,7 @@ class HeaderFooter {
 
                     .nav-menu {
                         position: fixed;
-                        top: 70px;
+                        top: 100px; /* Position below the header completely */
                         left: 0;
                         width: 100%;
                         background: rgba(0, 0, 0, 0.98);
@@ -395,6 +401,7 @@ class HeaderFooter {
                         transition: transform 0.3s ease;
                         border-top: 1px solid rgba(212, 175, 55, 0.2);
                         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                        z-index: 999; /* Lower than header to ensure header stays on top */
                     }
 
                     .nav-menu.active {
