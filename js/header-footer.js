@@ -11,9 +11,8 @@ class HeaderFooter {
             <header class="main-header">
                 <nav class="nav-container">
                     <div class="logo">
-                        <h1>🐎 Island Horses</h1>
-                        <span>Langkawi</span>
-                    </div>
+    <img src="img/island-horses-logo.png" alt="Island Horses Langkawi" style="height: 80px; width: auto;">
+</div>
                     
                     <div class="nav-menu" id="navMenu">
                         <a href="index.html" class="nav-link">Home</a>
@@ -183,6 +182,22 @@ class HeaderFooter {
                     display: block;
                     margin-top: -0.2rem;
                 }
+
+                .logo img {
+    height: 80px;
+    width: auto;
+    max-height: 100px;
+}
+
+/* Update nav-container padding to accommodate larger logo */
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem; /* Increased from 1rem to 1.5rem */
+}
 
                 .nav-menu {
                     display: flex;
@@ -424,7 +439,7 @@ class HeaderFooter {
 
                 /* Add padding to body for fixed header */
                 body {
-                    padding-top: 80px;
+                    padding-top: 120px;
                 }
             </style>
         `;
