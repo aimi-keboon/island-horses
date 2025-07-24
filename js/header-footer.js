@@ -19,7 +19,7 @@ class HeaderFooter {
                         <a href="packages.html" class="nav-link">Packages</a>
                         <a href="gallery.html" class="nav-link">Gallery</a>
                         <a href="contact.html" class="nav-link">Contact</a>
-                        <a href="packages.html" class="nav-link nav-book-btn">Become a Member</a>
+                        <a href="membership.html" class="nav-link nav-book-btn">Become a Member</a>
                     </div>
                     
                     <div class="mobile-menu-btn" id="mobileMenuBtn">
