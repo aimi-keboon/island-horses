@@ -19,9 +19,9 @@
         }
 
         :root {
-            --primary-gold: #D4AF37;
-            --dark-gold: #B8941F;
-            --olive-green: #8B8B4B;
+            --primary-gold: #d4af37;
+            --dark-gold: #b8941f;
+            --olive-green: #8b8b4b;
             --deep-black: #000000;
             --rich-black: #1a1a1a;
             --soft-white: #f8f8f8;
@@ -29,6 +29,7 @@
             --shadow-light: rgba(212, 175, 55, 0.1);
             --shadow-medium: rgba(212, 175, 55, 0.2);
             --shadow-heavy: rgba(212, 175, 55, 0.4);
+            --error-red: #ff6b6b;
         }
 
         body {
@@ -37,6 +38,14 @@
             color: var(--warm-white);
             background: var(--deep-black);
             overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
         }
 
         .container {
@@ -45,62 +54,257 @@
             padding: 0 2rem;
         }
 
-        /* Page Hero */
-        .page-hero {
-            padding: 8rem 0 4rem;
-            background: linear-gradient(135deg, var(--deep-black) 0%, var(--rich-black) 100%);
-            text-align: center;
-            position: relative;
+        /* Smaller container for contact and map sections on desktop */
+        .compact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        .page-hero::before {
-            content: '';
+        /* Background Photo Animation */
+        .background-photos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-photo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 0.5s ease;
+            transform: scale(1.05);
+        }
+
+        .bg-photo.active {
+            opacity: 0.5;
+            transform: scale(1);
+        }
+
+        .bg-photo::after {
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.6) 0%,
+                rgba(26, 26, 26, 0.5) 50%,
+                rgba(0, 0, 0, 0.7) 100%
+            );
+            transition: opacity 0.3s ease;
+        }
+
+        .bg-photo.active::after {
+            opacity: 0.8;
+        }
+
+        /* Background gradients for different sections */
+        .bg-photo:nth-child(1) {
+            background: linear-gradient(45deg, #2c5530, #4a7c59);
+        }
+        .bg-photo:nth-child(2) {
+            background: linear-gradient(45deg, #8b4513, #daa520);
+        }
+        .bg-photo:nth-child(3) {
+            background: linear-gradient(45deg, #1e90ff, #87ceeb);
+        }
+        .bg-photo:nth-child(4) {
+            background: linear-gradient(45deg, #556b2f, #9acd32);
+        }
+        .bg-photo:nth-child(5) {
+            background: linear-gradient(45deg, #008080, #20b2aa);
+        }
+
+        /* Photo indicators */
+        .photo-indicators {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .photo-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .photo-indicator.active {
+            background: var(--primary-gold);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            transform: scale(1.2);
+        }
+
+        .photo-indicator:hover {
+            background: rgba(212, 175, 55, 0.6);
+            transform: scale(1.1);
+        }
+
+        .photo-indicator::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--warm-white);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
             pointer-events: none;
+            transition: opacity 0.3s ease;
+            margin-right: 1rem;
+        }
+
+        .photo-indicator:hover::before {
+            opacity: 1;
+        }
+
+        /* Page Hero */
+        .page-hero {
+            min-height: 100vh;
+            background: linear-gradient(
+                rgba(0, 0, 0, 0.4),
+                rgba(0, 0, 0, 0.6)
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(212, 175, 55, 0.15) 0%,
+                rgba(0, 0, 0, 0.3) 70%
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 2rem;
         }
 
         .page-hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-size: 4rem;
+            font-weight: 700;
             color: var(--primary-gold);
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 2;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            animation: titleReveal 1.2s ease-out forwards;
+        }
+
+        .highlight {
+            background: linear-gradient(
+                135deg,
+                var(--primary-gold),
+                var(--olive-green)
+            );
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8));
         }
 
         .page-hero p {
-            font-size: 1.2rem;
-            color: #cccccc;
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
+            font-size: 1.3rem;
+            color: #ffffff;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 6s ease-in-out infinite;
+            color: var(--primary-gold);
+            opacity: 0.3;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+        }
+
+        .floating-element:nth-child(2) {
+            bottom: 30%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            top: 60%;
+            left: -5%;
+            animation-delay: 4s;
         }
 
         /* Contact Section */
         .contact-section {
-            padding: 4rem 0;
-            background: var(--deep-black);
+            padding: 6rem 0;
+            background: rgba(0, 0, 0, 0.9);
+            position: relative;
+            z-index: 1;
         }
 
         .contact-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 1fr;
+            gap: 3rem;
             align-items: start;
         }
 
         .contact-info {
-            background: rgba(26, 26, 26, 0.8);
-            padding: 3rem;
+            background: rgba(26, 26, 26, 0.95);
+            padding: 2.5rem;
             border-radius: 20px;
             border: 1px solid rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         .contact-info h2 {
@@ -108,65 +312,73 @@
             font-size: 2rem;
             color: var(--primary-gold);
             margin-bottom: 1.5rem;
+            text-align: center;
         }
 
         .contact-item {
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
             padding: 1.5rem;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
             border-left: 4px solid var(--primary-gold);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
         }
 
         .contact-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.1);
+            transform: translateX(10px);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+            border-left-width: 6px;
         }
 
         .contact-icon {
             font-size: 2rem;
             color: var(--primary-gold);
             margin-top: 0.2rem;
+            filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
         }
 
         .contact-details h3 {
             color: var(--primary-gold);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
             font-weight: 600;
         }
 
         .contact-details p {
             color: #cccccc;
             line-height: 1.6;
+            font-size: 0.95rem;
         }
 
         .contact-details a {
             color: var(--olive-green);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .contact-details a:hover {
             color: var(--primary-gold);
+            text-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
         }
 
-        /* Contact Form */
+        /* Contact Form - Now 60% width */
         .contact-form {
-            background: rgba(26, 26, 26, 0.8);
-            padding: 3rem;
+            background: rgba(26, 26, 26, 0.95);
+            padding: 2.5rem;
             border-radius: 20px;
             border: 1px solid rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         .contact-form h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: var(--primary-gold);
             margin-bottom: 1.5rem;
             text-align: center;
@@ -176,7 +388,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-group {
@@ -191,8 +403,8 @@
         .form-label {
             color: var(--primary-gold);
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -203,7 +415,7 @@
             border-radius: 10px;
             padding: 1rem;
             color: var(--warm-white);
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
         }
@@ -212,38 +424,52 @@
             outline: none;
             border-color: var(--primary-gold);
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            background: rgba(0, 0, 0, 0.7);
         }
 
         .form-textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 100px;
         }
 
         .form-checkbox-group {
-            margin-top: 1rem;
+            margin-top: 0.8rem;
         }
 
         .checkbox-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
             margin-bottom: 0.8rem;
             color: #cccccc;
+            padding: 0.4rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .checkbox-item input[type="checkbox"] {
+        .checkbox-item:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .checkbox-item input[type="radio"] {
             width: 18px;
             height: 18px;
             accent-color: var(--primary-gold);
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 0.9rem;
         }
 
         .btn-submit {
             background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
             color: var(--deep-black);
             border: none;
-            padding: 1.2rem 3rem;
+            padding: 1.2rem 2.5rem;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -252,17 +478,18 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin: 2rem auto 0;
+            margin: 1.5rem auto 0;
             box-shadow: 0 8px 25px var(--shadow-medium);
         }
 
         .btn-submit:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 35px var(--shadow-heavy);
+            background: linear-gradient(135deg, var(--dark-gold), var(--primary-gold));
         }
 
         .btn-arrow {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             transition: transform 0.3s ease;
         }
 
@@ -273,7 +500,9 @@
         /* Map Section */
         .map-section {
             padding: 4rem 0;
-            background: var(--rich-black);
+            background: rgba(26, 26, 26, 0.9);
+            position: relative;
+            z-index: 1;
         }
 
         .section-header {
@@ -283,108 +512,122 @@
 
         .section-header h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: var(--primary-gold);
             margin-bottom: 1rem;
         }
 
         .section-header p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #cccccc;
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
         }
 
-        .map-placeholder {
+        .map-container {
             width: 100%;
             height: 400px;
-            background: linear-gradient(135deg, var(--primary-gold), var(--olive-green));
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            border-radius: 20px;
             overflow: hidden;
-            border: 2px solid rgba(212, 175, 55, 0.3);
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
         }
 
-        .map-placeholder::before {
-            content: '🗺️ Interactive Map\ALocation: Pantai Kok, Langkawi\AClick to open in Google Maps';
-            white-space: pre;
-            position: absolute;
-            color: var(--deep-black);
-            font-weight: 600;
-            text-align: center;
-            font-size: 1.2rem;
-            line-height: 1.6;
-        }
-
-        .map-placeholder:hover {
-            cursor: pointer;
+        .map-container:hover {
             transform: scale(1.02);
-            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary-gold);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(20%) brightness(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .map-container:hover iframe {
+            filter: grayscale(0%) brightness(1);
         }
 
         /* Hours & Info Section */
         .info-section {
-            padding: 4rem 0;
-            background: var(--deep-black);
+            padding: 6rem 0;
+            background: rgba(0, 0, 0, 0.9);
+            position: relative;
+            z-index: 1;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .info-card {
-            background: rgba(26, 26, 26, 0.8);
-            padding: 2.5rem;
-            border-radius: 15px;
+            background: rgba(26, 26, 26, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
             border: 1px solid rgba(212, 175, 55, 0.2);
             text-align: center;
             transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            border-color: var(--primary-gold);
         }
 
         .info-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             color: var(--primary-gold);
+            filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
         }
 
         .info-card h3 {
             color: var(--primary-gold);
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
         }
 
         .info-card p {
             color: #cccccc;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 1rem;
         }
 
         .hours-list {
             list-style: none;
             padding: 0;
             color: #cccccc;
-            line-height: 1.8;
+            line-height: 2;
+            text-align: left;
         }
 
         .hours-list li {
             display: flex;
             justify-content: space-between;
-            padding: 0.3rem 0;
+            padding: 0.5rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
         }
 
         .hours-list li:last-child {
             border-bottom: none;
+        }
+
+        .hours-list li:hover {
+            background: rgba(212, 175, 55, 0.05);
+            padding-left: 0.5rem;
+            border-radius: 8px;
         }
 
         .day {
@@ -394,32 +637,41 @@
 
         /* FAQ Section */
         .faq-section {
-            padding: 4rem 0;
-            background: var(--rich-black);
+            padding: 6rem 0;
+            background: rgba(26, 26, 26, 0.9);
+            position: relative;
+            z-index: 1;
         }
 
         .faq-grid {
             display: grid;
-            gap: 1.5rem;
-            max-width: 800px;
+            gap: 2rem;
+            max-width: 900px;
             margin: 0 auto;
         }
 
         .faq-item {
-            background: rgba(26, 26, 26, 0.8);
-            border-radius: 15px;
+            background: rgba(26, 26, 26, 0.95);
+            border-radius: 20px;
             border: 1px solid rgba(212, 175, 55, 0.2);
             overflow: hidden;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary-gold);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
         .faq-question {
             background: none;
             border: none;
             color: var(--primary-gold);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            padding: 1.5rem;
+            padding: 2rem;
             width: 100%;
             text-align: left;
             cursor: pointer;
@@ -434,22 +686,24 @@
         }
 
         .faq-answer {
-            padding: 0 1.5rem;
+            padding: 0 2rem;
             max-height: 0;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             color: #cccccc;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 1rem;
         }
 
         .faq-item.active .faq-answer {
-            max-height: 200px;
-            padding: 0 1.5rem 1.5rem;
+            max-height: 300px;
+            padding: 0 2rem 2rem;
         }
 
         .faq-icon {
             transition: transform 0.3s ease;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
         }
 
         .faq-item.active .faq-icon {
@@ -461,75 +715,27 @@
             display: none;
             background: linear-gradient(135deg, var(--olive-green), var(--primary-gold));
             color: var(--deep-black);
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
+            padding: 1.2rem;
+            border-radius: 15px;
+            margin-top: 1.5rem;
             text-align: center;
             font-weight: 600;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .page-hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-form,
-            .contact-info {
-                padding: 2rem;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section-header h2 {
-                font-size: 2rem;
-            }
-
-            .map-placeholder {
-                height: 300px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 1rem;
-            }
-
-            .page-hero {
-                padding: 6rem 0 3rem;
-            }
-
-            .page-hero h1 {
-                font-size: 2rem;
-            }
-
-            .contact-form,
-            .contact-info {
-                padding: 1.5rem;
-            }
-
-            .btn-submit {
-                padding: 1rem 2rem;
-                font-size: 1rem;
-            }
-
-            .info-card {
-                padding: 2rem;
-            }
+            font-size: 0.95rem;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
         }
 
         /* Animations */
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -541,167 +747,239 @@
             }
         }
 
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
         .fade-in {
             animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .compact-container {
+                max-width: 100%;
+                padding: 0 2rem;
+            }
+            
+            .contact-grid {
+                gap: 2.5rem;
+            }
+            
+            .map-container {
+                height: 450px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .photo-indicators {
+                display: none;
+            }
+
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .page-hero p {
+                font-size: 1.1rem;
+                max-width: 90%;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .contact-form,
+            .contact-info {
+                padding: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .map-container {
+                height: 350px;
+            }
+
+            .compact-container,
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-hero {
+                min-height: 80vh;
+            }
+
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+
+            .page-hero p {
+                font-size: 1rem;
+            }
+
+            .contact-form,
+            .contact-info {
+                padding: 1.5rem;
+            }
+
+            .btn-submit {
+                padding: 1rem 2rem;
+                font-size: 0.95rem;
+            }
+
+            .info-card {
+                padding: 2rem;
+            }
+
+            .contact-item {
+                padding: 1.2rem;
+            }
+
+            .faq-question {
+                padding: 1.5rem;
+                font-size: 1.1rem;
+            }
+
+            .map-container {
+                height: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header and Footer will be injected by header-footer.js -->
+    <!-- Background Photos Animation -->
+    <div class="background-photos">
+        <div class="bg-photo active" data-section="hero"></div>
+        <div class="bg-photo" data-section="contact"></div>
+        <div class="bg-photo" data-section="map"></div>
+        <div class="bg-photo" data-section="info"></div>
+        <div class="bg-photo" data-section="faq"></div>
+    </div>
+
+    <!-- Photo Indicators -->
+    <div class="photo-indicators">
+        <div class="photo-indicator active" data-photo="0" data-tooltip="Contact Overview"></div>
+        <div class="photo-indicator" data-photo="1" data-tooltip="Get In Touch"></div>
+        <div class="photo-indicator" data-photo="2" data-tooltip="Find Us"></div>
+        <div class="photo-indicator" data-photo="3" data-tooltip="Visit Information"></div>
+        <div class="photo-indicator" data-photo="4" data-tooltip="FAQ"></div>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-element">🌴</div>
+    <div class="floating-element">🌊</div>
+    <div class="floating-element">⛰️</div>
     
     <main>
         <!-- Page Hero -->
         <section class="page-hero">
-            <div class="container">
-                <h1>📞 Contact Us</h1>
-                <p>Ready to embark on your horseback adventure? Get in touch and let's plan your perfect Langkawi experience</p>
+            <div class="hero-content">
+                <h1><span class="highlight">Contact Us</span></h1>
+                <p>Ready to embark on your horseback adventure? Get in touch and let's plan your perfect Langkawi experience together.</p>
             </div>
         </section>
 
         <!-- Contact Section -->
         <section class="contact-section">
-            <div class="container">
+            <div class="compact-container">
                 <div class="contact-grid">
-                    <!-- Contact Information -->
-                    <div class="contact-info">
-                        <h2>Get In Touch</h2>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">📍</div>
-                            <div class="contact-details">
-                                <h3>Location</h3>
-                                <p>Pantai Kok Beach<br>Langkawi, Kedah, Malaysia<br>Near Telaga Harbor</p>
-                            </div>
-                        </div>
-
-                        <div class="contact-item">
-                            <div class="contact-icon">📞</div>
-                            <div class="contact-details">
-                                <h3>Phone & WhatsApp</h3>
-                                <p><a href="tel:+60123456789">+60 12-345-6789</a><br>
-                                <small>WhatsApp available for instant booking</small></p>
-                            </div>
-                        </div>
-
-                        <div class="contact-item">
-                            <div class="contact-icon">✉️</div>
-                            <div class="contact-details">
-                                <h3>Email</h3>
-                                <p><a href="mailto:info@islandhorseslangkawi.com">info@islandhorseslangkawi.com</a><br>
-                                <small>We respond within 2 hours during business hours</small></p>
-                            </div>
-                        </div>
-
-                        <div class="contact-item">
-                            <div class="contact-icon">🕐</div>
-                            <div class="contact-details">
-                                <h3>Operating Hours</h3>
-                                <p>Daily: 7:00 AM - 7:00 PM<br>
-                                <small>Early morning and sunset rides available</small></p>
-                            </div>
-                        </div>
-
-                        <div class="contact-item">
-                            <div class="contact-icon">🌐</div>
-                            <div class="contact-details">
-                                <h3>Social Media</h3>
-                                <p>
-                                    <a href="#">Facebook</a> • 
-                                    <a href="#">Instagram</a> • 
-                                    <a href="#">TikTok</a><br>
-                                    <small>Follow us for daily updates and photos</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Contact Form -->
                     <div class="contact-form">
-                        <h2>Book Your Adventure</h2>
+                        <h2>Send Message</h2>
+                        <p style="text-align: center; color: #cccccc; margin-bottom: 2rem; font-size: 0.95rem;">
+                            Have questions about our horseback riding experiences? We'd love to hear from you.
+                        </p>
                         
                         <form id="contactForm">
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">Full Name</label>
+                                    <label class="form-label" for="name">Full Name *</label>
                                     <input type="text" id="name" name="name" class="form-input" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="email">Email Address</label>
+                                    <label class="form-label" for="email">Email Address *</label>
                                     <input type="email" id="email" name="email" class="form-input" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="phone">Phone Number</label>
+                                    <label class="form-label" for="phone">Contact Number *</label>
                                     <input type="tel" id="phone" name="phone" class="form-input" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="form-label" for="country">Country</label>
-                                    <input type="text" id="country" name="country" class="form-input" required>
+                                    <input type="text" id="country" name="country" class="form-input">
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="form-label" for="visitDate">Preferred Visit Date</label>
-                                    <input type="date" id="visitDate" name="visitDate" class="form-input" required>
+                                <div class="form-group full-width">
+                                    <label class="form-label" for="address">Address</label>
+                                    <input type="text" id="address" name="address" class="form-input" placeholder="Your current address or hotel in Langkawi">
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="form-label" for="groupSize">Group Size</label>
-                                    <select id="groupSize" name="groupSize" class="form-select" required>
-                                        <option value="">Select group size</option>
-                                        <option value="1">Solo rider</option>
-                                        <option value="2">2 people</option>
-                                        <option value="3-4">3-4 people</option>
-                                        <option value="5-8">5-8 people</option>
-                                        <option value="9+">9+ people</option>
+                                <div class="form-group full-width">
+                                    <label class="form-label" for="subject">Subject</label>
+                                    <select id="subject" name="subject" class="form-select" required>
+                                        <option value="">Select inquiry type</option>
+                                        <option value="general">General Information</option>
+                                        <option value="packages">Package Details</option>
+                                        <option value="availability">Availability Check</option>
+                                        <option value="group">Group Bookings</option>
+                                        <option value="special">Special Requirements</option>
+                                        <option value="directions">Directions & Transportation</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </div>
 
                                 <div class="form-group full-width">
-                                    <label class="form-label">Interested Packages</label>
+                                    <label class="form-label" for="message">Your Message *</label>
+                                    <textarea id="message" name="message" class="form-textarea" required placeholder="Tell us about your inquiry, questions, or any specific requirements you may have..."></textarea>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="form-label">How did you hear about us?</label>
                                     <div class="form-checkbox-group">
                                         <div class="checkbox-item">
-                                            <input type="checkbox" id="package1" name="packages" value="jungle-fun">
-                                            <label for="package1">Jungle Fun Ride (15-30 min)</label>
+                                            <input type="radio" id="source1" name="source" value="google">
+                                            <label for="source1">Google Search</label>
                                         </div>
                                         <div class="checkbox-item">
-                                            <input type="checkbox" id="package2" name="packages" value="jungle-beach">
-                                            <label for="package2">Jungle & Beach (1 hour)</label>
+                                            <input type="radio" id="source2" name="source" value="social">
+                                            <label for="source2">Social Media</label>
                                         </div>
                                         <div class="checkbox-item">
-                                            <input type="checkbox" id="package3" name="packages" value="beach-lover">
-                                            <label for="package3">Jungle & Beach Lover (1.5 hours)</label>
+                                            <input type="radio" id="source3" name="source" value="recommendation">
+                                            <label for="source3">Friend/Family Recommendation</label>
                                         </div>
                                         <div class="checkbox-item">
-                                            <input type="checkbox" id="package4" name="packages" value="complete">
-                                            <label for="package4">Complete Adventure (2 hours)</label>
+                                            <input type="radio" id="source4" name="source" value="hotel">
+                                            <label for="source4">Hotel/Tour Guide</label>
                                         </div>
                                         <div class="checkbox-item">
-                                            <input type="checkbox" id="package5" name="packages" value="swim">
-                                            <label for="package5">Swimming with Horses</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="package6" name="packages" value="nature">
-                                            <label for="package6">Back to Nature (3 hours)</label>
+                                            <input type="radio" id="source5" name="source" value="other">
+                                            <label for="source5">Other</label>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label class="form-label" for="experience">Riding Experience</label>
-                                    <select id="experience" name="experience" class="form-select" required>
-                                        <option value="">Select your experience level</option>
-                                        <option value="inexperienced">Inexperienced - Never ridden before</option>
-                                        <option value="beginner">Beginner - A few times, need guidance</option>
-                                        <option value="novice">Novice - Confident walk/trot, some canter</option>
-                                        <option value="experienced">Experienced - Independent rider</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label class="form-label" for="message">Special Requests or Questions</label>
-                                    <textarea id="message" name="message" class="form-textarea" placeholder="Tell us about any special requirements, dietary restrictions, celebration occasions, or questions you may have..."></textarea>
                                 </div>
                             </div>
 
@@ -711,7 +989,7 @@
                             </button>
 
                             <div id="successMessage" class="success-message">
-                                Thank you! Your message has been sent. We'll respond within 2 hours during business hours.
+                                Thank you for your message! We'll get back to you within 2 hours during business hours.
                             </div>
                         </form>
                     </div>
@@ -721,13 +999,20 @@
 
         <!-- Map Section -->
         <section class="map-section">
-            <div class="container">
+            <div class="compact-container">
                 <div class="section-header">
                     <h2>Find Us</h2>
                     <p>Located in the heart of Pantai Kok, easily accessible from all major Langkawi hotels</p>
                 </div>
                 
-                <div class="map-placeholder" onclick="openMap()">
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.2456789!2d99.7234567!3d6.3456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304c9f123456789%3A0x123456789abcdef!2sPT%20210%2C%20Jalan%20Telaga%20Tujuh%2C%2007100%20Langkawi%2C%20Kedah%2C%20Malaysia!5e0!3m2!1sen!2smy!4v1234567890123!5m2!1sen!2smy"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Island Horses Langkawi Location">
+                    </iframe>
                 </div>
             </div>
         </section>
@@ -737,46 +1022,45 @@
             <div class="container">
                 <div class="info-grid">
                     <div class="info-card">
-                        <div class="info-icon">🕒</div>
+                        <div class="info-icon">
+                            <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor" style="width: 3.5rem; height: 3.5rem;">
+                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+                                <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                            </svg>
+                        </div>
                         <h3>Operating Hours</h3>
                         <ul class="hours-list">
-                            <li><span class="day">Monday</span><span>7:00 AM - 7:00 PM</span></li>
-                            <li><span class="day">Tuesday</span><span>7:00 AM - 7:00 PM</span></li>
-                            <li><span class="day">Wednesday</span><span>7:00 AM - 7:00 PM</span></li>
-                            <li><span class="day">Thursday</span><span>7:00 AM - 7:00 PM</span></li>
-                            <li><span class="day">Friday</span><span>7:00 AM - 7:00 PM</span></li>
-                            <li><span class="day">Saturday</span><span>7:00 AM - 7:00 PM</span></li>
-                            <li><span class="day">Sunday</span><span>7:00 AM - 7:00 PM</span></li>
+                            <li><span class="day">Monday</span><span>Closed</span></li>
+                            <li><span class="day">Tuesday - Sunday</span><span>8:30 AM - 6:00 PM</span></li>
                         </ul>
-                    </div>
-
-                    <div class="info-card">
-                        <div class="info-icon">💳</div>
-                        <h3>Payment Methods</h3>
-                        <p>
-                            • Cash (Malaysian Ringgit)<br>
-                            • Credit/Debit Cards<br>
-                            • Bank Transfer<br>
-                            • PayPal<br>
-                            • Touch 'n Go eWallet<br>
-                            <br><small>Full payment required to secure booking</small>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                            Break time: 12:00 PM - 2:00 PM
                         </p>
                     </div>
 
+                    
+
                     <div class="info-card">
-                        <div class="info-icon">🚗</div>
+                        <div class="info-icon">
+                            <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor" style="width: 3.5rem; height: 3.5rem;">
+                                <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
+                            </svg>
+                        </div>
                         <h3>Getting Here</h3>
                         <p>
                             <strong>From Airport:</strong> 15 minutes by car<br>
                             <strong>From Kuah Town:</strong> 20 minutes<br>
                             <strong>Parking:</strong> Free parking available<br>
                             <strong>Grab/Taxi:</strong> Available<br>
-                            <br><small>GPS: Pantai Kok, Langkawi</small>
                         </p>
                     </div>
 
                     <div class="info-card">
-                        <div class="info-icon">📋</div>
+                        <div class="info-icon">
+                            <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor" style="width: 3.5rem; height: 3.5rem;">
+                                <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-5H20v-.5C20 4.01 18.99 3 17.5 3S15 4.01 15 5.5V6H9.5C8.11 6 7 7.11 7 8.5V19c0 1.1.89 2 2 2h10c1.1 0 2-.9 2-2V8.5C21 7.11 19.89 6 18.5 6zM16.5 6V5.5c0-.28.22-.5.5-.5s.5.22.5.5V6h-1z"/>
+                            </svg>
+                        </div>
                         <h3>What to Bring</h3>
                         <p>
                             • Comfortable clothes<br>
@@ -826,7 +1110,7 @@
                             <span class="faq-icon">+</span>
                         </button>
                         <div class="faq-answer">
-                            <p>For the safety and comfort of both riders and horses, we have a maximum weight limit of 100kg (220 lbs). Please let us know your weight when booking so we can assign the appropriate horse.</p>
+                            <p>For the safety and comfort of both riders and horses, we have a maximum weight limit of 80kg (175 lbs). Please let us know your weight when booking so we can assign the appropriate horse.</p>
                         </div>
                     </div>
 
@@ -864,10 +1148,70 @@
         </section>
     </main>
 
-    <script src="js/header-footer.js"></script>
     <script>
-        // Contact Page JavaScript
+        // Contact Page JavaScript with Enhanced Animations
         document.addEventListener('DOMContentLoaded', function() {
+            const bgPhotos = document.querySelectorAll('.bg-photo');
+            const photoIndicators = document.querySelectorAll('.photo-indicator');
+            let currentPhotoIndex = 0;
+
+            // Background photo animation
+            function updateBackgroundPhoto() {
+                const scrollY = window.scrollY;
+                const documentHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+
+                const scrollProgress = Math.max(0, Math.min(1, scrollY / (documentHeight - windowHeight)));
+                let newIndex = Math.floor(scrollProgress * bgPhotos.length);
+                newIndex = Math.min(newIndex, bgPhotos.length - 1);
+
+                if (newIndex !== currentPhotoIndex) {
+                    if (bgPhotos[currentPhotoIndex]) {
+                        bgPhotos[currentPhotoIndex].classList.remove('active');
+                    }
+                    if (bgPhotos[newIndex]) {
+                        bgPhotos[newIndex].classList.add('active');
+                    }
+                    updatePhotoIndicators(newIndex);
+                    currentPhotoIndex = newIndex;
+                }
+            }
+
+            function updatePhotoIndicators(newIndex) {
+                photoIndicators.forEach((indicator, index) => {
+                    if (index === newIndex) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+
+            // Manual photo navigation via indicators
+            photoIndicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    const scrollTarget = (index / (bgPhotos.length - 1)) * (document.documentElement.scrollHeight - window.innerHeight);
+                    window.scrollTo({
+                        top: scrollTarget,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Optimized scroll handler
+            let scrollTicking = false;
+            function handleScroll() {
+                if (!scrollTicking) {
+                    requestAnimationFrame(() => {
+                        updateBackgroundPhoto();
+                        scrollTicking = false;
+                    });
+                    scrollTicking = true;
+                }
+            }
+
+            window.addEventListener('scroll', handleScroll);
+
             // FAQ Functionality
             const faqItems = document.querySelectorAll('.faq-item');
             
@@ -909,14 +1253,14 @@
                 // Scroll to success message
                 successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 
-                // Reset form after 3 seconds
+                // Reset form after 5 seconds
                 setTimeout(() => {
                     contactForm.reset();
                     successMessage.style.display = 'none';
                 }, 5000);
             });
 
-            // Scroll animations
+            // Enhanced scroll animations
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -935,21 +1279,39 @@
                 observer.observe(element);
             });
 
-            // Set minimum date to today for the date input
-            const visitDateInput = document.getElementById('visitDate');
-            const today = new Date().toISOString().split('T')[0];
-            visitDateInput.setAttribute('min', today);
+            // Enhanced form validation feedback
+            const inputs = contactForm.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.hasAttribute('required') && !this.value) {
+                        this.style.borderColor = 'var(--error-red)';
+                    } else {
+                        this.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                    }
+                });
+
+                input.addEventListener('focus', function() {
+                    this.style.borderColor = 'var(--primary-gold)';
+                });
+            });
+
+            // Enhanced keyboard navigation
+            photoIndicators.forEach((indicator, index) => {
+                indicator.setAttribute('tabindex', '0');
+                indicator.setAttribute('role', 'button');
+                indicator.setAttribute('aria-label', `Go to section ${index + 1}`);
+
+                indicator.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        indicator.click();
+                    }
+                });
+            });
         });
 
-        // Map functionality
-        function openMap() {
-            // In a real implementation, this would open Google Maps
-            const mapUrl = 'https://maps.google.com/maps?q=Pantai+Kok,+Langkawi,+Malaysia';
-            window.open(mapUrl, '_blank');
-        }
-
-        // Smooth scroll to contact form from header CTA
-        if (window.location.hash === '#book') {
+        // Smooth scroll to contact form from header CTA (updated for general contact)
+        if (window.location.hash === '#contact') {
             document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     document.querySelector('.contact-form').scrollIntoView({
