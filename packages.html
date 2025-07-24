@@ -19,9 +19,9 @@
         }
 
         :root {
-            --primary-gold: #D4AF37;
-            --dark-gold: #B8941F;
-            --olive-green: #8B8B4B;
+            --primary-gold: #d4af37;
+            --dark-gold: #b8941f;
+            --olive-green: #8b8b4b;
             --deep-black: #000000;
             --rich-black: #1a1a1a;
             --soft-white: #f8f8f8;
@@ -29,6 +29,7 @@
             --shadow-light: rgba(212, 175, 55, 0.1);
             --shadow-medium: rgba(212, 175, 55, 0.2);
             --shadow-heavy: rgba(212, 175, 55, 0.4);
+            --error-red: #ff6b6b;
         }
 
         body {
@@ -37,6 +38,14 @@
             color: var(--warm-white);
             background: var(--deep-black);
             overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
         }
 
         .container {
@@ -45,48 +54,206 @@
             padding: 0 2rem;
         }
 
-        /* Page Hero */
-        .page-hero {
-            padding: 8rem 0 4rem;
-            background: linear-gradient(135deg, var(--deep-black) 0%, var(--rich-black) 100%);
-            text-align: center;
-            position: relative;
+        /* Background Photo Animation */
+        .background-photos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
         }
 
-        .page-hero::before {
-            content: '';
+        .bg-photo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 0.5s ease;
+            transform: scale(1.05);
+        }
+
+        .bg-photo.active {
+            opacity: 0.6;
+            transform: scale(1);
+        }
+
+        .bg-photo::after {
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.5) 0%,
+                rgba(26, 26, 26, 0.4) 50%,
+                rgba(0, 0, 0, 0.6) 100%
+            );
+            transition: opacity 0.3s ease;
+        }
+
+        .bg-photo.active::after {
+            opacity: 0.7;
+        }
+
+        /* Background gradients for different sections */
+        .bg-photo:nth-child(1) {
+            background: linear-gradient(45deg, #2c5530, #4a7c59);
+        }
+        .bg-photo:nth-child(2) {
+            background: linear-gradient(45deg, #8b4513, #daa520);
+        }
+        .bg-photo:nth-child(3) {
+            background: linear-gradient(45deg, #1e90ff, #87ceeb);
+        }
+        .bg-photo:nth-child(4) {
+            background: linear-gradient(45deg, #556b2f, #9acd32);
+        }
+
+        /* Photo indicators */
+        .photo-indicators {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .photo-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .photo-indicator.active {
+            background: var(--primary-gold);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            transform: scale(1.2);
+        }
+
+        .photo-indicator:hover {
+            background: rgba(212, 175, 55, 0.6);
+            transform: scale(1.1);
+        }
+
+        .photo-indicator::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--warm-white);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
             pointer-events: none;
+            transition: opacity 0.3s ease;
+            margin-right: 1rem;
+        }
+
+        .photo-indicator:hover::before {
+            opacity: 1;
+        }
+
+        /* Page Hero */
+        .page-hero {
+            min-height: 100vh;
+            background: linear-gradient(
+                rgba(0, 0, 0, 0.4),
+                rgba(0, 0, 0, 0.6)
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(212, 175, 55, 0.15) 0%,
+                rgba(0, 0, 0, 0.3) 70%
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 2rem;
         }
 
         .page-hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-size: 4rem;
+            font-weight: 700;
             color: var(--primary-gold);
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 2;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            animation: titleReveal 1.2s ease-out forwards;
+        }
+
+        .highlight {
+            background: linear-gradient(
+                135deg,
+                var(--primary-gold),
+                var(--olive-green)
+            );
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8));
         }
 
         .page-hero p {
-            font-size: 1.2rem;
-            color: #cccccc;
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
+            font-size: 1.3rem;
+            color: #ffffff;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
         }
 
-        /* Filter Section */
+        /* Filter Section with glassmorphism */
         .filter-section {
-            padding: 3rem 0;
-            background: var(--rich-black);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 4rem 0;
+            background: rgba(26, 26, 26, 0.9);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
         }
 
         .filter-container {
@@ -94,44 +261,72 @@
             justify-content: center;
             gap: 1rem;
             flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1s forwards;
         }
 
         .filter-btn {
-            background: rgba(26, 26, 26, 0.8);
+            background: rgba(0, 0, 0, 0.3);
             color: var(--primary-gold);
             border: 2px solid rgba(212, 175, 55, 0.3);
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
+            padding: 1rem 2rem;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            transition: all 0.4s ease;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-size: 0.9rem;
+            backdrop-filter: blur(10px);
         }
 
         .filter-btn:hover,
         .filter-btn.active {
-            background: var(--primary-gold);
+            background: linear-gradient(
+                135deg,
+                var(--primary-gold),
+                var(--dark-gold)
+            );
             color: var(--deep-black);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px var(--shadow-medium);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
         }
 
         /* Packages Grid */
         .packages-section {
-            padding: 4rem 0;
-            background: var(--deep-black);
+            padding: 6rem 0;
+            background: rgba(0, 0, 0, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .packages-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
         }
 
         .package-card {
-            background: linear-gradient(145deg, var(--rich-black), #2a2a2a);
+            background: rgba(26, 26, 26, 0.95);
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid rgba(212, 175, 55, 0.2);
@@ -139,6 +334,8 @@
             position: relative;
             opacity: 0;
             transform: translateY(30px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         .package-card.visible {
@@ -148,7 +345,7 @@
 
         .package-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
             border-color: var(--primary-gold);
         }
 
@@ -159,59 +356,96 @@
             right: 1rem;
             background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
             color: var(--deep-black);
-            padding: 0.4rem 1rem;
+            padding: 0.5rem 1rem;
             border-radius: 15px;
             font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             z-index: 2;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
 
         .package-header {
-            padding: 2rem;
+            padding: 2.5rem;
             position: relative;
         }
 
-        .package-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
+        .package-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .package-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .package-card:hover .package-image img {
+            transform: scale(1.05);
+        }
+
+        .package-image::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.2) 0%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            transition: opacity 0.3s ease;
+        }
+
+        .package-card:hover .package-image::after {
+            opacity: 0.6;
         }
 
         .package-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: var(--primary-gold);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             line-height: 1.2;
         }
 
         .package-subtitle {
             color: var(--olive-green);
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
         }
 
         .package-description {
             color: #cccccc;
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 1.5rem;
+            font-size: 1rem;
         }
 
         .package-details {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem 2.5rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
         }
 
         .detail-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.8rem;
-            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -223,7 +457,7 @@
         .detail-label {
             color: var(--primary-gold);
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .detail-value {
@@ -232,85 +466,94 @@
         }
 
         .package-price {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary-gold);
+            text-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
         }
 
         .package-includes {
-            margin-top: 1rem;
-            padding-top: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .includes-title {
             color: var(--primary-gold);
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .includes-list {
             color: #cccccc;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
         .package-footer {
-            padding: 2rem;
+            padding: 2.5rem;
             display: flex;
             gap: 1rem;
         }
 
         .btn-book, .btn-info {
             flex: 1;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
             text-decoration: none;
             text-align: center;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-size: 0.9rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             border: 2px solid transparent;
         }
 
         .btn-book {
             background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
             color: var(--deep-black);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
         }
 
         .btn-book:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px var(--shadow-medium);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.6);
+            background: linear-gradient(135deg, var(--dark-gold), var(--primary-gold));
         }
 
         .btn-info {
-            background: transparent;
+            background: rgba(0, 0, 0, 0.3);
             color: var(--primary-gold);
             border-color: var(--primary-gold);
+            backdrop-filter: blur(10px);
         }
 
         .btn-info:hover {
             background: var(--primary-gold);
             color: var(--deep-black);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
         }
 
         .experience-badge {
             display: inline-block;
             background: rgba(139, 139, 75, 0.2);
             color: var(--olive-green);
-            padding: 0.3rem 0.8rem;
-            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
             font-size: 0.8rem;
-            font-weight: 500;
-            margin-top: 0.5rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            border: 1px solid rgba(139, 139, 75, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Modal Styles */
+        /* Modal Styles with glassmorphism */
         .modal {
             display: none;
             position: fixed;
@@ -324,15 +567,17 @@
         }
 
         .modal-content {
-            background: var(--rich-black);
+            background: rgba(26, 26, 26, 0.95);
             margin: 5% auto;
             padding: 3rem;
             border-radius: 20px;
-            max-width: 600px;
+            max-width: 700px;
             border: 1px solid var(--primary-gold);
             position: relative;
             max-height: 80vh;
             overflow-y: auto;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
         }
 
         .modal-close {
@@ -344,81 +589,88 @@
             color: var(--primary-gold);
             font-size: 2rem;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-close:hover {
             color: var(--warm-white);
+            background: rgba(212, 175, 55, 0.1);
         }
 
         .modal h3 {
             color: var(--primary-gold);
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
         }
 
         .modal-info {
             color: #cccccc;
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 2rem;
+            font-size: 1rem;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .page-hero h1 {
-                font-size: 2.5rem;
-            }
+        .modal-info h4 {
+            color: var(--primary-gold);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.2rem;
+        }
 
-            .packages-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
+        .modal-info ul {
+            color: #cccccc;
+            line-height: 1.8;
+            margin-left: 1.5rem;
+        }
 
-            .package-footer {
-                flex-direction: column;
-            }
+        .modal-info li {
+            margin-bottom: 0.5rem;
+        }
 
-            .filter-container {
-                gap: 0.5rem;
-            }
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 6s ease-in-out infinite;
+            color: var(--primary-gold);
+            opacity: 0.3;
+        }
 
-            .filter-btn {
-                padding: 0.6rem 1rem;
-                font-size: 0.8rem;
-            }
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+        }
 
-            .modal-content {
-                margin: 10% auto;
-                padding: 2rem;
-                max-width: 90%;
+        .floating-element:nth-child(2) {
+            bottom: 30%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            top: 60%;
+            left: -5%;
+            animation-delay: 4s;
+        }
+
+        /* Animations */
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 1rem;
-            }
-
-            .page-hero {
-                padding: 6rem 0 3rem;
-            }
-
-            .page-hero h1 {
-                font-size: 2rem;
-            }
-
-            .package-header,
-            .package-footer {
-                padding: 1.5rem;
-            }
-
-            .package-details {
-                padding: 1rem 1.5rem;
-            }
-        }
-
-        /* Animation for cards */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -429,17 +681,133 @@
                 transform: translateY(0);
             }
         }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .photo-indicators {
+                display: none;
+            }
+
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .page-hero p {
+                font-size: 1.1rem;
+                max-width: 90%;
+            }
+
+            .packages-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .package-footer {
+                flex-direction: column;
+            }
+
+            .filter-container {
+                gap: 0.8rem;
+            }
+
+            .filter-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.8rem;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                padding: 2rem;
+                max-width: 90%;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .package-header {
+                padding: 2rem;
+            }
+
+            .package-details {
+                padding: 1.5rem 2rem;
+            }
+
+            .package-footer {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-hero {
+                min-height: 80vh;
+            }
+
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+
+            .page-hero p {
+                font-size: 1rem;
+            }
+
+            .package-header,
+            .package-footer {
+                padding: 1.5rem;
+            }
+
+            .package-details {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Header and Footer will be injected by header-footer.js -->
+    <!-- Background Photos Animation -->
+    <div class="background-photos">
+        <div class="bg-photo active" data-section="hero"></div>
+        <div class="bg-photo" data-section="filter"></div>
+        <div class="bg-photo" data-section="packages"></div>
+        <div class="bg-photo" data-section="footer"></div>
+    </div>
+
+    <!-- Photo Indicators -->
+    <div class="photo-indicators">
+        <div class="photo-indicator active" data-photo="0" data-tooltip="Package Overview"></div>
+        <div class="photo-indicator" data-photo="1" data-tooltip="Filter Options"></div>
+        <div class="photo-indicator" data-photo="2" data-tooltip="Available Packages"></div>
+        <div class="photo-indicator" data-photo="3" data-tooltip="Book Your Adventure"></div>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-element">🌴</div>
+    <div class="floating-element">🌊</div>
+    <div class="floating-element">⛰️</div>
     
     <main>
         <!-- Page Hero -->
         <section class="page-hero">
-            <div class="container">
-                <h1>🐎 Riding Packages</h1>
-                <p>Discover Langkawi's breathtaking landscapes through our carefully curated horseback riding experiences</p>
+            <div class="hero-content">
+                <h1><span class="highlight">Riding Packages</span></h1>
+                <p>Discover Langkawi's breathtaking landscapes through our carefully curated horseback riding experiences — from jungle trails and pristine beaches to unforgettable horse swimming adventures.</p>
             </div>
         </section>
 
@@ -459,31 +827,42 @@
         <!-- Packages Grid -->
         <section class="packages-section">
             <div class="container">
+                <div class="section-header">
+                    <h2>Choose Your Adventure</h2>
+                    <p>Each package is carefully designed to provide a unique and unforgettable experience in Langkawi's natural paradise</p>
+                </div>
+
                 <div class="packages-grid" id="packagesGrid">
                     
                     <!-- Jungle Fun Ride -->
                     <div class="package-card" data-category="beginner family">
                         <div class="package-header">
-                            <span class="package-icon">🌱</span>
+                            <div class="package-image">
+                                <img src="img/jungle-fun-ride.jpg" alt="Jungle Fun Ride">
+                            </div>
                             <h3 class="package-title">Jungle Fun Ride</h3>
                             <p class="package-subtitle">Perfect for Kids & First-Time Riders</p>
                             <p class="package-description">
-                                A gentle, enjoyable ride through our scenic secondary rainforest trail, designed especially for young riders and beginners. No prior riding experience needed.
+                                A gentle, enjoyable ride through our scenic secondary rainforest trail, designed especially for young riders and beginners. No prior riding experience needed — just bring your sense of adventure and let our friendly horses do the rest.
                             </p>
                             <div class="experience-badge">Beginner Friendly</div>
                         </div>
                         <div class="package-details">
                             <div class="detail-item">
-                                <span class="detail-label">Duration</span>
+                                <span class="detail-label">Duration Options</span>
                                 <span class="detail-value">15-30 minutes</span>
                             </div>
                             <div class="detail-item">
-                                <span class="detail-label">Price</span>
-                                <span class="package-price">RM 60 - RM 120</span>
+                                <span class="detail-label">15 minutes</span>
+                                <span class="package-price">RM 60</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">30 minutes</span>
+                                <span class="package-price">RM 120</span>
                             </div>
                             <div class="package-includes">
                                 <div class="includes-title">Includes</div>
-                                <div class="includes-list">Trail leader, Safety equipment</div>
+                                <div class="includes-list">Trail leader, Safety equipment, Perfect for ages 6 and up</div>
                             </div>
                         </div>
                         <div class="package-footer">
@@ -495,11 +874,13 @@
                     <!-- Jungle & Beach -->
                     <div class="package-card" data-category="beginner experienced">
                         <div class="package-header">
-                            <span class="package-icon">🌳</span>
+                            <div class="package-image">
+                                <img src="img/jungle-beach.jpg" alt="Jungle & Beach">
+                            </div>
                             <h3 class="package-title">Jungle & Beach</h3>
                             <p class="package-subtitle">Scenic Forest & Coastal Adventure</p>
                             <p class="package-description">
-                                A scenic, relaxing ride through secondary rainforest, crossing jungle streams before reaching Pantai Kok beach. Controlled canter available for competent riders.
+                                A scenic, relaxing ride through secondary rainforest, crossing jungle streams before reaching the peaceful shores of Pantai Kok beach. Controlled canter available for competent riders only.
                             </p>
                             <div class="experience-badge">All Levels</div>
                         </div>
@@ -514,7 +895,11 @@
                             </div>
                             <div class="package-includes">
                                 <div class="includes-title">Includes</div>
-                                <div class="includes-list">Riding video & photo, Helmet, Trail leader</div>
+                                <div class="includes-list">Riding video & photo (via phone), riding helmet, trail leader</div>
+                            </div>
+                            <div class="package-includes">
+                                <div class="includes-title">Add-on Available</div>
+                                <div class="includes-list">📹 Drone Footage: RM 250</div>
                             </div>
                         </div>
                         <div class="package-footer">
@@ -526,11 +911,13 @@
                     <!-- Jungle & Beach Lover (Most Popular) -->
                     <div class="package-card popular" data-category="experienced">
                         <div class="package-header">
-                            <span class="package-icon">🌴</span>
+                            <div class="package-image">
+                                <img src="img/jungle-beach-lover.jpg" alt="Jungle & Beach Lover">
+                            </div>
                             <h3 class="package-title">Jungle & Beach Lover</h3>
                             <p class="package-subtitle">For Nature Lovers Who Want It All</p>
                             <p class="package-description">
-                                A tranquil ride through jungle trails and along the stunning beach of Pantai Kok. Ideal for those who seek both the thrill of the jungle and the calm of the sea.
+                                A tranquil ride through jungle trails and along the stunning beach of Pantai Kok. Ideal for those who seek both the thrill of the jungle and the calm of the sea. Controlled canter available for competent riders only.
                             </p>
                             <div class="experience-badge">Novice & Experienced</div>
                         </div>
@@ -545,7 +932,11 @@
                             </div>
                             <div class="package-includes">
                                 <div class="includes-title">Includes</div>
-                                <div class="includes-list">Riding video & photo, Helmet, Trail leader</div>
+                                <div class="includes-list">Riding video & photo (via phone), riding helmet, trail leader</div>
+                            </div>
+                            <div class="package-includes">
+                                <div class="includes-title">Add-on Available</div>
+                                <div class="includes-list">📹 Drone Footage: RM 250</div>
                             </div>
                         </div>
                         <div class="package-footer">
@@ -557,11 +948,13 @@
                     <!-- Jungle, Beach, Mountain & Lighthouse -->
                     <div class="package-card" data-category="experienced">
                         <div class="package-header">
-                            <span class="package-icon">⛰️</span>
+                            <div class="package-image">
+                                <img src="img/jungle-beach-mountain-lighthouse.jpg" alt="Jungle, Beach, Mountain & Lighthouse">
+                            </div>
                             <h3 class="package-title">Jungle, Beach, Mountain & Lighthouse</h3>
                             <p class="package-subtitle">Complete Langkawi Adventure</p>
                             <p class="package-description">
-                                A diverse adventure combining rainforest trails, beachside riding, gentle mountain climbs, and a scenic stop near Telaga Harbor Lighthouse.
+                                A diverse adventure combining rainforest trails, beachside riding, gentle mountain climbs, and a scenic stop near Telaga Harbor Lighthouse. Controlled canter sessions offered for confident riders.
                             </p>
                             <div class="experience-badge">Novice & Experienced</div>
                         </div>
@@ -576,7 +969,11 @@
                             </div>
                             <div class="package-includes">
                                 <div class="includes-title">Includes</div>
-                                <div class="includes-list">Riding video & photo, Helmet, Trail leader, Drinking water</div>
+                                <div class="includes-list">Riding video & photo (via phone), riding helmet, trail leader, drinking water</div>
+                            </div>
+                            <div class="package-includes">
+                                <div class="includes-title">Add-on Available</div>
+                                <div class="includes-list">📹 Drone Footage: RM 250</div>
                             </div>
                         </div>
                         <div class="package-footer">
@@ -588,11 +985,13 @@
                     <!-- Ride & Swim with the Horse -->
                     <div class="package-card" data-category="experienced swimming">
                         <div class="package-header">
-                            <span class="package-icon">🏇</span>
+                            <div class="package-image">
+                                <img src="img/ride-swim-horse.jpg" alt="Ride & Swim with the Horse">
+                            </div>
                             <h3 class="package-title">Ride & Swim with the Horse</h3>
                             <p class="package-subtitle">Ultimate Magical Experience</p>
                             <p class="package-description">
-                                Ride through rainforest and along the beach before ending your journey by swimming with your horse in the sea — a rare and magical experience.
+                                Ride through rainforest and along the beach before ending your journey by swimming with your horse in the sea — a rare and magical experience for confident riders.
                             </p>
                             <div class="experience-badge">Experienced Only</div>
                         </div>
@@ -607,7 +1006,11 @@
                             </div>
                             <div class="package-includes">
                                 <div class="includes-title">Includes</div>
-                                <div class="includes-list">Riding video & photo, Helmet, Trail leader, Drinking water</div>
+                                <div class="includes-list">Riding video & photo (via phone), riding helmet, trail leader, drinking water</div>
+                            </div>
+                            <div class="package-includes">
+                                <div class="includes-title">Add-on Available</div>
+                                <div class="includes-list">📹 Drone Footage: RM 250</div>
                             </div>
                         </div>
                         <div class="package-footer">
@@ -619,11 +1022,13 @@
                     <!-- Swim with the Horse Only -->
                     <div class="package-card" data-category="experienced swimming">
                         <div class="package-header">
-                            <span class="package-icon">🌊</span>
+                            <div class="package-image">
+                                <img src="img/swim-horse-only.jpg" alt="Swim with the Horse Only">
+                            </div>
                             <h3 class="package-title">Swim with the Horse Only</h3>
                             <p class="package-subtitle">Pure Aquatic Magic</p>
                             <p class="package-description">
-                                Experience the joy of entering the sea on horseback. A one-of-a-kind swim with your horse in the clear waters of Langkawi.
+                                Experience the joy of entering the sea on horseback. A one-of-a-kind swim with your horse in the clear waters of Langkawi — perfect for confident, adventurous riders.
                             </p>
                             <div class="experience-badge">Experienced Only</div>
                         </div>
@@ -638,7 +1043,11 @@
                             </div>
                             <div class="package-includes">
                                 <div class="includes-title">Includes</div>
-                                <div class="includes-list">Riding video & photo, Horse handlers</div>
+                                <div class="includes-list">Riding video & photo (via phone), horse handlers</div>
+                            </div>
+                            <div class="package-includes">
+                                <div class="includes-title">Add-on Available</div>
+                                <div class="includes-list">📹 Drone Footage: RM 250</div>
                             </div>
                         </div>
                         <div class="package-footer">
@@ -650,11 +1059,13 @@
                     <!-- Back to Nature -->
                     <div class="package-card" data-category="experienced">
                         <div class="package-header">
-                            <span class="package-icon">🍃</span>
+                            <div class="package-image">
+                                <img src="img/back-to-nature.jpg" alt="Back to Nature">
+                            </div>
                             <h3 class="package-title">Back to Nature</h3>
                             <p class="package-subtitle">Ultimate Escape Experience</p>
                             <p class="package-description">
-                                Leave behind the noise of the busy city. Ride through rainforest, rice fields, beaches, mangroves, and village paths. A return to simplicity and serenity.
+                                Leave behind the noise of the busy city and saddle up for a riding excursion that reconnects you with the calm, untouched beauty of the natural world. Ride through shaded rainforest trails, open rice fields, quiet beaches, past winding mangrove forests, and along peaceful village paths.
                             </p>
                             <div class="experience-badge">Experienced Only</div>
                         </div>
@@ -669,7 +1080,11 @@
                             </div>
                             <div class="package-includes">
                                 <div class="includes-title">Includes</div>
-                                <div class="includes-list">Riding video & photo, Horse handlers</div>
+                                <div class="includes-list">Riding video & photo (via phone), horse handlers</div>
+                            </div>
+                            <div class="package-includes">
+                                <div class="includes-title">Add-on Available</div>
+                                <div class="includes-list">📹 Drone Footage: RM 250</div>
                             </div>
                         </div>
                         <div class="package-footer">
@@ -695,11 +1110,71 @@
 
     <script src="js/header-footer.js"></script>
     <script>
-        // Packages Page JavaScript
+        // Packages Page JavaScript with Enhanced Animations
         document.addEventListener('DOMContentLoaded', function() {
             const filterButtons = document.querySelectorAll('.filter-btn');
             const packageCards = document.querySelectorAll('.package-card');
             const modal = document.getElementById('packageModal');
+            const bgPhotos = document.querySelectorAll('.bg-photo');
+            const photoIndicators = document.querySelectorAll('.photo-indicator');
+            let currentPhotoIndex = 0;
+
+            // Background photo animation
+            function updateBackgroundPhoto() {
+                const scrollY = window.scrollY;
+                const documentHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+
+                const scrollProgress = Math.max(0, Math.min(1, scrollY / (documentHeight - windowHeight)));
+                let newIndex = Math.floor(scrollProgress * bgPhotos.length);
+                newIndex = Math.min(newIndex, bgPhotos.length - 1);
+
+                if (newIndex !== currentPhotoIndex) {
+                    if (bgPhotos[currentPhotoIndex]) {
+                        bgPhotos[currentPhotoIndex].classList.remove('active');
+                    }
+                    if (bgPhotos[newIndex]) {
+                        bgPhotos[newIndex].classList.add('active');
+                    }
+                    updatePhotoIndicators(newIndex);
+                    currentPhotoIndex = newIndex;
+                }
+            }
+
+            function updatePhotoIndicators(newIndex) {
+                photoIndicators.forEach((indicator, index) => {
+                    if (index === newIndex) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+
+            // Manual photo navigation via indicators
+            photoIndicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    const scrollTarget = (index / (bgPhotos.length - 1)) * (document.documentElement.scrollHeight - window.innerHeight);
+                    window.scrollTo({
+                        top: scrollTarget,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Optimized scroll handler
+            let scrollTicking = false;
+            function handleScroll() {
+                if (!scrollTicking) {
+                    requestAnimationFrame(() => {
+                        updateBackgroundPhoto();
+                        scrollTicking = false;
+                    });
+                    scrollTicking = true;
+                }
+            }
+
+            window.addEventListener('scroll', handleScroll);
 
             // Filter functionality
             filterButtons.forEach(button => {
@@ -732,16 +1207,16 @@
                 });
             }
 
-            // Initialize cards as visible
+            // Initialize cards as visible with staggered animation
             setTimeout(() => {
                 packageCards.forEach((card, index) => {
                     setTimeout(() => {
                         card.classList.add('visible');
                     }, index * 200);
                 });
-            }, 500);
+            }, 1000);
 
-            // Scroll animations
+            // Enhanced scroll animations
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -760,7 +1235,7 @@
             });
         });
 
-        // Modal functionality
+        // Enhanced Modal functionality with detailed package information
         const modalData = {
             jungleFun: {
                 title: 'Jungle Fun Ride',
@@ -768,8 +1243,8 @@
                     <p><strong>Perfect introduction to horseback riding in a safe, controlled environment.</strong></p>
                     <p>This gentle ride is specifically designed for children and first-time riders. Our calm, well-trained horses will take you through beautiful secondary rainforest trails at a comfortable walking pace.</p>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">What to Expect:</h4>
-                    <ul style="color: #cccccc; line-height: 1.8;">
+                    <h4>What to Expect:</h4>
+                    <ul>
                         <li>Basic riding instruction before starting</li>
                         <li>Gentle walking pace through safe forest trails</li>
                         <li>Professional guidance throughout the ride</li>
@@ -777,8 +1252,8 @@
                         <li>No prior experience necessary</li>
                     </ul>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Duration Options:</h4>
-                    <p style="color: #cccccc;">
+                    <h4>Duration Options:</h4>
+                    <p>
                         <strong>15 minutes:</strong> RM 60 - Quick introduction ride<br>
                         <strong>30 minutes:</strong> RM 120 - Extended forest exploration
                     </p>
@@ -790,8 +1265,8 @@
                     <p><strong>Experience the best of both worlds - lush rainforest and pristine coastline.</strong></p>
                     <p>This scenic ride takes you through our secondary rainforest where you'll cross gentle jungle streams and emerge onto the beautiful shores of Pantai Kok beach.</p>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Highlights:</h4>
-                    <ul style="color: #cccccc; line-height: 1.8;">
+                    <h4>Highlights:</h4>
+                    <ul>
                         <li>Ride through diverse ecosystems</li>
                         <li>Cross natural jungle streams</li>
                         <li>Enjoy peaceful Pantai Kok beach</li>
@@ -799,8 +1274,11 @@
                         <li>Professional photography included</li>
                     </ul>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Add-ons Available:</h4>
-                    <p style="color: #cccccc;">Drone footage: RM 250 (capture your adventure from above!)</p>
+                    <h4>Special Notes:</h4>
+                    <p>While galloping on public beaches is prohibited, competent riders may enjoy a controlled canter under supervision. Less confident riders will be separated during canter sessions and reunited after.</p>
+                    
+                    <h4>Add-ons Available:</h4>
+                    <p>📹 Drone footage: RM 250 (capture your adventure from above!)</p>
                 `
             },
             beachLover: {
@@ -809,8 +1287,8 @@
                     <p><strong>Our most beloved package - perfect for nature enthusiasts seeking the complete Langkawi experience.</strong></p>
                     <p>This extended ride combines the tranquility of jungle trails with the stunning beauty of Pantai Kok beach. You'll have more time to soak in the natural beauty and truly connect with your horse.</p>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Why It's Popular:</h4>
-                    <ul style="color: #cccccc; line-height: 1.8;">
+                    <h4>Why It's Popular:</h4>
+                    <ul>
                         <li>Extended 1.5-hour experience</li>
                         <li>Perfect balance of adventure and relaxation</li>
                         <li>Suitable for various skill levels</li>
@@ -818,8 +1296,8 @@
                         <li>Controlled canter sessions for competent riders</li>
                     </ul>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Special Features:</h4>
-                    <p style="color: #cccccc;">Less confident riders will be safely guided along alternate routes during canter sessions and reunited with the group afterward.</p>
+                    <h4>Special Features:</h4>
+                    <p>Less confident riders will be safely guided along alternate routes during canter sessions and reunited with the group afterward. This ensures everyone enjoys the experience at their comfort level.</p>
                 `
             },
             completeTour: {
@@ -828,16 +1306,19 @@
                     <p><strong>The ultimate Langkawi riding experience - four different landscapes in one unforgettable journey.</strong></p>
                     <p>This comprehensive 2-hour adventure showcases the diverse beauty of Langkawi, from dense rainforest to mountain vistas and coastal beauty.</p>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Your Journey:</h4>
-                    <ul style="color: #cccccc; line-height: 1.8;">
+                    <h4>Your Journey:</h4>
+                    <ul>
                         <li><strong>Rainforest:</strong> Navigate through lush secondary jungle</li>
                         <li><strong>Beach:</strong> Ride along pristine Pantai Kok shores</li>
                         <li><strong>Mountain:</strong> Gentle climbs with panoramic views</li>
                         <li><strong>Lighthouse:</strong> Scenic stop near Telaga Harbor</li>
                     </ul>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Included:</h4>
-                    <p style="color: #cccccc;">Drinking water provided to keep you refreshed throughout this extended adventure.</p>
+                    <h4>Perfect For:</h4>
+                    <p>Novice and experienced riders who want to see it all. Controlled canter sessions are offered for confident riders; others will follow an alternate route during this part of the trail.</p>
+                    
+                    <h4>Included:</h4>
+                    <p>Drinking water provided to keep you refreshed throughout this extended adventure.</p>
                 `
             },
             rideSwim: {
@@ -846,8 +1327,8 @@
                     <p><strong>The most magical experience we offer - swimming with your horse in the crystal-clear Andaman Sea.</strong></p>
                     <p>This unique 2-hour adventure combines traditional trail riding with the extraordinary experience of entering the ocean on horseback and swimming alongside your equine companion.</p>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">The Experience:</h4>
-                    <ul style="color: #cccccc; line-height: 1.8;">
+                    <h4>The Experience:</h4>
+                    <ul>
                         <li>Traditional rainforest and beach riding</li>
                         <li>Enter the sea mounted on your horse</li>
                         <li>Swim alongside your horse in warm tropical waters</li>
@@ -855,8 +1336,11 @@
                         <li>Unforgettable bonding experience</li>
                     </ul>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Requirements:</h4>
-                    <p style="color: #cccccc;"><strong>Experienced riders only.</strong> Must be confident in all gaits and able to control your horse independently. Swimming ability required.</p>
+                    <h4>Requirements:</h4>
+                    <p><strong>Experienced riders only.</strong> Must be confident in all gaits and able to control your horse independently. Swimming ability required.</p>
+                    
+                    <h4>What Makes It Special:</h4>
+                    <p>This is a rare and magical experience that few places in the world can offer. The bond you'll form with your horse in the water is truly extraordinary.</p>
                 `
             },
             swimOnly: {
@@ -865,8 +1349,8 @@
                     <p><strong>Pure aquatic magic - focus entirely on the swimming experience with your horse.</strong></p>
                     <p>Skip the trail riding and dive straight into the most unique part of our offerings. This concentrated experience is all about the incredible sensation of swimming with a horse.</p>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">What Makes It Special:</h4>
-                    <ul style="color: #cccccc; line-height: 1.8;">
+                    <h4>What Makes It Special:</h4>
+                    <ul>
                         <li>Direct access to swimming experience</li>
                         <li>More time in the water with your horse</li>
                         <li>Professional horse handlers for safety</li>
@@ -874,8 +1358,11 @@
                         <li>Shorter duration, maximum impact</li>
                     </ul>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Perfect For:</h4>
-                    <p style="color: #cccccc;">Experienced riders who want to focus on the swimming experience, or those who have already done trail rides and want something completely unique.</p>
+                    <h4>Perfect For:</h4>
+                    <p>Experienced riders who want to focus on the swimming experience, or those who have already done trail rides and want something completely unique.</p>
+                    
+                    <h4>The Joy:</h4>
+                    <p>Experience the pure joy of entering the sea on horseback - a one-of-a-kind swim with your horse in the clear waters of Langkawi.</p>
                 `
             },
             backToNature: {
@@ -884,8 +1371,8 @@
                     <p><strong>The most comprehensive and peaceful riding experience we offer - a true return to natural simplicity.</strong></p>
                     <p>This 3-hour journey takes you far from the modern world into the heart of Langkawi's natural beauty. Experience authentic village life and untouched landscapes.</p>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">Your 3-Hour Journey:</h4>
-                    <ul style="color: #cccccc; line-height: 1.8;">
+                    <h4>Your 3-Hour Journey:</h4>
+                    <ul>
                         <li><strong>Rainforest Trails:</strong> Deep into shaded jungle paths</li>
                         <li><strong>Rice Fields:</strong> Open countryside vistas</li>
                         <li><strong>Quiet Beaches:</strong> Secluded coastal areas</li>
@@ -893,8 +1380,11 @@
                         <li><strong>Village Paths:</strong> Authentic local culture</li>
                     </ul>
                     
-                    <h4 style="color: var(--primary-gold); margin: 1.5rem 0 1rem;">For Experienced Riders Only:</h4>
-                    <p style="color: #cccccc;">This extended journey requires confidence in all riding gaits and the ability to handle varied terrain independently. It's a true adventure for serious riders.</p>
+                    <h4>The Philosophy:</h4>
+                    <p>Feel the rhythm of the horse beneath you, the whisper of the wind through the trees, and the gentle pulse of nature surrounding you. This is not just a ride — it's a return to simplicity, serenity, and something deeply grounding.</p>
+                    
+                    <h4>For Experienced Riders Only:</h4>
+                    <p>This extended journey requires confidence in all riding gaits and the ability to handle varied terrain independently. It's a true adventure for serious riders seeking authentic connection with nature.</p>
                 `
             }
         };
@@ -933,6 +1423,20 @@
             if (event.key === 'Escape') {
                 closeModal();
             }
+        });
+
+        // Enhanced keyboard navigation
+        document.querySelectorAll('.photo-indicator').forEach((indicator, index) => {
+            indicator.setAttribute('tabindex', '0');
+            indicator.setAttribute('role', 'button');
+            indicator.setAttribute('aria-label', `Go to section ${index + 1}`);
+
+            indicator.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    indicator.click();
+                }
+            });
         });
     </script>
 </body>
