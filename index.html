@@ -758,56 +758,71 @@
 
       /* Individual Photo Slides */
       .scroll-photo {
-        flex: 0 0 20%; /* Each photo takes 20% of track (100% / 5 photos) */
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        position: relative;
-        /* Fast-loading placeholder images */
-        background: linear-gradient(45deg, #4a7c59, #6ba86f);
-      }
+  flex: 0 0 20%; /* Each photo takes 20% of track (100% / 5 photos) */
+  height: 100%;
+  background-size: cover;
+  background-position: center center; /* Changed from just 'center' */
+  background-repeat: no-repeat;
+  position: relative;
+  /* Fast-loading placeholder images */
+  background: linear-gradient(45deg, #4a7c59, #6ba86f);
+}
 
-      /* Photo backgrounds with high-quality images */
-      .scroll-photo:nth-child(1) {
-        background: linear-gradient(
-            rgba(44, 85, 48, 0.1),
-            rgba(44, 85, 48, 0.1)
-          ),
-          url("img/into-the-wild.jpeg");
-      }
+/* Photo backgrounds with high-quality images - UPDATED */
+.scroll-photo:nth-child(1) {
+  background: linear-gradient(
+      rgba(44, 85, 48, 0.1),
+      rgba(44, 85, 48, 0.1)
+    ),
+    url("img/into-the-wild.jpeg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 
-      .scroll-photo:nth-child(2) {
-        background: linear-gradient(
-            rgba(139, 69, 19, 0.1),
-            rgba(139, 69, 19, 0.1)
-          ),
-          url("img/ocean-breeze.jpeg");
-      }
+.scroll-photo:nth-child(2) {
+  background: linear-gradient(
+      rgba(139, 69, 19, 0.1),
+      rgba(139, 69, 19, 0.1)
+    ),
+    url("img/ocean-breeze.jpeg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 
-      .scroll-photo:nth-child(3) {
-        background: linear-gradient(
-            rgba(30, 144, 255, 0.1),
-            rgba(30, 144, 255, 0.1)
-          ),
-          url("img/swimming-paradise.jpeg");
-      }
+.scroll-photo:nth-child(3) {
+  background: linear-gradient(
+      rgba(30, 144, 255, 0.1),
+      rgba(30, 144, 255, 0.1)
+    ),
+    url("img/swimming-paradise.jpeg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 
-      .scroll-photo:nth-child(4) {
-        background: linear-gradient(
-            rgba(85, 107, 47, 0.1),
-            rgba(85, 107, 47, 0.1)
-          ),
-          url("img/mountain-heights.jpeg");
-      }
+.scroll-photo:nth-child(4) {
+  background: linear-gradient(
+      rgba(85, 107, 47, 0.1),
+      rgba(85, 107, 47, 0.1)
+    ),
+    url("img/mountain-heights.jpeg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 
-      .scroll-photo:nth-child(5) {
-        background: linear-gradient(
-            rgba(0, 128, 128, 0.1),
-            rgba(0, 128, 128, 0.1)
-          ),
-          url("img/sunset-serenity.JPG");
-      }
+.scroll-photo:nth-child(5) {
+  background: linear-gradient(
+      rgba(0, 128, 128, 0.1),
+      rgba(0, 128, 128, 0.1)
+    ),
+    url("img/sunset-serenity.JPG");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 
       /* Auto-sliding animation */
       @keyframes autoSlide {
