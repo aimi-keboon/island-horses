@@ -143,10 +143,18 @@
         fill: currentColor;
       }
 
-      /* Hero Section */
+      /* Hero Section - Updated with background image */
       .hero {
         min-height: 100vh;
-        background: transparent;
+        background: linear-gradient(
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.6)
+          ),
+          url('img/experience-langkawi-on-horseback.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Creates parallax effect on desktop */
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -154,6 +162,7 @@
         overflow: hidden;
       }
 
+      /* Enhanced overlay for better text readability */
       .hero::before {
         content: "";
         position: absolute;
@@ -163,30 +172,35 @@
         bottom: 0;
         background: radial-gradient(
           ellipse at center,
-          rgba(212, 175, 55, 0.1) 0%,
-          transparent 70%
+          rgba(212, 175, 55, 0.15) 0%,
+          rgba(0, 0, 0, 0.3) 70%
         );
         pointer-events: none;
+        z-index: 1;
       }
 
+      /* Updated hero content layout */
       .hero-content {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 4rem;
+        grid-template-columns: 1fr; /* Single column layout */
+        gap: 2rem;
         align-items: center;
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 2rem;
         z-index: 2;
         position: relative;
+        text-align: center; /* Center align for better visual impact */
       }
 
+      /* Enhanced text styling for better readability on background */
       .hero-title {
         font-family: "Playfair Display", serif;
-        font-size: 3.5rem;
+        font-size: 4rem; /* Increased size for impact */
         font-weight: 700;
         line-height: 1.1;
         margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); /* Enhanced text shadow */
       }
 
       .title-line {
@@ -212,24 +226,39 @@
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 30px var(--shadow-medium);
+        text-shadow: none; /* Remove text-shadow for gradient text */
+        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8)); /* Use filter instead */
       }
 
       .hero-subtitle {
-        font-size: 1.2rem;
-        color: #cccccc;
-        margin-bottom: 2rem;
+        font-size: 1.3rem; /* Slightly larger */
+        color: #ffffff; /* Pure white for better contrast */
+        margin-bottom: 2.5rem;
         opacity: 0;
         animation: fadeInUp 1s ease-out 0.9s forwards;
-        max-width: 500px;
+        max-width: 700px; /* Increased max-width */
+        margin-left: auto;
+        margin-right: auto;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* Enhanced readability */
+        line-height: 1.6;
       }
 
       .hero-cta {
         display: flex;
-        gap: 1rem;
+        gap: 1.5rem; /* Increased gap */
         opacity: 0;
         animation: fadeInUp 1s ease-out 1.2s forwards;
         flex-wrap: wrap;
+        justify-content: center; /* Center the buttons */
+      }
+
+      /* Remove the old hero-visual and hero-image-placeholder styles */
+      .hero-visual {
+        display: none; /* Hide the placeholder image container */
+      }
+
+      .hero-image-placeholder {
+        display: none; /* Hide the placeholder image */
       }
 
       .btn-primary,
@@ -246,6 +275,7 @@
         font-size: 0.9rem;
       }
 
+      /* Enhanced button styles for better visibility on background */
       .btn-primary {
         background: linear-gradient(
           135deg,
@@ -253,12 +283,13 @@
           var(--dark-gold)
         );
         color: var(--deep-black);
-        box-shadow: 0 8px 25px var(--shadow-medium);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        border: 2px solid transparent;
       }
 
       .btn-primary:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 35px var(--shadow-heavy);
+        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.6);
         background: linear-gradient(
           135deg,
           var(--dark-gold),
@@ -267,69 +298,18 @@
       }
 
       .btn-secondary {
-        background: transparent;
+        background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
         color: var(--primary-gold);
         border: 2px solid var(--primary-gold);
+        backdrop-filter: blur(10px); /* Add blur effect */
       }
 
       .btn-secondary:hover {
         background: var(--primary-gold);
         color: var(--deep-black);
         transform: translateY(-3px);
-        box-shadow: 0 12px 35px var(--shadow-medium);
+        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
       }
-
-      .hero-visual {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-      }
-
-      .hero-image-placeholder {
-  width: 400px;
-  height: 400px;
-  background: linear-gradient(
-    135deg,
-    rgba(212, 175, 55, 0.2),
-    rgba(139, 139, 75, 0.2)
-  ), url('img/experience-langkawi-on-horseback.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
-  overflow: hidden;
-}
-
-.hero-image-placeholder::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-}
-
-.hero-image-placeholder::after {
-  content: "Experience Langkawi on Horseback";
-  position: absolute;
-  color: var(--primary-gold);
-  font-family: "Playfair Display", serif;
-  font-weight: 700;
-  text-align: center;
-  padding: 2rem;
-  font-size: 1.3rem;
-  z-index: 2;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-  letter-spacing: 0.5px;
-}
 
       .floating-element {
         position: absolute;
@@ -745,6 +725,8 @@
         border-radius: 20px;
         box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
         border: 3px solid rgba(212, 175, 55, 0.4);
+        max-width: 1200px; /* Add max-width to prevent overstretching */
+        max-height: 800px; /* Add max-height for better control */
       }
 
       /* Carousel Track */
@@ -756,73 +738,73 @@
         animation: autoSlide 15s infinite; /* Auto-advance every 3 seconds */
       }
 
-      /* Individual Photo Slides */
+      /* Individual Photo Slides - FIXED VERSION */
       .scroll-photo {
-  flex: 0 0 20%; /* Each photo takes 20% of track (100% / 5 photos) */
-  height: 100%;
-  background-size: cover;
-  background-position: center center; /* Changed from just 'center' */
-  background-repeat: no-repeat;
-  position: relative;
-  /* Fast-loading placeholder images */
-  background: linear-gradient(45deg, #4a7c59, #6ba86f);
-}
+        flex: 0 0 20%; /* Each photo takes 20% of track (100% / 5 photos) */
+        height: 100%;
+        background-size: cover;
+        background-position: center center; /* Changed from just 'center' */
+        background-repeat: no-repeat;
+        position: relative;
+        /* Fast-loading placeholder images */
+        background: linear-gradient(45deg, #4a7c59, #6ba86f);
+      }
 
-/* Photo backgrounds with high-quality images - UPDATED */
-.scroll-photo:nth-child(1) {
-  background: linear-gradient(
-      rgba(44, 85, 48, 0.1),
-      rgba(44, 85, 48, 0.1)
-    ),
-    url("img/into-the-wild.jpeg");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
+      /* Photo backgrounds with high-quality images - UPDATED */
+      .scroll-photo:nth-child(1) {
+        background: linear-gradient(
+            rgba(44, 85, 48, 0.1),
+            rgba(44, 85, 48, 0.1)
+          ),
+          url("img/into-the-wild.jpeg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
 
-.scroll-photo:nth-child(2) {
-  background: linear-gradient(
-      rgba(139, 69, 19, 0.1),
-      rgba(139, 69, 19, 0.1)
-    ),
-    url("img/ocean-breeze.jpeg");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
+      .scroll-photo:nth-child(2) {
+        background: linear-gradient(
+            rgba(139, 69, 19, 0.1),
+            rgba(139, 69, 19, 0.1)
+          ),
+          url("img/ocean-breeze.jpeg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
 
-.scroll-photo:nth-child(3) {
-  background: linear-gradient(
-      rgba(30, 144, 255, 0.1),
-      rgba(30, 144, 255, 0.1)
-    ),
-    url("img/swimming-paradise.jpeg");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
+      .scroll-photo:nth-child(3) {
+        background: linear-gradient(
+            rgba(30, 144, 255, 0.1),
+            rgba(30, 144, 255, 0.1)
+          ),
+          url("img/swimming-paradise.jpeg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
 
-.scroll-photo:nth-child(4) {
-  background: linear-gradient(
-      rgba(85, 107, 47, 0.1),
-      rgba(85, 107, 47, 0.1)
-    ),
-    url("img/mountain-heights.jpeg");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
+      .scroll-photo:nth-child(4) {
+        background: linear-gradient(
+            rgba(85, 107, 47, 0.1),
+            rgba(85, 107, 47, 0.1)
+          ),
+          url("img/mountain-heights.jpeg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
 
-.scroll-photo:nth-child(5) {
-  background: linear-gradient(
-      rgba(0, 128, 128, 0.1),
-      rgba(0, 128, 128, 0.1)
-    ),
-    url("img/sunset-serenity.JPG");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
+      .scroll-photo:nth-child(5) {
+        background: linear-gradient(
+            rgba(0, 128, 128, 0.1),
+            rgba(0, 128, 128, 0.1)
+          ),
+          url("img/sunset-serenity.JPG");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
 
       /* Auto-sliding animation */
       @keyframes autoSlide {
@@ -1000,104 +982,103 @@
       }
 
       /* Features Section */
-/* Features Section */
-.features {
-  padding: 6rem 0;
-  background: rgba(26, 26, 26, 0.95);
-  position: relative;
-  z-index: 1;
-}
+      .features {
+        padding: 6rem 0;
+        background: rgba(26, 26, 26, 0.95);
+        position: relative;
+        z-index: 1;
+      }
 
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 3rem;
-}
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+      }
 
-.feature-card {
-  background: rgba(26, 26, 26, 0.8);
-  border-radius: 20px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  transition: all 0.4s ease;
-  overflow: hidden;
-  position: relative;
-  height: 300px;
-}
+      .feature-card {
+        background: rgba(26, 26, 26, 0.8);
+        border-radius: 20px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        transition: all 0.4s ease;
+        overflow: hidden;
+        position: relative;
+        height: 300px;
+      }
 
-.feature-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
-}
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+      }
 
-.feature-image {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+      .feature-image {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
 
-.feature-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
+      .feature-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
 
-.feature-card:hover .feature-image img {
-  transform: scale(1.05);
-}
+      .feature-card:hover .feature-image img {
+        transform: scale(1.05);
+      }
 
-.feature-image::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.4) 0%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
-  transition: opacity 0.3s ease;
-}
+      .feature-image::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.4) 0%,
+          rgba(0, 0, 0, 0.6) 100%
+        );
+        transition: opacity 0.3s ease;
+      }
 
-.feature-card:hover .feature-image::after {
-  opacity: 0.8;
-}
+      .feature-card:hover .feature-image::after {
+        opacity: 0.8;
+      }
 
-.feature-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem;
-  z-index: 2;
-}
+      .feature-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+        z-index: 2;
+      }
 
-.feature-content h3 {
-  color: var(--primary-gold);
-  font-family: "Playfair Display", serif;
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
+      .feature-content h3 {
+        color: var(--primary-gold);
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      }
 
-.feature-content p {
-  color: var(--warm-white);
-  line-height: 1.6;
-  font-size: 1rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  max-width: 90%;
-}
+      .feature-content p {
+        color: var(--warm-white);
+        line-height: 1.6;
+        font-size: 1rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        max-width: 90%;
+      }
 
       /* CTA Section */
       .cta-section {
@@ -1172,8 +1153,62 @@
           transform: translateY(-5px);
         }
       }
-      /* Enhanced mobile responsiveness */
+
+      /* Desktop-specific adjustments */
+      @media (min-width: 769px) {
+        .photo-stage {
+          width: 80vw;
+          height: 80vh;
+          margin: 0 auto;
+          max-width: 1200px; /* Add max-width to prevent overstretching */
+          max-height: 800px; /* Add max-height for better control */
+        }
+        
+        .scroll-photo {
+          background-size: cover;
+          background-position: center center;
+        }
+      }
+
+      /* Mobile responsiveness updates */
       @media (max-width: 768px) {
+        .hero {
+          background-attachment: scroll; /* Remove fixed attachment on mobile for better performance */
+          min-height: 100vh;
+          padding-bottom: 4rem;
+        }
+
+        .hero-content {
+          padding: 2rem 1rem;
+          gap: 2rem;
+        }
+
+        .hero-title {
+          font-size: 2.5rem; /* Smaller on mobile */
+        }
+
+        .hero-subtitle {
+          font-size: 1.1rem;
+          max-width: 90%;
+          margin-bottom: 2rem;
+        }
+
+        .hero-cta {
+          gap: 1rem;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+          width: 100%;
+          max-width: 280px;
+          text-align: center;
+          justify-content: center;
+          padding: 0.8rem 1.5rem;
+          font-size: 0.8rem;
+        }
+
         .photo-experience {
           min-height: 80vh;
           padding: 1rem 0;
@@ -1235,87 +1270,6 @@
           height: 3px;
         }
 
-        .hero {
-    min-height: 100vh;
-    padding-bottom: 4rem; /* ADD this line */
-  }
-
-  .hero-content {
-    grid-template-columns: 1fr;
-    gap: 3rem; /* CHANGE from 2rem to 3rem */
-    text-align: center;
-    padding-bottom: 2rem; /* ADD this line */
-  }
-
-  .hero-visual {
-    margin-bottom: 2rem; /* ADD this line */
-  }
-
-  .hero-image-placeholder {
-    width: 300px;
-    height: 300px;
-    margin: 0 auto 2rem auto;
-    background: linear-gradient(
-      135deg,
-      rgba(212, 175, 55, 0.2),
-      rgba(139, 139, 75, 0.2)
-    ), url('img/experience-langkawi-on-horseback.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  .hero-image-placeholder::after {
-    padding: 1.5rem;
-    font-size: 1.1rem;
-    color: var(--primary-gold);
-    font-family: "Playfair Display", serif;
-    font-weight: 700;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-    letter-spacing: 0.5px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-image-placeholder {
-    width: 250px;
-    height: 250px;
-    margin: 0 auto 1.5rem auto;
-    background: linear-gradient(
-      135deg,
-      rgba(212, 175, 55, 0.2),
-      rgba(139, 139, 75, 0.2)
-    ), url('img/experience-langkawi-on-horseback.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  .hero-image-placeholder::after {
-    padding: 1.2rem;
-    font-size: 1rem;
-    color: var(--primary-gold);
-    font-family: "Playfair Display", serif;
-    font-weight: 700;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-    letter-spacing: 0.5px;
-  }
-
-  .scroll-indicator {
-    bottom: 3rem; /* CHANGE from 2rem to 3rem */
-  }
-
-
-        .hero-cta {
-          justify-content: center;
-        }
-
-        .btn-primary,
-        .btn-secondary {
-          padding: 0.8rem 1.5rem;
-          font-size: 0.8rem;
-        }
-
         .rider-form {
           padding: 2rem;
         }
@@ -1329,46 +1283,26 @@
           grid-template-columns: 1fr;
         }
 
-        /* Add this inside @media (max-width: 768px) */
-.features-grid {
-  grid-template-columns: 1fr;
-  gap: 2rem;
-}
+        .features-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
 
-.feature-card {
-  height: 250px;
-}
+        .feature-card {
+          height: 250px;
+        }
 
-.feature-content {
-  padding: 1.5rem;
-}
+        .feature-content {
+          padding: 1.5rem;
+        }
 
-.feature-content h3 {
-  font-size: 1.5rem;
-}
+        .feature-content h3 {
+          font-size: 1.5rem;
+        }
 
-.feature-content p {
-  font-size: 0.95rem;
-}
-
-/* Add this inside @media (max-width: 480px) */
-.feature-card {
-  height: 220px;
-}
-
-.feature-content {
-  padding: 1.2rem;
-}
-
-.feature-content h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.8rem;
-}
-
-.feature-content p {
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
+        .feature-content p {
+          font-size: 0.95rem;
+        }
 
         .section-header h2 {
           font-size: 2rem;
@@ -1380,6 +1314,25 @@
       }
 
       @media (max-width: 480px) {
+        .hero {
+          min-height: 100vh;
+          padding-bottom: 3rem;
+        }
+
+        .hero-title {
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+          font-size: 1rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .hero-content {
+          padding: 1.5rem 1rem;
+        }
+
         .photo-experience {
           min-height: 85vh;
           padding: 0.5rem 0;
@@ -1441,39 +1394,6 @@
           padding: 0 1rem;
         }
 
-        .hero-title {
-          font-size: 2rem;
-        }
-
-        .hero {
-    min-height: 100vh;
-    padding-bottom: 3rem; /* ADD this line */
-  }
-
-  .hero-content {
-    gap: 2.5rem; /* CHANGE if different */
-    padding-bottom: 1.5rem; /* ADD this line */
-  }
-
-  .hero-visual {
-    margin-bottom: 1.5rem; /* ADD this line */
-  }
-
-  .hero-image-placeholder {
-    width: 250px;
-    height: 250px;
-    margin: 0 auto 1.5rem auto; /* ADD this line */
-  }
-
-  .hero-image-placeholder::after {
-    padding: 1.2rem; /* ADD this line */
-    font-size: 0.95rem; /* ADD this line */
-  }
-
-  .scroll-indicator {
-    bottom: 2rem; /* Keep existing or update */
-  }
-
         .rider-form {
           padding: 1.5rem;
         }
@@ -1485,6 +1405,28 @@
 
         .photo-indicators {
           display: none;
+        }
+
+        .feature-card {
+          height: 220px;
+        }
+
+        .feature-content {
+          padding: 1.2rem;
+        }
+
+        .feature-content h3 {
+          font-size: 1.3rem;
+          margin-bottom: 0.8rem;
+        }
+
+        .feature-content p {
+          font-size: 0.9rem;
+          line-height: 1.5;
+        }
+
+        .scroll-indicator {
+          bottom: 2rem;
         }
       }
 
@@ -1587,61 +1529,54 @@
               <a href="packages.html" class="btn-secondary">View Packages</a>
             </div>
           </div>
-          <div class="hero-visual">
-            <div class="hero-image-placeholder"></div>
-          </div>
         </div>
       </section>
 
-      
-
       <!-- Features Section -->
-<section class="features">
-  <div class="container">
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-image">
-          <img src="img/pristine-nature.JPG" alt="Pristine Nature" />
-        </div>
-        <div class="feature-content">
-          <h3>Pristine Nature</h3>
-          <p>
-            Explore untouched rainforests and secluded beaches away from the
-            crowds
-          </p>
-        </div>
-      </div>
+      <section class="features">
+        <div class="container">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-image">
+                <img src="img/pristine-nature.JPG" alt="Pristine Nature" />
+              </div>
+              <div class="feature-content">
+                <h3>Pristine Nature</h3>
+                <p>
+                  Explore untouched rainforests and secluded beaches away from the
+                  crowds
+                </p>
+              </div>
+            </div>
 
-      <div class="feature-card">
-        <div class="feature-image">
-          <img src="img/expert-guidance.jpg" alt="Expert Guidance" />
-        </div>
-        <div class="feature-content">
-          <h3>Expert Guidance</h3>
-          <p>
-            Professional trail leaders ensure your safety while maximizing
-            the adventure
-          </p>
-        </div>
-      </div>
+            <div class="feature-card">
+              <div class="feature-image">
+                <img src="img/expert-guidance.jpg" alt="Expert Guidance" />
+              </div>
+              <div class="feature-content">
+                <h3>Expert Guidance</h3>
+                <p>
+                  Professional trail leaders ensure your safety while maximizing
+                  the adventure
+                </p>
+              </div>
+            </div>
 
-      <div class="feature-card">
-        <div class="feature-image">
-          <img src="img/unique-experiences.JPG" alt="Unique Experiences" />
+            <div class="feature-card">
+              <div class="feature-image">
+                <img src="img/unique-experiences.JPG" alt="Unique Experiences" />
+              </div>
+              <div class="feature-content">
+                <h3>Unique Experiences</h3>
+                <p>
+                  Swim with horses in crystal-clear waters - a truly magical
+                  encounter
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="feature-content">
-          <h3>Unique Experiences</h3>
-          <p>
-            Swim with horses in crystal-clear waters - a truly magical
-            encounter
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Experience Form Section -->
-      
+      </section>
 
       <!-- Scroll-Triggered Photo Experience Section -->
       <section class="photo-experience">
@@ -1723,6 +1658,8 @@
           </div>
         </div>
       </section>
+
+      <!-- Experience Form Section -->
       <section id="experience-form" class="experience-section">
         <div class="container">
           <div class="section-header">
@@ -1766,13 +1703,7 @@
                       value="inexperienced"
                     />
                     <label for="inexperienced" class="experience-label">
-                      <div class="experience-icon">
-                        
-                          <path
-                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                          />
-                        </svg>
-                      </div>
+                      
                       <h4>Inexperienced</h4>
                       <p>I have never ridden a horse before</p>
                     </label>
@@ -1786,13 +1717,7 @@
                       value="beginner"
                     />
                     <label for="beginner" class="experience-label">
-                      <div class="experience-icon">
-                        
-                          <path
-                            d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
-                          />
-                        </svg>
-                      </div>
+                      
                       <h4>Beginner</h4>
                       <p>I can walk and follow basic instructions</p>
                     </label>
@@ -1806,13 +1731,7 @@
                       value="novice"
                     />
                     <label for="novice" class="experience-label">
-                      <div class="experience-icon">
-                        
-                          <path
-                            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                          />
-                        </svg>
-                      </div>
+                      
                       <h4>Novice</h4>
                       <p>Confident at walk and trot, some canter</p>
                     </label>
@@ -1826,19 +1745,7 @@
                       value="experienced"
                     />
                     <label for="experienced" class="experience-label">
-                      <div class="experience-icon">
-                        
-                          <path
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                          <path
-                            d="M7 13l3 3 7-7"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                          />
-                        </svg>
-                      </div>
+                     
                       <h4>Experienced</h4>
                       <p>Confident in all gaits, ride independently</p>
                     </label>
@@ -1906,6 +1813,7 @@
           </div>
         </div>
       </section>
+
       <!-- Call to Action -->
       <section class="cta-section">
         <div class="container">
@@ -1920,8 +1828,6 @@
         </div>
       </section>
     </main>
-
-    
 
     <!-- Include the header-footer component -->
     <script src="js/header-footer.js"></script>
