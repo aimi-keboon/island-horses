@@ -19,7 +19,7 @@ class HeaderFooter {
                         <a href="packages.html" class="nav-link">Packages</a>
                         <a href="gallery.html" class="nav-link">Gallery</a>
                         <a href="contact.html" class="nav-link">Contact</a>
-                        <a href="packages.html" class="nav-link nav-book-btn">Book Now</a>
+                        <a href="packages.html" class="nav-link nav-book-btn">Become a Member</a>
                     </div>
                     
                     <div class="mobile-menu-btn" id="mobileMenuBtn">
@@ -229,7 +229,7 @@ class HeaderFooter {
                     width: 100%;
                 }
 
-                /* Special styling for Book Now button on desktop */
+                /* Special styling for Become a Member button on desktop */
                 .nav-book-btn {
                     background: linear-gradient(135deg, #D4AF37, #8B8B4B);
                     padding: 0.7rem 1.5rem !important;
@@ -422,7 +422,7 @@ class HeaderFooter {
                         letter-spacing: normal;
                     }
 
-                    /* Remove special styling for Book Now in mobile */
+                    /* Remove special styling for Become a Member in mobile */
                     .nav-book-btn {
                         background: transparent;
                         color: #D4AF37;
