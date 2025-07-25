@@ -40,7 +40,7 @@ class HeaderFooter {
                 <div class="footer-content">
                     <div class="footer-section footer-logo-section">
                         <div class="footer-logo">
-                            <img src="img/island-horses-logo.png" alt="Island Horses Langkawi" class="footer-logo-img">
+                            <img src="/img/island-horses-logo.png" alt="Island Horses Langkawi" class="footer-logo-img">
                             <p>Experience the magic of Langkawi on horseback</p>
                         </div>
                     </div>
