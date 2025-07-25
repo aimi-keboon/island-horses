@@ -15,11 +15,11 @@ class HeaderFooter {
 </div>
                     
                     <div class="nav-menu" id="navMenu">
-                        <a href="index.html" class="nav-link">Home</a>
-                        <a href="packages.html" class="nav-link">Packages</a>
-                        <a href="gallery.html" class="nav-link">Gallery</a>
-                        <a href="contact.html" class="nav-link">Contact</a>
-                        <a href="membership.html" class="nav-link nav-book-btn">Become a Member</a>
+                        <a href="/" class="nav-link">Home</a>
+                        <a href="/packages/" class="nav-link">Packages</a>
+                        <a href="/gallery/" class="nav-link">Gallery</a>
+                        <a href="/contact/" class="nav-link">Contact</a>
+                        <a href="/membership/" class="nav-link nav-book-btn">Become a Member</a>
                     </div>
                     
                     <div class="mobile-menu-btn" id="mobileMenuBtn">
