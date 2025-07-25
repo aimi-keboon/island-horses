@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join as a Member - Island Horses Langkawi</title>
+    <meta name="description" content="Become a member of Island Horses Langkawi and enjoy exclusive benefits, priority bookings, and special rates on all our horseback riding experiences.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #d4af37;
+            --dark-gold: #b8941f;
+            --olive-green: #8b8b4b;
+            --deep-black: #000000;
+            --rich-black: #1a1a1a;
+            --soft-white: #f8f8f8;
+            --warm-white: #ffffff;
+            --shadow-light: rgba(212, 175, 55, 0.1);
+            --shadow-medium: rgba(212, 175, 55, 0.2);
+            --shadow-heavy: rgba(212, 175, 55, 0.4);
+            --error-red: #ff6b6b;
+            --success-green: #4caf50;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--warm-white);
+            background: var(--deep-black);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .compact-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Background Photo Animation */
+        .background-photos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-photo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 0.5s ease;
+            transform: scale(1.05);
+            background-image: url('img/membership-photo.jpg');
+        }
+
+        .bg-photo.active {
+            opacity: 0.6;
+            transform: scale(1);
+        }
+
+        .bg-photo::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.5) 0%,
+                rgba(26, 26, 26, 0.4) 50%,
+                rgba(0, 0, 0, 0.6) 100%
+            );
+            transition: opacity 0.3s ease;
+        }
+
+        .bg-photo.active::after {
+            opacity: 0.7;
+        }
+
+        /* Photo indicators */
+        .photo-indicators {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .photo-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .photo-indicator.active {
+            background: var(--primary-gold);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            transform: scale(1.2);
+        }
+
+        .photo-indicator:hover {
+            background: rgba(212, 175, 55, 0.6);
+            transform: scale(1.1);
+        }
+
+        .photo-indicator::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--warm-white);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            margin-right: 1rem;
+        }
+
+        .photo-indicator:hover::before {
+            opacity: 1;
+        }
+
+        /* Page Hero */
+        .page-hero {
+            min-height: 100vh;
+            background: linear-gradient(
+                rgba(0, 0, 0, 0.3),
+                rgba(0, 0, 0, 0.5)
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(212, 175, 55, 0.15) 0%,
+                rgba(0, 0, 0, 0.3) 70%
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 2rem;
+        }
+
+        .page-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            animation: titleReveal 1.2s ease-out forwards;
+        }
+
+        .highlight {
+            background: linear-gradient(
+                135deg,
+                var(--primary-gold),
+                var(--olive-green)
+            );
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8));
+        }
+
+        .page-hero p {
+            font-size: 1.3rem;
+            color: #ffffff;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: var(--deep-black);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.2s forwards;
+        }
+
+        /* Coming Soon Introduction Section */
+        .coming-soon-intro-section {
+            padding: 6rem 0;
+            background: linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.9) 0%,
+                rgba(26, 26, 26, 0.9) 100%
+            );
+            position: relative;
+            z-index: 1;
+        }
+
+        .coming-soon-intro-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .coming-soon-intro-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .coming-soon-intro-subtitle {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Membership Benefits Section */
+        .benefits-section {
+            padding: 6rem 0;
+            background: rgba(0, 0, 0, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .benefit-card {
+            background: rgba(26, 26, 26, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            border-color: var(--primary-gold);
+        }
+
+        .benefit-card.featured::before {
+            content: 'Premium Benefit';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: var(--deep-black);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .benefit-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-gold);
+            filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
+        }
+
+        .benefit-card h3 {
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-card p {
+            color: #cccccc;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .benefit-highlight {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary-gold);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        /* Notify Me Section */
+        .notify-section {
+            padding: 6rem 0;
+            background: rgba(26, 26, 26, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        .notify-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .notify-form {
+            background: rgba(26, 26, 26, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .notify-form h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .notify-form p {
+            color: #cccccc;
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+
+        .form-input, .form-select {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            color: var(--warm-white);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .btn-notify {
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: var(--deep-black);
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem auto 0;
+            box-shadow: 0 8px 25px var(--shadow-medium);
+        }
+
+        .btn-notify:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px var(--shadow-heavy);
+            background: linear-gradient(135deg, var(--dark-gold), var(--primary-gold));
+        }
+
+        .btn-arrow {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-notify:hover .btn-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, var(--success-green), var(--olive-green));
+            color: var(--warm-white);
+            padding: 1.2rem;
+            border-radius: 15px;
+            margin-top: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 6rem 0;
+            background: rgba(0, 0, 0, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .timeline-item {
+            background: rgba(26, 26, 26, 0.95);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            border-color: var(--primary-gold);
+        }
+
+        .timeline-date {
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-content h4 {
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .timeline-content p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 6s ease-in-out infinite;
+            color: var(--primary-gold);
+            opacity: 0.3;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+        }
+
+        .floating-element:nth-child(2) {
+            bottom: 30%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            top: 60%;
+            left: -5%;
+            animation-delay: 4s;
+        }
+
+        /* Animations */
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .compact-container {
+                max-width: 100%;
+                padding: 0 2rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .photo-indicators {
+                display: none;
+            }
+
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .page-hero p {
+                font-size: 1.1rem;
+                max-width: 90%;
+            }
+
+            .coming-soon-intro-title {
+                font-size: 1.8rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .benefit-card {
+                padding: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .notify-form {
+                padding: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .compact-container,
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-hero {
+                min-height: 80vh;
+            }
+
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+
+            .page-hero p {
+                font-size: 1rem;
+            }
+
+            .coming-soon-intro-section,
+            .benefits-section,
+            .notify-section,
+            .timeline-section {
+                padding: 3rem 0;
+            }
+
+            .benefit-card {
+                padding: 1.5rem;
+            }
+
+            .notify-form {
+                padding: 1.5rem;
+            }
+
+            .btn-notify {
+                padding: 1rem 2rem;
+                font-size: 0.95rem;
+            }
+
+            .timeline-item {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Photos Animation -->
+    <div class="background-photos">
+        <div class="bg-photo active" data-section="hero"></div>
+        <div class="bg-photo" data-section="intro"></div>
+        <div class="bg-photo" data-section="benefits"></div>
+        <div class="bg-photo" data-section="notify"></div>
+        <div class="bg-photo" data-section="timeline"></div>
+    </div>
+
+    <!-- Photo Indicators -->
+    <div class="photo-indicators">
+        <div class="photo-indicator active" data-photo="0" data-tooltip="Membership Overview"></div>
+        <div class="photo-indicator" data-photo="1" data-tooltip="Coming Soon"></div>
+        <div class="photo-indicator" data-photo="2" data-tooltip="Member Benefits"></div>
+        <div class="photo-indicator" data-photo="3" data-tooltip="Get Notified"></div>
+        <div class="photo-indicator" data-photo="4" data-tooltip="Launch Timeline"></div>
+    </div>
+
+    <main>
+        <!-- Page Hero -->
+        <section class="page-hero">
+            <div class="hero-content">
+                <div class="coming-soon-badge">Coming Soon</div>
+                <h1><span class="highlight">Join as a Member</span></h1>
+                <p>Become part of the Island Horses Langkawi family and unlock exclusive benefits, priority bookings, and special rates on all our magical horseback riding experiences.</p>
+            </div>
+        </section>
+
+        <!-- Coming Soon Introduction Section -->
+        <section class="coming-soon-intro-section">
+            <div class="coming-soon-intro-container">
+                <h2 class="coming-soon-intro-title">Exclusive Membership Program</h2>
+                <p class="coming-soon-intro-subtitle">We're crafting something special for our most passionate riders. Join our exclusive membership program and experience Langkawi's natural beauty like never before.</p>
+            </div>
+        </section>
+
+        
+    </main>
+
+    <script>
+        // Coming Soon Page JavaScript with Enhanced Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const bgPhotos = document.querySelectorAll('.bg-photo');
+            const photoIndicators = document.querySelectorAll('.photo-indicator');
+            let currentPhotoIndex = 0;
+
+            // Background photo animation
+            function updateBackgroundPhoto() {
+                const scrollY = window.scrollY;
+                const documentHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+
+                const scrollProgress = Math.max(0, Math.min(1, scrollY / (documentHeight - windowHeight)));
+                let newIndex = Math.floor(scrollProgress * bgPhotos.length);
+                newIndex = Math.min(newIndex, bgPhotos.length - 1);
+
+                if (newIndex !== currentPhotoIndex) {
+                    if (bgPhotos[currentPhotoIndex]) {
+                        bgPhotos[currentPhotoIndex].classList.remove('active');
+                    }
+                    if (bgPhotos[newIndex]) {
+                        bgPhotos[newIndex].classList.add('active');
+                    }
+                    updatePhotoIndicators(newIndex);
+                    currentPhotoIndex = newIndex;
+                }
+            }
+
+            function updatePhotoIndicators(newIndex) {
+                photoIndicators.forEach((indicator, index) => {
+                    if (index === newIndex) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+
+            // Manual photo navigation via indicators
+            photoIndicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    const scrollTarget = (index / (bgPhotos.length - 1)) * (document.documentElement.scrollHeight - window.innerHeight);
+                    window.scrollTo({
+                        top: scrollTarget,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Optimized scroll handler
+            let scrollTicking = false;
+            function handleScroll() {
+                if (!scrollTicking) {
+                    requestAnimationFrame(() => {
+                        updateBackgroundPhoto();
+                        scrollTicking = false;
+                    });
+                    scrollTicking = true;
+                }
+            }
+
+            window.addEventListener('scroll', handleScroll);
+
+            // Form submission
+            const notifyForm = document.getElementById('notifyForm');
+            const successMessage = document.getElementById('successMessage');
+
+            notifyForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const form = this;
+                const submitBtn = form.querySelector('.btn-notify');
+                
+                // Hide previous messages
+                successMessage.style.display = 'none';
+                
+                // Disable submit button and show loading state
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span>Joining...</span>';
+                
+                // Create FormData object
+                const formData = new FormData(form);
+                
+                // Send form data to Formspree
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Success
+                        successMessage.style.display = 'block';
+                        form.reset();
+                        
+                        // Scroll to success message
+                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        alert('There was an error joining the waitlist. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    alert('There was an error joining the waitlist. Please try again.');
+                })
+                .finally(() => {
+                    // Re-enable submit button
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span>Join Waitlist</span><span class="btn-arrow">→</span>';
+                });
+            });
+
+            // Enhanced scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for scroll animation
+            document.querySelectorAll('.benefit-card, .timeline-item').forEach(element => {
+                observer.observe(element);
+            });
+
+            // Enhanced form validation feedback
+            const inputs = notifyForm.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.hasAttribute('required') && !this.value) {
+                        this.style.borderColor = 'var(--error-red)';
+                    } else {
+                        this.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                    }
+                });
+
+                input.addEventListener('focus', function() {
+                    this.style.borderColor = 'var(--primary-gold)';
+                });
+            });
+
+            // Enhanced keyboard navigation
+            photoIndicators.forEach((indicator, index) => {
+                indicator.setAttribute('tabindex', '0');
+                indicator.setAttribute('role', 'button');
+                indicator.setAttribute('aria-label', `Go to section ${index + 1}`);
+
+                indicator.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        indicator.click();
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="js/header-footer.js"></script>
+</body>
+</html>
