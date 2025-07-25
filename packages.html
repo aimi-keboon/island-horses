@@ -30,6 +30,7 @@
             --shadow-medium: rgba(212, 175, 55, 0.2);
             --shadow-heavy: rgba(212, 175, 55, 0.4);
             --error-red: #ff6b6b;
+            --warning-orange: #ffa500;
         }
 
         body {
@@ -80,7 +81,7 @@
         }
 
         .bg-photo.active {
-            opacity: 0.6;
+            opacity: 0.8;
             transform: scale(1);
         }
 
@@ -93,29 +94,20 @@
             bottom: 0;
             background: linear-gradient(
                 135deg,
-                rgba(0, 0, 0, 0.5) 0%,
-                rgba(26, 26, 26, 0.4) 50%,
-                rgba(0, 0, 0, 0.6) 100%
+                rgba(0, 0, 0, 0.2) 0%,
+                rgba(26, 26, 26, 0.15) 50%,
+                rgba(0, 0, 0, 0.3) 100%
             );
             transition: opacity 0.3s ease;
         }
 
         .bg-photo.active::after {
-            opacity: 0.7;
+            opacity: 0.4;
         }
 
-        /* Background gradients for different sections */
-        .bg-photo:nth-child(1) {
-            background: linear-gradient(45deg, #2c5530, #4a7c59);
-        }
-        .bg-photo:nth-child(2) {
-            background: linear-gradient(45deg, #8b4513, #daa520);
-        }
-        .bg-photo:nth-child(3) {
-            background: linear-gradient(45deg, #1e90ff, #87ceeb);
-        }
-        .bg-photo:nth-child(4) {
-            background: linear-gradient(45deg, #556b2f, #9acd32);
+        /* Single background image */
+        .bg-photo {
+            background-image: url('img/packages-photo.jpeg');
         }
 
         /* Photo indicators */
@@ -245,6 +237,109 @@
             line-height: 1.6;
             opacity: 0;
             animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+
+        /* Important Disclaimer Section - Updated to match index.html style */
+        .disclaimer-section {
+            padding: 6rem 0;
+            background: linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.9) 0%,
+                rgba(26, 26, 26, 0.9) 100%
+            );
+            position: relative;
+            z-index: 1;
+        }
+
+        .disclaimer-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .disclaimer-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .disclaimer-subtitle {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin-bottom: 4rem;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .disclaimer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .disclaimer-card {
+            background: rgba(26, 26, 26, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .disclaimer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            border-color: var(--primary-gold);
+        }
+
+        .disclaimer-card h3 {
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .disclaimer-card p {
+            color: var(--warm-white);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .disclaimer-warning {
+            background: rgba(26, 26, 26, 0.95);
+            border: 1px solid var(--error-red);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .disclaimer-warning h4 {
+            color: var(--error-red);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .disclaimer-warning p {
+            color: var(--warm-white);
+            font-weight: 500;
+            line-height: 1.7;
+            font-size: 1rem;
         }
 
         /* Filter Section with glassmorphism */
@@ -706,6 +801,19 @@
                 max-width: 90%;
             }
 
+            .disclaimer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .disclaimer-card {
+                padding: 1.5rem;
+            }
+
+            .disclaimer-title {
+                font-size: 1.8rem;
+            }
+
             .packages-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
@@ -760,6 +868,18 @@
                 font-size: 1rem;
             }
 
+            .disclaimer-section {
+                padding: 2rem 0;
+            }
+
+            .disclaimer-container {
+                padding: 0 1rem;
+            }
+
+            .disclaimer-card {
+                padding: 1.2rem;
+            }
+
             .package-header,
             .package-footer {
                 padding: 1.5rem;
@@ -784,7 +904,7 @@
     <!-- Background Photos Animation -->
     <div class="background-photos">
         <div class="bg-photo active" data-section="hero"></div>
-        <div class="bg-photo" data-section="filter"></div>
+        <div class="bg-photo" data-section="disclaimer"></div>
         <div class="bg-photo" data-section="packages"></div>
         <div class="bg-photo" data-section="footer"></div>
     </div>
@@ -792,7 +912,7 @@
     <!-- Photo Indicators -->
     <div class="photo-indicators">
         <div class="photo-indicator active" data-photo="0" data-tooltip="Package Overview"></div>
-        <div class="photo-indicator" data-photo="1" data-tooltip="Filter Options"></div>
+        <div class="photo-indicator" data-photo="1" data-tooltip="Important Requirements"></div>
         <div class="photo-indicator" data-photo="2" data-tooltip="Available Packages"></div>
         <div class="photo-indicator" data-photo="3" data-tooltip="Book Your Adventure"></div>
     </div>
@@ -804,6 +924,35 @@
             <div class="hero-content">
                 <h1><span class="highlight">Riding Packages</span></h1>
                 <p>Discover Langkawi's breathtaking landscapes through our carefully curated horseback riding experiences — from jungle trails and pristine beaches to unforgettable horse swimming adventures.</p>
+            </div>
+        </section>
+
+        <!-- Important Disclaimer Section -->
+        <section class="disclaimer-section">
+            <div class="disclaimer-container">
+                <h2 class="disclaimer-title">Important Requirements</h2>
+                <p class="disclaimer-subtitle">Check requirements before booking</p>
+                
+                <div class="disclaimer-content">
+                    <div class="disclaimer-card">
+                        <h3>Weight Limit</h3>
+                        <p><strong>Maximum: 80kg (176 lbs)</strong><br>
+                        For rider and horse safety.</p>
+                    </div>
+
+                    <div class="disclaimer-card">
+                        <h3>Age Requirements</h3>
+                        <p><strong>Fun Rides:</strong> Ages 5+<br>
+                        <strong>Long rides (1+ hours):</strong> Ages 6+<br>
+                        <strong>Under 12:</strong> Adult supervision required</p>
+                    </div>
+                </div>
+
+                <div class="disclaimer-warning">
+                    <h4>Important Notice</h4>
+                    
+                    Rides may be cancelled if requirements are not met — only partial refund will be issued.</p>
+                </div>
             </div>
         </section>
 
