@@ -11,7 +11,7 @@ class HeaderFooter {
             <header class="main-header">
                 <nav class="nav-container">
                     <div class="logo">
-    <img src="img/island-horses-logo.png" alt="Island Horses Langkawi" style="height: 80px; width: auto;">
+    <img src="/img/island-horses-logo.png" alt="Island Horses Langkawi" style="height: 80px; width: auto;">
 </div>
                     
                     <div class="nav-menu" id="navMenu">
